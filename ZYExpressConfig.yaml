@@ -1,0 +1,40 @@
+
+uploadDir:  ./uploadDir
+
+# serve restful APIs from /restful/, and use root path for static resources (assets) like html/js/image
+server:
+  rootPath: /restful/
+  applicationConnectors:
+    - type: http
+      port: 8080
+  adminConnectors:
+    - type: http
+      port: 8081
+
+database:
+  driverClass: org.hsqldb.jdbc.JDBCDriver
+  user: sa
+  password: sa
+  url: jdbc:hsqldb:./db/zyexpress.hsqldb
+  validationQuery: SELECT * FROM INFORMATION_SCHEMA.SYSTEM_TABLES
+
+logging:
+  level: INFO
+  appenders:
+    - type: console
+      threshold: DEBUG
+      target: stdout
+    - type: file
+      # The file to which current statements will be logged.
+      currentLogFilename: ./logs/ZYExpress.log
+
+      # When the log file rotates, the archived log will be renamed to this and gzipped. The
+      # %d is replaced with the previous day (yyyy-MM-dd). Custom rolling windows can be created
+      # by passing a SimpleDateFormat-compatible format as an argument: "%d{yyyy-MM-dd-hh}".
+      archivedLogFilenamePattern: ./logs/ZYExpress-%d.log.gz
+
+      # The number of archived files to keep.
+      archivedFileCount: 5
+
+      # The timezone used to format dates. HINT: USE THE DEFAULT, UTC.
+      timeZone: UTC
