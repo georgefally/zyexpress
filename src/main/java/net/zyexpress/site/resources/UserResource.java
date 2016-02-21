@@ -21,17 +21,24 @@ public class UserResource {
 
     @GET
     @Timed
-    public User getUser(@QueryParam("name") @NotEmpty String name) {
-        return userDAO.findByName(name);
+    public User getUser(@QueryParam("userName") @NotEmpty String userName) {
+        return userDAO.findByUserName(userName);
     }
 
     @PUT
     @Timed
-    @Path("/all")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public User addUser(@FormParam("name") String name, @FormParam("password") String password) {
-        userDAO.insert(new User(name, password));
-        return userDAO.findByName(name);
+    public User addUser(@FormParam("userName") String userName, @FormParam("password") String password) {
+        userDAO.insert(new User(userName, password));
+        //return userDAO.findByUserName(userName);
+        return new User(userName, password);
+    }
+
+    @DELETE
+    @Timed
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public int deleteUser(@FormParam("userName") String userName) {
+        return userDAO.deleteByUserName(userName);
     }
 
     @GET

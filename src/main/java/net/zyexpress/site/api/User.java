@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class User {
     @NotEmpty
     @Length(max = 16)
-    private String name;
+    private String userName;
 
     @NotEmpty
     @Length(max = 128)
@@ -17,14 +17,14 @@ public class User {
         // jackson deserialization
     }
 
-    public User(String name, String password) {
-        this.name = name;
+    public User(String userName, String password) {
+        this.userName = userName;
         this.password = password;
     }
 
     @JsonProperty
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
     @JsonProperty
