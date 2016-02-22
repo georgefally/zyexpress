@@ -6,6 +6,8 @@ import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import net.zyexpress.site.dao.UserDAO;
+import net.zyexpress.site.dao.UserIdCardDAO;
+import net.zyexpress.site.resources.UserIdCardResource;
 import net.zyexpress.site.resources.UserResource;
 import org.skife.jdbi.v2.DBI;
 
@@ -35,5 +37,15 @@ public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
 
         final UserResource userResource = new UserResource(userDAO);
         environment.jersey().register(userResource);
+
+        final UserIdCardDAO userIdCardDAO = jdbi.onDemand(UserIdCardDAO.class);
+        userIdCardDAO.createUserIdCardTable();
+        /* test data
+        userIdCardDAO.insert("1", "lumengyu", "a1_file.jpg", "a2_file.jpg");
+        userIdCardDAO.insert("2", "yanxiang", "a1_file.jpg", "a2_file.jpg");
+        */
+
+        final UserIdCardResource userIdcardResource = new UserIdCardResource(userIdCardDAO);
+        environment.jersey().register(userIdcardResource);
     }
 }

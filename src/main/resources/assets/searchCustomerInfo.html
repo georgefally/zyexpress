@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看顾客信息</title>
+    <script src="scripts/jquery/jquery.js"></script>
+    <script src="bootstrap-3.3.6/js/bootstrap.js"></script>
+    <link href="bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet"/>
+</head>
+<body>
+<div id="content"></div>
+<div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"><img width="120" height="38" src="image/zyexpresswhite.png"></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+            </div> <!-- .nav-collapse -->
+        </div> <!-- .container-fluid -->
+    </nav>
+
+    <div style="min-height: 16px;"></div>
+
+    <form id="searchCustomerInfoForm" class="form-inline" method="post" onsubmit="return false;">
+
+        <div class="row col-md-offset-2">
+            <div class="form-group">
+                <label>会员名称</label>
+                <input type="text" name="cname" id="search_name" class="form-control" placeholder="搜索" value="">
+            </div>
+
+            <button class="btn btn-primary" id="search_btn" type="button">
+                <span class="glyphicon glyphicon-search"> 查询 </span>
+            </button>
+        </div>
+    </form>
+
+    <div style="min-height: 16px;"></div>
+
+    <div align="center">
+            <table style="width:850px;margin:0px;margin-left:1px;" class="table table-condensed table-hover table-bordered">
+                <tr class="info">
+                    <th style="width:200px;">会员姓名</th>
+                    <th style="width:250px;">分中心</th>
+                    <th style="width:200px;">正面图</th>
+                    <th style="width:200px;">背面图</th>
+                </tr>
+                <tbody id="dataTbody">
+                </tbody>
+            </table>
+    </div>
+
+</div>
+
+</body>
+</html>
+
+
+<script>
+
+$(function(){
+	$("#search_btn").unbind("click").bind("click", function() {
+			search();
+	});
+
+});
+
+/**页面分页控件的使用方式;
+ * page：int类型的值，默认给1
+ */
+function search() {
+	var data = $("#searchCustomerInfoForm").serializeArray();//序列化表单
+	$.ajax({
+		type : "GET",
+		contentType : "application/x-www-form-urlencoded",
+		url : "restful/userIdCard/search",
+		dataType : "json",
+		data : data||"",
+		success : function(data) {
+			if (data.length > 0) {
+				var addHtml = "";
+				//显示层绑定控件
+				$.each(data, function(index, item) {
+					addHtml = addHtml + "<tr>"
+							+ "<td class='fontCenter2' style='width:250px'>"
+							+ item.userName + "</td>"
+							+ "<td class='fontCenter2' style='width:200px'>"
+							+ item.idNumber + "</td>"
+							+ "<td class='fontCenter2' style='width:200px'>"
+							+ "<a href='"+item.picFirst+"' download>下载</a> </td>"
+							+ "<td class='fontCenter2' style='width:200px'>"
+                            + "<a href='"+item.picSecond+"' download>下载</a> </td>"
+						    + "</tr>";
+				});
+				//显示值在页面
+				$("#dataTbody").empty().append(addHtml).trigger("create");
+
+			} else {
+			    $("#dataTbody").empty();
+				alert("没有满足条件的值.....");
+			}
+		},
+		error : function(data) {
+		    $("#dataTbody").empty();
+			alert("绑定事件的失败....");
+		}
+	});
+}
+
+</script>
