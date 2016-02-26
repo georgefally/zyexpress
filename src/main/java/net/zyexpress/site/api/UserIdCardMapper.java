@@ -7,6 +7,6 @@ import java.sql.SQLException;
 
 public class UserIdCardMapper implements ResultSetMapper<UserIdCard> {
     public UserIdCard map(int index, ResultSet rs, StatementContext ctx) throws SQLException {
-        return new UserIdCard(rs.getString("userName"), rs.getString("idNumber"),rs.getString("fileNameFirst"),rs.getString("fileNameSecond"));
+        return new UserIdCard(rs.getString("userName"), rs.getString("idNumber"));
     }
 }

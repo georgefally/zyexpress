@@ -13,23 +13,23 @@ public class UserIdCard {
     @Length(max = 128)
     private String idNumber;
 
-    @NotEmpty
+   /* @NotEmpty
     @Length(max = 128)
     private String picFirst;
 
     @NotEmpty
     @Length(max = 128)
-    private String picSecond;
+    private String picSecond;*/
 
     public UserIdCard() {
         // jackson deserialization
     }
 
-    public UserIdCard(String userName, String idNumber, String picFirst, String picSecond) {
+    public UserIdCard(String userName, String idNumber) {
         this.userName = userName;
         this.idNumber = idNumber;
-        this.picFirst = picFirst;
-        this.picSecond = picSecond;
+       /* this.picFirst = picFirst;
+        this.picSecond = picSecond;*/
     }
 
     @JsonProperty
@@ -42,7 +42,7 @@ public class UserIdCard {
         return idNumber;
     }
 
-    @JsonProperty
+  /*  @JsonProperty
     public String getPicFirst() {
         return picFirst;
     }
@@ -50,5 +50,5 @@ public class UserIdCard {
     @JsonProperty
     public String getPicSecond() {
         return picSecond;
-    }
+    }*/
 }

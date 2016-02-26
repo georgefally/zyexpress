@@ -16,6 +16,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -34,19 +36,36 @@ public class UserIdCardResource {
     @Timed
     @Path("/all")
     public List<UserIdCard> getAllUser() {
-        return userIdCardDAO.getAll();
+        List a = userIdCardDAO.getAll();
+        return a;
     }
 
     @GET
     @Timed
-    @Path("/search")
+    @Path("/getUserId")
     public List<UserIdCard> getUser(@QueryParam("cname") String userName) {
-        if (userName.isEmpty()) {
-            return userIdCardDAO.getAll();
-        } else {
-            return userIdCardDAO.findByUserName("%" + userName + "%");
+        if(userName.isEmpty()){
+            List a = userIdCardDAO.getAll();
+            return a;
+        }else{
+            String[] userNameArray = userName.split(" ");
+            List<String> userNameStr = new ArrayList<String>();
+            userNameStr.add(userNameArray[0]);
+            for (int i = 1; i < userNameArray.length; i++) {
+                userNameStr.add(userNameArray[i]);
+            }
+            List a = userIdCardDAO.findByUserName(userNameStr);
+            return a;
         }
+    }
 
+    @GET
+    @Timed
+    @Path("/downloadId")
+    public List<UserIdCard> downloadIdcardFile(@QueryParam("memIdGroup") List<String> memIdList) {
+
+        List a = userIdCardDAO.getAll();
+        return a;
     }
 
     @GET
