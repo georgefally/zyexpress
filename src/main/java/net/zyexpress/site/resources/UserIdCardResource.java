@@ -62,7 +62,11 @@ public class UserIdCardResource {
                 for (UserIdCard userIdCard : userIdCards) {
                     // each userId has a dedicated directory
                     File userDirectory = Paths.get(uploadDir, userIdCard.getIdNumber()).toFile();
-                    for (File file : userDirectory.listFiles()) {
+                    File[] files = userDirectory.listFiles();
+                    if (files == null) {
+                        throw new RuntimeException("empty directory: " + userDirectory.getAbsolutePath());
+                    }
+                    for (File file : files) {
                         if (file.isDirectory()) continue;
                         try (InputStream inputStream = new FileInputStream(file)) {
                             zipOutputStream.putNextEntry(new ZipEntry(userIdCard.getIdNumber() + "/" + file.getName()));

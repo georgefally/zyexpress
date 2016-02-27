@@ -138,40 +138,14 @@ function download(){
              content:"请选择一条记录",
          });
     }else if (chkLen > 0){
-        var obj = $("input[name='memIdGroup']:checked");
         var data = $("input[name='memIdGroup']:checked").serialize();
+        var url = "restful/userIdCard/downloadId?"+ data;
 
-        //异步请求进行修改页面中的值
-        $.ajax({
-                type: "get",
-                contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-                url:"restful/userIdCard/downloadId",
-                dataType:"json",
-                data:(data=="" || data==null)?null:data,
-                success:function(data){
-
-                    if(data.head.rep_code=="200"){
-                        $.com_modal_info.show({
-                             content:"保存成功",
-                             callback:function(){
-                                 //$("#modifyMehodModal").modal("hide");//隐藏
-                                 $.com_modal_wait.show({conent:"系统正在努力加载，请稍后..."});
-                                    //刷新
-                                 AddpageMemSearchPaging(1);
-                                 $.com_modal_wait.close();
-                             }
-                         });
-
-                    }else{
-                        $.com_modal_info.show({
-                            content:data.head.rep_message
-                         });
-                    }
-
-                }
-         });
+        var elemIFrame = document.createElement("iframe");
+        elemIFrame.src = url;
+        elemIFrame.style.display = "none";
+        document.body.appendChild(elemIFrame);
     }
-
 }
 
 </script>
