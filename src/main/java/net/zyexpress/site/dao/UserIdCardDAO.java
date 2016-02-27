@@ -25,6 +25,10 @@ public interface UserIdCardDAO {
     @Mapper(UserIdCardMapper.class)
     List<UserIdCard> findByUserName(@BindIn("userNameList") List<String> userNameStr);
 
+    @SqlQuery("select * from userIdCardNew where idNumber in (<userIds>)")
+    @Mapper(UserIdCardMapper.class)
+    List<UserIdCard> findByUserIds(@BindIn("userIds") List<String> userIds);
+
     @SqlUpdate("insert into userIdCardNew (idNumber, userName) values (:idNumber, :userName)")
     int insert(@Bind("idNumber") String idNumber, @Bind("userName") String userName);
 }

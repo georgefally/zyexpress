@@ -1,23 +1,22 @@
 package net.zyexpress.site.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.google.common.io.ByteStreams;
 import net.zyexpress.site.api.UserIdCard;
 import net.zyexpress.site.dao.UserIdCardDAO;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -27,61 +26,50 @@ import java.util.zip.ZipOutputStream;
 public class UserIdCardResource {
 
     private final UserIdCardDAO userIdCardDAO;
+    private final String uploadDir;
 
-    public UserIdCardResource(UserIdCardDAO userIdCardDAO) {
+    public UserIdCardResource(UserIdCardDAO userIdCardDAO, String uploadDir) {
         this.userIdCardDAO = userIdCardDAO;
+        this.uploadDir = uploadDir;
     }
 
     @GET
     @Timed
     @Path("/all")
     public List<UserIdCard> getAllUser() {
-        List a = userIdCardDAO.getAll();
-        return a;
+        return userIdCardDAO.getAll();
     }
 
     @GET
     @Timed
     @Path("/getUserId")
     public List<UserIdCard> getUser(@QueryParam("cname") String userName) {
-        if(userName.isEmpty()){
-            List a = userIdCardDAO.getAll();
-            return a;
-        }else{
-            String[] userNameArray = userName.split(" ");
-            List<String> userNameStr = new ArrayList<String>();
-            userNameStr.add(userNameArray[0]);
-            for (int i = 1; i < userNameArray.length; i++) {
-                userNameStr.add(userNameArray[i]);
-            }
-            List a = userIdCardDAO.findByUserName(userNameStr);
-            return a;
+        if (Strings.isNullOrEmpty(userName)) {
+            return userIdCardDAO.getAll();
         }
+        List<String> userNames = Splitter.on(" ").omitEmptyStrings().splitToList(userName);
+        return userIdCardDAO.findByUserName(userNames);
     }
 
     @GET
     @Timed
     @Path("/downloadId")
-    public List<UserIdCard> downloadIdcardFile(@QueryParam("memIdGroup") List<String> memIdList) {
-
-        List a = userIdCardDAO.getAll();
-        return a;
-    }
-
-    @GET
-    @Timed
-    @Path("/export")
     @Produces("application/zip")
-    public StreamingOutput downloadFile(@Context HttpServletRequest request, @Context HttpServletResponse response,
-                                 @QueryParam("ids") List<String> userIds) {
+    public StreamingOutput downloadIdCardFile(@QueryParam("memIdGroup") List<String> memIdList) {
+        final List<UserIdCard> userIdCards = userIdCardDAO.findByUserIds(memIdList);
         return output -> {
-            try (InputStream inputStream1 = new FileInputStream("/var/tmp/image1.png");
-                 InputStream inputStream2 = new FileInputStream("/var/tmp/image2.png");
-                 ZipOutputStream zipOutputStream = new ZipOutputStream(output)) {
-                zipOutputStream.putNextEntry(new ZipEntry("image1.png"));
-                ByteStreams.copy(inputStream1, zipOutputStream);
-                zipOutputStream.putNextEntry(new ZipEntry("image2.png"));
-                ByteStreams.copy(inputStream2, zipOutputStream);
+            try (ZipOutputStream zipOutputStream = new ZipOutputStream(output)) {
+                for (UserIdCard userIdCard : userIdCards) {
+                    // each userId has a dedicated directory
+                    File userDirectory = Paths.get(uploadDir, userIdCard.getIdNumber()).toFile();
+                    for (File file : userDirectory.listFiles()) {
+                        if (file.isDirectory()) continue;
+                        try (InputStream inputStream = new FileInputStream(file)) {
+                            zipOutputStream.putNextEntry(new ZipEntry(userIdCard.getIdNumber() + "/" + file.getName()));
+                            ByteStreams.copy(inputStream, zipOutputStream);
+                        }
+                    }
+                }
             }
         };
     }

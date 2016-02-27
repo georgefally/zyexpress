@@ -40,12 +40,8 @@ public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
 
         final UserIdCardDAO userIdCardDAO = jdbi.onDemand(UserIdCardDAO.class);
         userIdCardDAO.createUserIdCardTable();
-        /* test data
-        userIdCardDAO.insert("1", "lumengyu", "a1_file.jpg", "a2_file.jpg");
-        userIdCardDAO.insert("2", "yanxiang", "a1_file.jpg", "a2_file.jpg");
-        */
 
-        final UserIdCardResource userIdcardResource = new UserIdCardResource(userIdCardDAO);
+        final UserIdCardResource userIdcardResource = new UserIdCardResource(userIdCardDAO, configuration.getUploadDir());
         environment.jersey().register(userIdcardResource);
     }
 }
