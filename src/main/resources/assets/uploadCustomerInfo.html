@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传顾客信息</title>
+    <script src="scripts/jquery/jquery.js"></script>
+    <script src="scripts/jquery/jquery.ajaxfileupload.js"></script>
+    <script src="bootstrap-3.3.6/js/bootstrap.js"></script>
+    <script src="scripts/jquery/fileinput.js"></script>
+    <link href="bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet"/>
+    <link href="css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#"><!--<img width="120" height="38" src="image/zyexpresswhite.png">--></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+        </div> <!-- .nav-collapse -->
+    </div> <!-- .container-fluid -->
+</nav>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+
+        <div class="col-md-3" id="sidebar">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active">
+                    <a href="uploadCustomerInfo.html"><i class="icon-chevron-right"></i>上传身份证信息</a>
+                </li>
+                <li>
+                    <a href="searchCustomerInfo.html"><i class="icon-chevron-right"></i>查询会员信息</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-9" id="content1">
+
+            <form enctype="multipart/form-data"  id="uploadForm">
+                <label class="control-label">上传Excel</label>
+                <input id="excelfile" class="file" type="file" multiple class="file-loading" data-min-file-count="1" data-allowed-file-extensions='["xlsx"]'>
+                <div id="fileError" class="help-block"></div>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-default">Reset</button>
+            </form>
+
+            <!--<form id="searchCustomerInfoForm" class="form-inline" method="post" onsubmit="return false;">
+
+                <div class="row col-md-offset-2">
+                    <input type="file" id="file" name="file" />
+                    <br />
+                    <input type="button" value="上传" onclick="return ajaxFileUpload();">
+                </div>
+            </form>-->
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
+
+
+<script>
+
+$("#excelfile").fileinput({
+    uploadUrl: "restful/userIdCard/uploadExcel", // server upload action
+    uploadAsync: true,
+    minFileCount: 1,
+    maxFileCount: 1,
+    overwriteInitial: false
+});
+/*
+$("#uploadForm").submit(function(event) {
+
+        var formData = new FormData(this);
+        event.preventDefault();
+        var grid = $('[data-role="pdGrid"]');
+
+        $.ajax({
+            url : 'restful/userIdCard/uploadExcel',
+            type : 'POST',
+            data : formData,
+            contentType : false,
+            processData : false,
+            success : function(data) {
+                if (data.result == 'success') {
+                    grid.message({
+                        type : 'success',
+                        content : '部署成功'
+                    });
+
+                    $("#uploadFileDiv").slideToggle("slow");
+                    grid.grid('refresh');
+                } else {
+                    grid.message({
+
+                        type : 'error',
+
+                        content : data.result
+
+                    });
+
+                }
+
+            },
+
+            error : function() {
+
+                grid.message({
+
+                    type : 'error',
+
+                    content : '部署失败'
+
+                });
+
+            }
+
+        });
+
+   });*/
+
+</script>

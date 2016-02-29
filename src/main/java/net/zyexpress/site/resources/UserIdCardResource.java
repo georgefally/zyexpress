@@ -7,10 +7,7 @@ import com.google.common.io.ByteStreams;
 import net.zyexpress.site.api.UserIdCard;
 import net.zyexpress.site.dao.UserIdCardDAO;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.File;
@@ -76,5 +73,14 @@ public class UserIdCardResource {
                 }
             }
         };
+    }
+
+
+    @POST
+    @Timed
+    @Path("/uploadExcel")
+    @Produces("application/zip")
+    public String uploadExcel(@PathParam("/upload") String memIdList) {
+        return "SUCCESS";
     }
 }

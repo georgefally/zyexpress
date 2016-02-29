@@ -4,58 +4,74 @@
     <meta charset="UTF-8">
     <title>查看顾客信息</title>
     <script src="scripts/jquery/jquery.js"></script>
+    <script src="scripts/jquery/jquery.ajaxfileupload.js"></script>
     <script src="bootstrap-3.3.6/js/bootstrap.js"></script>
     <link href="bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet"/>
 </head>
 <body>
-<div id="content"></div>
-<div class="container">
+
+
     <nav class="navbar navbar-default">
-        <div class="container-fluid">
+        <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#"><!--<img width="120" height="38" src="image/zyexpresswhite.png">--></a>
+                <a class="navbar-brand" href="#"><img width="120" height="38" src="image/zyexpresswhite.png"></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
             </div> <!-- .nav-collapse -->
         </div> <!-- .container-fluid -->
     </nav>
 
-    <div style="min-height: 16px;"></div>
+    <div class="container-fluid">
+        <div class="row-fluid">
 
-    <form id="searchCustomerInfoForm" class="form-inline" method="post" onsubmit="return false;">
-
-        <div class="row col-md-offset-2">
-            <div class="form-group">
-                <label>会员名称</label>
-                <input type="text" name="cname" id="search_name" class="form-control" placeholder="搜索" value="">
+            <div class="col-md-3" id="sidebar">
+                <ul class="nav nav-pills nav-stacked">
+                    <li>
+                        <a href="uploadCustomerInfo.html"><i class="icon-chevron-right"></i>上传身份证信息</a>
+                    </li>
+                    <li class="active">
+                        <a href="searchCustomerInfo.html"><i class="icon-chevron-right"></i>查询会员信息</a>
+                    </li>
+                </ul>
             </div>
 
-            <button class="btn btn-primary" id="search_btn" type="button">
-                <span class="glyphicon glyphicon-search"></span> 查询
-            </button>
+            <div class="col-md-9" id="content1">
+                <form id="searchCustomerInfoForm" class="form-inline" method="post" onsubmit="return false;">
 
-            <button class="btn btn-primary" id="download_btn" type="button">
-                <span class="glyphicon glyphicon-download-alt"></span> 下载
-            </button>
+                    <div class="row col-md-offset-2">
+                        <div class="form-group">
+                            <label>会员名称</label>
+                            <input type="text" name="cname" id="search_name" class="form-control" placeholder="搜索" value="">
+                        </div>
 
+                        <button class="btn btn-primary" id="search_btn" type="button">
+                            <span class="glyphicon glyphicon-search"></span> 查询
+                        </button>
+
+                        <button class="btn btn-primary" id="download_btn" type="button">
+                            <span class="glyphicon glyphicon-download-alt"></span> 下载
+                        </button>
+
+                    </div>
+                </form>
+
+                <div style="min-height: 16px;"></div>
+
+                <div align="center">
+                    <table style="width:850px;margin:0px;margin-left:1px;" class="table table-condensed table-hover table-bordered">
+                        <tr class="info">
+                            <th style="width:50px;"><input type='checkbox' name='selectAll' id='selectAll' value='selectAll'></th>
+                            <th style="width:200px;">会员姓名</th>
+                            <th style="width:250px;">身份证号</th>
+                        </tr>
+                        <tbody id="dataTbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    </form>
-
-    <div style="min-height: 16px;"></div>
-
-    <div align="center">
-        <table style="width:850px;margin:0px;margin-left:1px;" class="table table-condensed table-hover table-bordered">
-            <tr class="info">
-                <th style="width:50px;"><input type='checkbox' name='selectAll' id='selectAll' value='selectAll'></th>
-                <th style="width:200px;">会员姓名</th>
-                <th style="width:250px;">身份证号</th>
-            </tr>
-            <tbody id="dataTbody">
-            </tbody>
-        </table>
     </div>
 
-</div>
 
 </body>
 </html>
@@ -147,5 +163,6 @@ function download(){
         document.body.appendChild(elemIFrame);
     }
 }
+
 
 </script>
