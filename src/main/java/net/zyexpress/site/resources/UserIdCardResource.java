@@ -6,13 +6,14 @@ import com.google.common.base.Strings;
 import com.google.common.io.ByteStreams;
 import net.zyexpress.site.api.UserIdCard;
 import net.zyexpress.site.dao.UserIdCardDAO;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +56,10 @@ public class UserIdCardResource {
     @Path("/downloadId")
     @Produces("application/zip")
     public StreamingOutput downloadIdCardFile(@FormParam("memIdGroup") String memIdStr) {
-    //public StreamingOutput downloadIdCardFile(@QueryParam("memIdGroup") List<String> memIdList) {
+        //public StreamingOutput downloadIdCardFile(@QueryParam("memIdGroup") List<String> memIdList) {
         List<String> memIdList = Splitter.on("&").omitEmptyStrings().splitToList(memIdStr);
         List<String> memIdListNew = new ArrayList<String>();
-        for(String item: memIdList){
+        for (String item : memIdList) {
             memIdListNew.add(item.substring(11));
         }
         final List<UserIdCard> userIdCards = userIdCardDAO.findByUserIds(memIdListNew);
@@ -83,12 +84,19 @@ public class UserIdCardResource {
         };
     }
 
-
     @POST
     @Timed
     @Path("/uploadExcel")
-    @Produces("application/zip")
-    public String uploadExcel(@PathParam("/upload") String memIdList) {
-        return "SUCCESS";
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    public Response uploadExcel(@FormDataParam("excelfile") final InputStream uploadFileStream,
+                                @FormDataParam("excelfile") final FormDataContentDisposition contentDisposition) throws IOException {
+
+        File tempFile = File.createTempFile("zyexpress", "zip");
+        OutputStream outputStream = new FileOutputStream(tempFile);
+        ByteStreams.copy(uploadFileStream, outputStream);
+
+
+        String output = "SUCCESS";
+        return Response.status(200).entity(output).build();
     }
 }

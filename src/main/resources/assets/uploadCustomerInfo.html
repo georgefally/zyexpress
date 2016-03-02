@@ -42,9 +42,10 @@
             <form enctype="multipart/form-data"  id="uploadForm">
                 <label class="control-label">上传Excel </label>
                 <label class="help-block">格式：姓名，身份证 （不包含标题）</label>
-                <input id="excelfile" class="file" type="file" multiple class="file-loading" data-min-file-count="1" data-allowed-file-extensions='["xlsx"]'>
+                <input id="excelfile" name="excelfile" class="file file-loading" type="file" multiple
+                       data-min-file-count="1" data-allowed-file-extensions='["xlsx", "xls"]'>
                 <div id="fileError" class="help-block"></div>
-                <br>
+                <br />
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <button type="reset" class="btn btn-default">Reset</button>
             </form>
