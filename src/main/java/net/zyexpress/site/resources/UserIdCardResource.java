@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -48,12 +49,19 @@ public class UserIdCardResource {
         return userIdCardDAO.findByUserName(userNames);
     }
 
-    @GET
+    //@GET
+    @POST
     @Timed
     @Path("/downloadId")
     @Produces("application/zip")
-    public StreamingOutput downloadIdCardFile(@QueryParam("memIdGroup") List<String> memIdList) {
-        final List<UserIdCard> userIdCards = userIdCardDAO.findByUserIds(memIdList);
+    public StreamingOutput downloadIdCardFile(@FormParam("memIdGroup") String memIdStr) {
+    //public StreamingOutput downloadIdCardFile(@QueryParam("memIdGroup") List<String> memIdList) {
+        List<String> memIdList = Splitter.on("&").omitEmptyStrings().splitToList(memIdStr);
+        List<String> memIdListNew = new ArrayList<String>();
+        for(String item: memIdList){
+            memIdListNew.add(item.substring(11));
+        }
+        final List<UserIdCard> userIdCards = userIdCardDAO.findByUserIds(memIdListNew);
         return output -> {
             try (ZipOutputStream zipOutputStream = new ZipOutputStream(output)) {
                 for (UserIdCard userIdCard : userIdCards) {

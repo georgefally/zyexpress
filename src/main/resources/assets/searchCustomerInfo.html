@@ -42,6 +42,7 @@
                         <div class="form-group">
                             <label>会员名称</label>
                             <input type="text" name="cname" id="search_name" class="form-control" placeholder="搜索" value="">
+                            <input type="hidden" id="searchCustomerInfo_content" name="memIdGroup">
                         </div>
 
                         <button class="btn btn-primary" id="search_btn" type="button">
@@ -120,7 +121,7 @@ function search() {
 				//显示层绑定控件
 				$.each(data, function(index, item) {
 					addHtml = addHtml + "<tr>"
-					        +"<td class='fontCenter2'><input type='checkbox' name='memIdGroup' value='"+item.idNumber+"'id='"+item.idNo+"'></td>"
+					        +"<td class='fontCenter2'><input type='checkbox' name='memIdGroup' value='"+item.idNumber+"'id='"+item.idNumber+"'></td>"
 							+ "<td class='fontCenter2' style='width:250px'>"
 							+ item.userName + "</td>"
 							+ "<td class='fontCenter2' style='width:200px'>"
@@ -147,6 +148,20 @@ function search() {
 }
 
 function download(){
+    var chkLen = $("input[name='memIdGroup']:checked").length;
+    if(chkLen==0){
+         alert("必须选择一条记录");
+    }else if (chkLen > 0){
+        var data = $("input[name='memIdGroup']:checked").serialize();
+        $("#searchCustomerInfoForm").attr("onsubmit","return true");
+        $("#searchCustomerInfoForm").attr("action","restful/userIdCard/downloadId");
+        $("#searchCustomerInfo_content").val(data);
+        $("#searchCustomerInfoForm").submit();
+        $("#searchCustomerInfoForm").attr("onsubmit","return false");
+    }
+}
+
+/*function download(){
 
     var chkLen = $("input[name='memIdGroup']:checked").length;
     if(chkLen==0){
@@ -162,7 +177,7 @@ function download(){
         elemIFrame.style.display = "none";
         document.body.appendChild(elemIFrame);
     }
-}
+}*/
 
 
 </script>
