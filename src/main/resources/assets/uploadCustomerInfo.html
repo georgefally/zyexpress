@@ -40,7 +40,8 @@
         <div class="col-md-9" id="content1">
 
             <form enctype="multipart/form-data"  id="uploadForm">
-                <label class="control-label">上传Excel</label>
+                <label class="control-label">上传Excel </label>
+                <label class="help-block">格式：姓名，身份证 （不包含标题）</label>
                 <input id="excelfile" class="file" type="file" multiple class="file-loading" data-min-file-count="1" data-allowed-file-extensions='["xlsx"]'>
                 <div id="fileError" class="help-block"></div>
                 <br>
@@ -75,6 +76,8 @@ $("#excelfile").fileinput({
     maxFileCount: 1,
     overwriteInitial: false
 });
+
+
 /*
 $("#uploadForm").submit(function(event) {
 
