@@ -10,6 +10,7 @@
 
     <properties>
         <dropwizard.version>0.9.2</dropwizard.version>
+        <apache.poi.version>3.12</apache.poi.version>
     </properties>
 
     <dependencies>
@@ -37,6 +38,16 @@
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
             <version>2.3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${apache.poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${apache.poi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>

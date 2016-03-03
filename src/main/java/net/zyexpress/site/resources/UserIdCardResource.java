@@ -3,9 +3,14 @@ package net.zyexpress.site.resources;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.google.common.io.ByteStreams;
+import com.google.common.io.Files;
 import net.zyexpress.site.api.UserIdCard;
 import net.zyexpress.site.dao.UserIdCardDAO;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
@@ -17,6 +22,7 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -88,15 +94,32 @@ public class UserIdCardResource {
     @Timed
     @Path("/uploadExcel")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response uploadExcel(@FormDataParam("excelfile") final InputStream uploadFileStream,
                                 @FormDataParam("excelfile") final FormDataContentDisposition contentDisposition) throws IOException {
-
-        File tempFile = File.createTempFile("zyexpress", "zip");
+        String fileExtension = Files.getFileExtension(contentDisposition.getFileName());
+        File tempFile = File.createTempFile("zyexpress", fileExtension);
         OutputStream outputStream = new FileOutputStream(tempFile);
         ByteStreams.copy(uploadFileStream, outputStream);
 
+        processUploadedExcelFile(tempFile);
+        // $output = ['uploaded' => $paths];
+        Map<String, String> response = Maps.newHashMap();
+        response.put("uploaded", contentDisposition.getFileName());
+        return Response.status(200).entity(response).build();
+    }
 
-        String output = "SUCCESS";
-        return Response.status(200).entity(output).build();
+    private void processUploadedExcelFile(File file) throws IOException {
+        String filePath = file.getPath();
+        Workbook workbook = null;
+        if(filePath.trim().toLowerCase().endsWith("xls")) {
+            workbook = new HSSFWorkbook(new FileInputStream(filePath)) ;
+        } else if(filePath.trim().toLowerCase().endsWith("xlsx")) {
+            workbook = new XSSFWorkbook(new FileInputStream(filePath)) ;
+        } else {
+            throw new IllegalArgumentException("上传文件以xlsx结尾!!!") ;
+        }
+
+        // process file
     }
 }
