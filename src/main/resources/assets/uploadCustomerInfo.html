@@ -38,7 +38,7 @@
         </div>
 
         <div class="col-md-9" id="content1">
-
+            <div class="row-fluid">
             <form enctype="multipart/form-data"  id="uploadForm">
                 <label class="control-label">上传Excel </label>
                 <label class="help-block">格式：姓名，身份证 （不包含标题）</label>
@@ -46,18 +46,20 @@
                        data-min-file-count="1" data-allowed-file-extensions='["xlsx", "xls"]'>
                 <div id="fileError" class="help-block"></div>
                 <br />
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="reset" class="btn btn-default">Reset</button>
             </form>
+            </div>
 
-            <!--<form id="searchCustomerInfoForm" class="form-inline" method="post" onsubmit="return false;">
-
-                <div class="row col-md-offset-2">
-                    <input type="file" id="file" name="file" />
+            <div class="row-fluid">
+                <form enctype="multipart/form-data"  id="uploadPicForm">
+                    <label class="control-label">上传身份证图片</label>
+                    <label class="help-block">格式：zip</label>
+                    <input id="picfile" name="picfile" class="file file-loading" type="file" multiple
+                           data-min-file-count="1" data-allowed-file-extensions='["zip"]'>
+                    <div id="picError" class="help-block"></div>
                     <br />
-                    <input type="button" value="上传" onclick="return ajaxFileUpload();">
-                </div>
-            </form>-->
+                </form>
+            </div>
+
 
         </div>
     </div>
@@ -78,56 +80,14 @@ $("#excelfile").fileinput({
     overwriteInitial: false
 });
 
+$("#picfile").fileinput({
+    uploadUrl: "restful/userIdCard/uploadPicture", // server upload action
+    uploadAsync: true,
+    minFileCount: 1,
+    maxFileCount: 1,
+    overwriteInitial: false
+});
 
-/*
-$("#uploadForm").submit(function(event) {
 
-        var formData = new FormData(this);
-        event.preventDefault();
-        var grid = $('[data-role="pdGrid"]');
-
-        $.ajax({
-            url : 'restful/userIdCard/uploadExcel',
-            type : 'POST',
-            data : formData,
-            contentType : false,
-            processData : false,
-            success : function(data) {
-                if (data.result == 'success') {
-                    grid.message({
-                        type : 'success',
-                        content : '部署成功'
-                    });
-
-                    $("#uploadFileDiv").slideToggle("slow");
-                    grid.grid('refresh');
-                } else {
-                    grid.message({
-
-                        type : 'error',
-
-                        content : data.result
-
-                    });
-
-                }
-
-            },
-
-            error : function() {
-
-                grid.message({
-
-                    type : 'error',
-
-                    content : '部署失败'
-
-                });
-
-            }
-
-        });
-
-   });*/
 
 </script>
