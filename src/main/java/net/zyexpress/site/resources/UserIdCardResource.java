@@ -140,6 +140,7 @@ public class UserIdCardResource {
 
         for(Object[] obj : list){
             System.out.println(Arrays.asList(obj));
+            logger.info("["+obj[1].toString().trim()+","+obj[0].toString().trim()+"]");
             //System.out.println(obj[1].toString().trim());
             List userId = userIdCardDAO.findByUserId(obj[1].toString().trim());
             if(!userId.isEmpty()){
@@ -152,6 +153,7 @@ public class UserIdCardResource {
         }
 
         System.out.println("insert into UserIdCardResource "+recordNumbeer+" records");
+        logger.info("insert into UserIdCardResource "+recordNumbeer+" records");
     }
 
     @POST
@@ -177,6 +179,7 @@ public class UserIdCardResource {
             return Response.status(responseStatus).entity(response).build();
         }catch (Exception ex){
             System.out.println(UserIdCardResource.class.getName()+ ex);
+            logger.error(UserIdCardResource.class.getName()+ ex);
             return Response.status(responseStatus).entity(ex).build();
         }
     }
