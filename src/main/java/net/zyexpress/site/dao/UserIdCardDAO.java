@@ -29,6 +29,13 @@ public interface UserIdCardDAO {
     @Mapper(UserIdCardMapper.class)
     List<UserIdCard> findByUserIds(@BindIn("userIds") List<String> userIds);
 
+    @SqlQuery("select * from userIdCardNew where idNumber = :userId")
+    @Mapper(UserIdCardMapper.class)
+    List<UserIdCard> findByUserId(@Bind("userId") String userId);
+
+    @SqlUpdate("delete from userIdCardNew where idNumber= :idNumber")
+    int deleteByUserId(@Bind("idNumber") String idNumber);
+
     @SqlUpdate("insert into userIdCardNew (idNumber, userName) values (:idNumber, :userName)")
     int insert(@Bind("idNumber") String idNumber, @Bind("userName") String userName);
 }

@@ -6,9 +6,12 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
+import net.zyexpress.site.api.UnZip;
 import net.zyexpress.site.api.UserIdCard;
 import net.zyexpress.site.dao.UserIdCardDAO;
+import net.zyexpress.site.api.ExcelReader;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -21,6 +24,7 @@ import javax.ws.rs.core.StreamingOutput;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -73,7 +77,7 @@ public class UserIdCardResource {
             try (ZipOutputStream zipOutputStream = new ZipOutputStream(output)) {
                 for (UserIdCard userIdCard : userIdCards) {
                     // each userId has a dedicated directory
-                    File userDirectory = Paths.get(uploadDir, userIdCard.getIdNumber()).toFile();
+                    File userDirectory = Paths.get(uploadDir+"uploadidcard/", userIdCard.getIdNumber()).toFile();
                     File[] files = userDirectory.listFiles();
                     if (files == null) {
                         throw new RuntimeException("empty directory: " + userDirectory.getAbsolutePath());
@@ -101,12 +105,17 @@ public class UserIdCardResource {
         File tempFile = File.createTempFile("zyexpress", fileExtension);
         OutputStream outputStream = new FileOutputStream(tempFile);
         ByteStreams.copy(uploadFileStream, outputStream);
-
-        processUploadedExcelFile(tempFile);
-        // $output = ['uploaded' => $paths];
         Map<String, String> response = Maps.newHashMap();
-        response.put("uploaded", contentDisposition.getFileName());
-        return Response.status(200).entity(response).build();
+        Integer responseStatus = 200;
+        try {
+            processUploadedExcelFile(tempFile);
+            // $output = ['uploaded' => $paths];
+            response.put("uploaded", contentDisposition.getFileName());
+            return Response.status(responseStatus).entity(response).build();
+        }catch (Exception ex){
+            System.out.println(UserIdCardResource.class.getName()+ ex);
+            return Response.status(responseStatus).entity(ex).build();
+        }
     }
 
     private void processUploadedExcelFile(File file) throws IOException {
@@ -120,6 +129,52 @@ public class UserIdCardResource {
             throw new IllegalArgumentException("上传文件以xlsx结尾!!!") ;
         }
 
+        int sheetTotal = workbook.getNumberOfSheets() ;
+        Sheet sheet = ExcelReader.getSheet(workbook, 0) ;
+        List<Object[]> list = ExcelReader.listFromSheet(sheet) ;
         // process file
+        int recordNumbeer = 0;
+
+        for(Object[] obj : list){
+            System.out.println(Arrays.asList(obj));
+            //System.out.println(obj[1].toString().trim());
+            List userId = userIdCardDAO.findByUserId(obj[1].toString().trim());
+            if(!userId.isEmpty()){
+                userIdCardDAO.deleteByUserId(obj[1].toString().trim());
+                //statement.executeUpdate("delete from userIdCardNew where idNumber= '"+obj[1].toString().trim()+"'");
+            }
+            userIdCardDAO.insert(obj[1].toString().trim(),obj[0].toString().trim());
+            recordNumbeer++;
+            //statement.executeUpdate("insert into userIdCardNew values('"+obj[1].toString().trim()+"','"+obj[0].toString().trim()+"')");
+        }
+
+        System.out.println("insert into UserIdCardResource "+recordNumbeer+" records");
+    }
+
+    @POST
+    @Timed
+    @Path("/uploadPicture")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response uploadPicture(@FormDataParam("picfile") final InputStream uploadFileStream,
+                                @FormDataParam("picfile") final FormDataContentDisposition contentDisposition) throws IOException {
+        String fileExtension = Files.getFileExtension(contentDisposition.getFileName());
+        File tempFile = File.createTempFile("zyexpress", fileExtension);
+        OutputStream outputStream = new FileOutputStream(tempFile);
+        ByteStreams.copy(uploadFileStream, outputStream);
+        Map<String, String> response = Maps.newHashMap();
+        Integer responseStatus = 200;
+        try {
+            UnZip unzp = new UnZip();
+            File userDirectory = Paths.get(uploadDir).toFile();
+            unzp.unzip(tempFile,userDirectory );
+            //processUploadedExcelFile(tempFile);
+            // $output = ['uploaded' => $paths];
+            response.put("uploaded", contentDisposition.getFileName());
+            return Response.status(responseStatus).entity(response).build();
+        }catch (Exception ex){
+            System.out.println(UserIdCardResource.class.getName()+ ex);
+            return Response.status(responseStatus).entity(ex).build();
+        }
     }
 }

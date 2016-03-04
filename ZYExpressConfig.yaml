@@ -1,6 +1,5 @@
-
 # uploadDir:  /var/zyexpress/upload/
-uploadDir:  C:/Users/lumengyu/zymocknew
+uploadDir:  C:/Users/lumengyu/zymocknew/upload/
 
 # serve restful APIs from /restful/, and use root path for static resources (assets) like html/js/image
 server:
