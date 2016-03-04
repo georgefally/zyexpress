@@ -6,16 +6,18 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
+import net.zyexpress.site.api.ExcelReader;
 import net.zyexpress.site.api.UnZip;
 import net.zyexpress.site.api.UserIdCard;
 import net.zyexpress.site.dao.UserIdCardDAO;
-import net.zyexpress.site.api.ExcelReader;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -33,6 +35,7 @@ import java.util.zip.ZipOutputStream;
 @Path("/userIdCard")
 @Produces(MediaType.APPLICATION_JSON)
 public class UserIdCardResource {
+    private static final Logger logger = LoggerFactory.getLogger(UserIdCardResource.class);
 
     private final UserIdCardDAO userIdCardDAO;
     private final String uploadDir;
@@ -113,7 +116,7 @@ public class UserIdCardResource {
             response.put("uploaded", contentDisposition.getFileName());
             return Response.status(responseStatus).entity(response).build();
         }catch (Exception ex){
-            System.out.println(UserIdCardResource.class.getName()+ ex);
+            logger.error("Failed to process uploaded excel file. ", ex);
             return Response.status(responseStatus).entity(ex).build();
         }
     }
