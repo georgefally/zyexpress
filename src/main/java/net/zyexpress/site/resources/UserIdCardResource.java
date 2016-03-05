@@ -141,6 +141,7 @@ public class UserIdCardResource {
         int recordNumbeer = 0;
 
         for(Object[] obj : list){
+            if(obj[0].toString().trim().equals("")&&obj[1].toString().trim().equals(""))continue;
             System.out.println(Arrays.asList(obj));
             logger.info("["+obj[1].toString().trim()+","+obj[0].toString().trim()+"]");
             //System.out.println(obj[1].toString().trim());
