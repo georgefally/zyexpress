@@ -27,7 +27,6 @@ public class ExcelReader {
      * @return
      * @throws IOException
      */
-    //java -cp hsqldb-2.3.3.jar org.hsqldb.util.DatabaseManagerSwing
     public static final Workbook createWb(String filePath) throws IOException {
         if(StringUtils.isBlank(filePath)) {
             throw new IllegalArgumentException("文件不存在!!!") ;
@@ -57,9 +56,9 @@ public class ExcelReader {
         for(int r = sheet.getFirstRowNum() ; r <= sheet.getLastRowNum() ; r ++) {
             Row row = sheet.getRow(r) ;
             if(row == null)continue ;
-
+            if(row.getFirstCellNum()==-1)continue;
             Object[] cells = new Object[row.getLastCellNum()] ;
-            for(int c = row.getFirstCellNum() ; c <= row.getLastCellNum() ; c++) {
+            for(int c = row.getFirstCellNum() ; c <= row.getLastCellNum()-1 ; c++) {
                 Cell cell = row.getCell(c) ;
                 if(cell == null)continue ;
                 cells[c] = getValueFromCell(cell) ;
