@@ -83,7 +83,9 @@ public class UserIdCardResource {
                     File userDirectory = Paths.get(uploadDir+"uploadidcard/", userIdCard.getIdNumber()).toFile();
                     File[] files = userDirectory.listFiles();
                     if (files == null) {
-                        throw new RuntimeException("empty directory: " + userDirectory.getAbsolutePath());
+                        logger.error("empty directory: " + userDirectory.getAbsolutePath());
+                        continue;
+                        //throw new RuntimeException("empty directory: " + userDirectory.getAbsolutePath());
                     }
                     for (File file : files) {
                         if (file.isDirectory()) continue;
