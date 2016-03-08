@@ -6,6 +6,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
+import net.zyexpress.site.api.ExcelGenerator;
 import net.zyexpress.site.api.ExcelReader;
 import net.zyexpress.site.api.UnZip;
 import net.zyexpress.site.api.UserIdCard;
@@ -19,16 +20,17 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
+import javax.xml.ws.ResponseWrapper;
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -98,6 +100,8 @@ public class UserIdCardResource {
             }
         };
     }
+
+
 
     @POST
     @Timed
@@ -185,5 +189,29 @@ public class UserIdCardResource {
             logger.error(UserIdCardResource.class.getName()+ ex);
             return Response.status(responseStatus).entity(ex).build();
         }
+    }
+
+
+    //@GET
+    @POST
+    @Timed
+    @Path("/exportId")
+    @Produces("application/vnd.ms-excel;charset=utf-8")
+    public StreamingOutput exportMemberIdCard(@FormParam("memIdGroup") String memIdStr) {
+        //public StreamingOutput downloadIdCardFile(@QueryParam("memIdGroup") List<String> memIdList) {
+        List<String> memIdList = Splitter.on("&").omitEmptyStrings().splitToList(memIdStr);
+        List<String> memIdListNew = new ArrayList<String>();
+        for (String item : memIdList) {
+            memIdListNew.add(item.substring(11));
+        }
+        final List<UserIdCard> userIdCardsList = userIdCardDAO.findByUserIds(memIdListNew);
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("name","haha");
+        map.put("curs",userIdCardsList);
+        return output -> {
+            try (OutputStream outputStream = new ObjectOutputStream(output)) {
+                ExcelGenerator.createExcel("excel_memIdcard.ftl",outputStream,map,"GBK");
+            }
+        };
     }
 }

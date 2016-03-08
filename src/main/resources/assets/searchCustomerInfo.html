@@ -53,6 +53,10 @@
                             <span class="glyphicon glyphicon-download-alt"></span> 下载
                         </button>
 
+                        <button class="btn btn-primary" id="export_btn" type="button">
+                            <span class="glyphicon glyphicon-download-alt"></span> 导出EXCEL
+                        </button>
+
                     </div>
                 </form>
 
@@ -89,6 +93,10 @@ $(function(){
 
     $("#download_btn").unbind("click").bind("click", function() {
 	    download();
+	});
+
+	$("#export_btn").unbind("click").bind("click", function() {
+	    exports();
 	});
 
 	 //查询页面--绑定全选控件
@@ -155,6 +163,20 @@ function download(){
         var data = $("input[name='memIdGroup']:checked").serialize();
         $("#searchCustomerInfoForm").attr("onsubmit","return true");
         $("#searchCustomerInfoForm").attr("action","restful/userIdCard/downloadId");
+        $("#searchCustomerInfo_content").val(data);
+        $("#searchCustomerInfoForm").submit();
+        $("#searchCustomerInfoForm").attr("onsubmit","return false");
+    }
+}
+
+function exports(){
+    var chkLen = $("input[name='memIdGroup']:checked").length;
+    if(chkLen==0){
+         alert("必须选择一条记录");
+    }else if (chkLen > 0){
+        var data = $("input[name='memIdGroup']:checked").serialize();
+        $("#searchCustomerInfoForm").attr("onsubmit","return true");
+        $("#searchCustomerInfoForm").attr("action","restful/userIdCard/exportId");
         $("#searchCustomerInfo_content").val(data);
         $("#searchCustomerInfoForm").submit();
         $("#searchCustomerInfoForm").attr("onsubmit","return false");
