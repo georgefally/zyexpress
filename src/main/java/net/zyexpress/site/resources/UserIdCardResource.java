@@ -15,19 +15,16 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.glassfish.jersey.media.multipart.ContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.WriteListener;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
-import javax.xml.ws.ResponseWrapper;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
@@ -197,7 +194,7 @@ public class UserIdCardResource {
     @Timed
     @Path("/exportId")
     @Produces("application/vnd.ms-excel;charset=utf-8")
-    public StreamingOutput exportMemberIdCard(@FormParam("memIdGroup") String memIdStr) {
+    public Response exportMemberIdCard(@FormParam("memIdGroup") String memIdStr) {
         //public StreamingOutput downloadIdCardFile(@QueryParam("memIdGroup") List<String> memIdList) {
         List<String> memIdList = Splitter.on("&").omitEmptyStrings().splitToList(memIdStr);
         List<String> memIdListNew = new ArrayList<String>();
@@ -208,10 +205,10 @@ public class UserIdCardResource {
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("name","haha");
         map.put("curs",userIdCardsList);
-        return output -> {
-            try (OutputStream outputStream = new ObjectOutputStream(output)) {
-                ExcelGenerator.createExcel("excel_memIdcard.ftl",outputStream,map,"GBK");
-            }
-        };
+
+        ContentDisposition contentDisposition = ContentDisposition.type("attachment")
+                .fileName("filename.xls").creationDate(new Date()).build();
+        StreamingOutput streamingOutput = output -> ExcelGenerator.createExcel("excel_memIdcard.ftl", output, map, "GBK");
+        return Response.ok(streamingOutput).header("Content-Disposition", contentDisposition).build();
     }
 }
