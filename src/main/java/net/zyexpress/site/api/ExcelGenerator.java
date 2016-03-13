@@ -19,14 +19,8 @@ public class ExcelGenerator {
 
     public static void createExcel(String templateName,OutputStream outputStream, Map<String,Object> dataMap, String encoding) {
         Configuration config = new Configuration();
-        System.out.println(ExcelGenerator.class.getClassLoader().getResource("").getPath());
-        String templateDirectoryPath = ExcelGenerator.class.getClassLoader().getResource("").getPath();
-        File file = new File(templateDirectoryPath+"/assets/template/");
-        try{
-            config.setDirectoryForTemplateLoading(file);
-        }catch (IOException e){
-            logger.error(e.toString());
-        }
+        File file = new File("/assets/template/");
+        config.setClassForTemplateLoading(ExcelGenerator.class,"/assets/template/");
         config.setObjectWrapper(new DefaultObjectWrapper());
         config.setDefaultEncoding("UTF-8");
 

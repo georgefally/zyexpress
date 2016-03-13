@@ -17,15 +17,15 @@ public interface UserIdCardDAO {
     @SqlUpdate("create table if not exists userIdCardNew (idNumber varchar(128) unique not null, userName varchar(32) not null)")
     void createUserIdCardTable();
 
-    @SqlQuery("select * from userIdCardNew")
+    @SqlQuery("select * from userIdCardNew order by idNumber")
     @Mapper(UserIdCardMapper.class)
     List<UserIdCard> getAll();
 
-    @SqlQuery("select * from userIdCardNew where userName in (<userNameList>)")
+    @SqlQuery("select * from userIdCardNew where userName in (<userNameList>) order by idNumber")
     @Mapper(UserIdCardMapper.class)
     List<UserIdCard> findByUserName(@BindIn("userNameList") List<String> userNameStr);
 
-    @SqlQuery("select * from userIdCardNew where idNumber in (<userIds>)")
+    @SqlQuery("select * from userIdCardNew where idNumber in (<userIds>) order by idNumber")
     @Mapper(UserIdCardMapper.class)
     List<UserIdCard> findByUserIds(@BindIn("userIds") List<String> userIds);
 
