@@ -12,7 +12,6 @@
 </head>
 <body>
  <table border="1">
-    <tr><td>${name!}</td></tr>
     <#list curs as item>
         <tr>
             <td>${item.userName!}</td>

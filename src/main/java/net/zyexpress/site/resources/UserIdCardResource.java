@@ -203,7 +203,6 @@ public class UserIdCardResource {
         }
         final List<UserIdCard> userIdCardsList = userIdCardDAO.findByUserIds(memIdListNew);
         Map<String,Object> map = new HashMap<String,Object>();
-        map.put("name","haha");
         map.put("curs",userIdCardsList);
 
         ContentDisposition contentDisposition = ContentDisposition.type("attachment")
