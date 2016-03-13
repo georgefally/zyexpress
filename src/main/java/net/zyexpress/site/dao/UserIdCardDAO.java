@@ -36,6 +36,9 @@ public interface UserIdCardDAO {
     @SqlUpdate("delete from userIdCardNew where idNumber= :idNumber")
     int deleteByUserId(@Bind("idNumber") String idNumber);
 
+    @SqlUpdate("delete from userIdCardNew where userName= :userName")
+    int deleteByUserName(@Bind("userName") String userName);
+
     @SqlUpdate("insert into userIdCardNew (idNumber, userName) values (:idNumber, :userName)")
     int insert(@Bind("idNumber") String idNumber, @Bind("userName") String userName);
 }
