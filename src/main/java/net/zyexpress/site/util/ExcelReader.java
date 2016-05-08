@@ -1,4 +1,4 @@
-package net.zyexpress.site.api;
+package net.zyexpress.site.util;
 
 /**
  * Created by lumengyu on 2016/3/4.

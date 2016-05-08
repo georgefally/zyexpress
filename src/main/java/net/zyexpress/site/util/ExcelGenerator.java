@@ -1,4 +1,4 @@
-package net.zyexpress.site.api;
+package net.zyexpress.site.util;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
