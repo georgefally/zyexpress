@@ -1,0 +1,187 @@
+
+
+.w_960 {
+    margin: 0 auto;
+    width: 960px;
+    font-family: "Verdana", "微软雅黑";
+    font-size: 14px;
+}
+
+.reg_left {
+    height: 700px;
+    width: 480px;
+    background: #fff;
+    margin: 0 auto;
+    border-radius: 4px;
+}
+
+.reg_left_con {
+    margin: 0 auto;
+    padding-top: 30px;
+    width: 70%;
+    height: 680px;
+}
+
+    .reg_left_con .form-group {
+        margin-bottom: 5px;
+        padding-bottom: 15px;
+    }
+
+    .reg_left_con h3 {
+        color: #737373;
+        font-size: 24px;
+    }
+
+    .reg_left_con h3, .reg_left_con h4 {
+        font-family: inherit;
+    }
+
+    .reg_left_con h3, .reg_left_con h4 {
+        font-weight: 500;
+        line-height: 1.1;
+    }
+
+
+.form-control2 {
+    display: block;
+    width: 92%;
+    height: 30px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    vertical-align: middle;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+    .form-control2:focus {
+        border-color: #66afe9;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);
+    }
+
+    .form-control2:-moz-placeholder {
+        color: #999;
+    }
+
+    .form-control2::-moz-placeholder {
+        color: #999;
+        opacity: 1;
+    }
+
+    .form-control2:-ms-input-placeholder {
+        color: #999;
+    }
+
+    .form-control2::-webkit-input-placeholder {
+        color: #999;
+    }
+
+    .form-control2[disabled], .form-control2[readonly], fieldset[disabled] .form-control2 {
+        cursor: not-allowed;
+        background-color: #eee;
+    }
+
+
+.reg_left_con input, .reg_left_con button {
+    font-family: 'Vernada', '微软雅黑';
+    line-height: 180%;
+}
+
+.clearfix:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.form-control {
+    height: 42px;
+}
+
+.clear {
+    clear: both;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.clearfix:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.line_20 {
+    height: 20px;
+    overflow: hidden;
+}
+
+.line_40 {
+    height: 40px;
+    overflow: hidden;
+    padding-top: 30px;
+}
+
+.mg_t_30 {
+    margin-top: 30px;
+}
+
+.pd_l_10 {
+    padding-left: 10px;
+}
+
+.square-green div {
+    float: left;
+}
+
+.reg_left_con .radio label, .reg_left_con .checkbox label {
+    cursor: pointer;
+    display: inline;
+    padding-left: 10px;
+}
+
+.btn-green, .btn-green:hover {
+    border: 1px;
+    border-style: solid;
+    color: #fff;
+    height: 43px;
+    border-radius: 4px;
+    margin-right: 4px;
+}
+
+.btn-green {
+    background: #a1d55d;
+    border-color: #a1d55d;
+    width:100px;
+}
+
+    .btn-green:hover {
+        background: #93ca4c;
+        border-color: #93ca4c;
+    }
+
+.code_reg {
+    width: 185px;
+}
+
+.bd_b2 {
+    border-bottom: 2px #e3e3e3 solid;
+    margin-bottom: 20px;
+    padding: 10px 0;
+}
+
+
+
