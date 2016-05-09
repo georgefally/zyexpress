@@ -12,9 +12,11 @@ import io.dropwizard.setup.Environment;
 import net.zyexpress.site.auth.AuthPrincipal;
 import net.zyexpress.site.auth.TokenBasedAuthenticator;
 import net.zyexpress.site.auth.TokenBasedAuthorizer;
+import net.zyexpress.site.dao.PackageDAO;
 import net.zyexpress.site.dao.UserDAO;
 import net.zyexpress.site.dao.UserIdCardDAO;
 import net.zyexpress.site.resources.AdminResource;
+import net.zyexpress.site.resources.PackageResource;
 import net.zyexpress.site.resources.UserIdCardResource;
 import net.zyexpress.site.resources.UserResource;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
@@ -47,6 +49,8 @@ public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
         addUserIdCardResource(configuration, environment, jdbi);
 
         addAdminResource(configuration, environment, jdbi);
+
+        addPackageResource(configuration, environment, jdbi);
 
         addAuthentication(configuration, environment);
     }
@@ -92,5 +96,14 @@ public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
 
         final UserResource userResource = new UserResource(userDAO);
         environment.jersey().register(userResource);
+    }
+
+    private void addPackageResource(ZYExpressConfiguration configuration, Environment environment, DBI jdbi) {
+        final PackageDAO packageDAO = jdbi.onDemand(PackageDAO.class);
+        packageDAO.createPackageTable();
+        packageDAO.createPackageItemTable();
+
+        final PackageResource packageResource = new PackageResource(packageDAO);
+        environment.jersey().register(packageResource);
     }
 }
