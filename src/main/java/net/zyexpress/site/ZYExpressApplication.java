@@ -14,6 +14,7 @@ import net.zyexpress.site.auth.TokenBasedAuthenticator;
 import net.zyexpress.site.auth.TokenBasedAuthorizer;
 import net.zyexpress.site.dao.UserDAO;
 import net.zyexpress.site.dao.UserIdCardDAO;
+import net.zyexpress.site.resources.AdminResource;
 import net.zyexpress.site.resources.UserIdCardResource;
 import net.zyexpress.site.resources.UserResource;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
@@ -45,6 +46,8 @@ public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
 
         addUserIdCardResource(configuration, environment, jdbi);
 
+        addAdminResource(configuration, environment, jdbi);
+
         addAuthentication(configuration, environment);
     }
 
@@ -74,6 +77,13 @@ public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
 
         final UserIdCardResource userIdcardResource = new UserIdCardResource(userIdCardDAO, configuration.getUploadDir());
         environment.jersey().register(userIdcardResource);
+    }
+
+    private void addAdminResource(ZYExpressConfiguration configuration, Environment environment, DBI jdbi) {
+        final UserDAO userDAO = jdbi.onDemand(UserDAO.class);
+        userDAO.createUserTable();
+        final AdminResource adminResource = new AdminResource(userDAO, configuration.getUploadDir());
+        environment.jersey().register(adminResource);
     }
 
     private void addUserResource(Environment environment, DBI jdbi) {

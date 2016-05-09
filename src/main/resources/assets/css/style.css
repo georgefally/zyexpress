@@ -6,7 +6,10 @@ Website: http://geekslabs.com/
 */
 
 /* Import fonts */
+/*
 @import url(http://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic);
+*/
+
 @import url(line-icons.css);
 
 body {
@@ -73,21 +76,21 @@ table tr th { color: #688a7e;}
     background-color: #f1f2f7;
 }
 .login-img-body{
-  background: url('../img/bg-1.jpg') no-repeat center center fixed; 
+  background: url('../image/bg-1.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
 }
 .login-img2-body{
-  background: url('../img/bg-1.jpg') no-repeat center center fixed; 
+  background: url('../image/bg-1.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
 }
 .login-img3-body{
-  background: url('../img/bg-1.jpg') no-repeat center center fixed; 
+  background: url('../image/bg-1.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

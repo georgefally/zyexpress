@@ -20,6 +20,13 @@ public interface UserDAO {
     @Mapper(UserMapper.class)
     List<User> getAll();
 
+    @SqlQuery("select * from User where isAdmin = 'false' and isApproved = :userStatus")
+    @Mapper(UserMapper.class)
+    List<User> getAdminAll(@Bind("userStatus") String userStatus);
+
+    @SqlUpdate("update User set  isApproved = 'true' where userName = :userName")
+    int updateStatus(@Bind("userName") String userName);
+
     @SqlQuery("select * from User where userName = :userName")
     @Mapper(UserMapper.class)
     User findByUserName(@Bind("userName") String userName);

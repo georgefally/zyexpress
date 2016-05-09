@@ -2,9 +2,88 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Prizm Media Rev App">
+    <meta name="author" content="KE">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="img/favicon.png">
+
+    <title>中洋国际快递集团</title>
+
+    <script src="../scripts/jquery/jquery.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="../bootstrap-3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <!-- bootstrap theme -->
+    <link href="../bootstrap-3.3.6/css/bootstrap-theme.css" rel="stylesheet">
+    <!--external css-->
+    <!-- font icon -->
+    <link href="../css/elegant-icons-style.css" rel="stylesheet" />
+    <link href="../css/font-awesome.css" rel="stylesheet" />
+    <!-- Custom styles -->
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/style-responsive.css" rel="stylesheet" />
+    <style>
+        #trackheader{
+        text-align:center;
+        color:white;
+        font-weight:bold;
+        margin-top:100px;
+        font-size:4em;
+        }
+    </style>
 </head>
-<body>
+
+<body class="login-img3-body">
+
+<div class="container">
+    <h1 id="trackheader">中洋国际快递集团跟踪系统</h1>
+    <!-- <form class="login-form" action="index.html">         -->
+    <form class="login-form"  id="userLoginForm"  method="post" onsubmit="return false;">
+        <div class="login-wrap">
+            <p class="login-img"><i class="icon_lock_alt"></i></p>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon_profile"></i></span>
+                <input  name="login_username" id="login_username"  type="text" class="form-control" placeholder="用户名"  value="" autofocus>
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                <input name="login_password" id="login_password" type="password" class="form-control" placeholder="密码"  value="">
+            </div>
+            <input type="submit" name="login_submit" id="login_submit" class="btn btn-primary btn-lg btn-block" value="登录">
+           <!-- <button class="btn btn-primary btn-lg btn-block"  name="login_submit" id="login_submit" type="submit">登录</button>
+-->
+        </div>
+    </form>
+    <!-- </form> -->
+
+</div>
+
 
 </body>
+<script src="../bootstrap-3.3.6/js/bootstrap.min.js"></script>
+<script>
+
+    $("#login_submit").unbind("click").bind("click", function() {
+        var user = $("#login_username").val();
+        var data = $("#userLoginForm").serializeArray();//序列化表单
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            url : "../restful/user/login",
+            dataType : "json",
+            data : data || "",
+            success : function(data) {
+                var login_user = user;
+                var login_token = data.payload;
+                sessionStorage.login_user = user;
+                sessionStorage.login_token = data.payload;
+                alert("Login submitted, user=" + login_user + ", token=" + login_token);
+                window.location = "./uploadOrderInfo.html"
+            },
+            error : function(jqXHR, textStatus, errorThrown) {
+                alert("Login failed, error: " + jqXHR.responseText);
+            }
+        });
+    });
+</script>
 </html>

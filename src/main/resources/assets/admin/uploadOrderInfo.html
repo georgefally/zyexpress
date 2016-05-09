@@ -2,9 +2,185 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>上传订单信息</title>
+    <script src="../scripts/jquery/jquery.js"></script>
+    <script src="../scripts/jquery/jquery.ajaxfileupload.js"></script>
+    <script src="../scripts/jquery/fileinput.js"></script>
+    <script src="../bootstrap-3.3.6/js/bootstrap.js"></script>
+    <link href="../bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#"><img width="120" height="38" src="../image/zyexpresswhite.png"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+        </div> <!-- .nav-collapse -->
+    </div> <!-- .container-fluid -->
+</nav>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+
+        <div class="col-md-3" id="sidebar">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active">
+                    <a href="uploadOrderInfo.html"><i class="icon-chevron-right"></i>上传订单信息</a>
+                </li>
+                <li>
+                    <a href="userApprove.html"><i class="icon-chevron-right"></i>审核用户信息</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-9" id="content2">
+            <div class="row-fluid">
+                <form enctype="multipart/form-data"  id="uploadForm">
+                    <label class="control-label">上传订单文件 </label>
+                    <label class="help-block">格式：参考模板下载（EXCEL）</label>
+                    <input id="excelfile" name="excelfile" class="file file-loading" type="file" multiple
+                           data-min-file-count="1" data-allowed-file-extensions='["xlsx", "xls"]'>
+                    <div id="fileError" class="help-block"></div>
+                    <button class="btn btn-primary" id="download_btn" type="button">
+                        <span class="glyphicon glyphicon-download-alt"></span> 模板下载
+                    </button>
+                </form>
+            </div>
+
+            <div style="min-height: 16px;"></div>
+            <div style="min-height: 16px;"></div>
+            <div style="min-height: 16px;"></div>
+            <div style="min-height: 16px;"></div>
+            <div style="min-height: 16px;"></div>
+
+            <div class="row-fluid">
+                <form id="searchCustomerInfoForm" class="form-inline" method="post" onsubmit="return false;">
+                    <div class="form-group">
+                        <label>订单结果查询</label>
+                        <input type="text" name="cname" id="search_name" class="form-control" placeholder="搜索用户名" value="">
+                        <input type="hidden" id="searchCustomerInfo_content" name="memIdGroup">
+                    </div>
+
+                    <button class="btn btn-primary" id="search_btn" type="button">
+                        <span class="glyphicon glyphicon-search"></span> 查询
+                    </button>
+                </form>
+            </div>
+
+            <div style="min-height: 16px;"></div>
+
+            <div class="row-fluid">
+                <div align="left">
+                    <table style="width:850px;margin:0px;margin-left:1px;" class="table table-condensed table-hover table-bordered">
+                        <tr class="info">
+                            <th style="width:50px;"><input type='checkbox' name='selectAll' id='selectAll' value='selectAll'></th>
+                            <th style="width:200px;">包裹序号</th>
+                            <th style="width:250px;">账户名</th>
+                            <th style="width:250px;">重量-磅</th>
+                            <th style="width:250px;">物品品牌</th>
+                            <th style="width:250px;">物品名称</th>
+                            <th style="width:250px;">物品规格</th>
+                            <th style="width:250px;">物品数量</th>
+                        </tr>
+                        <tbody id="dataTbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>
+
+
+<script>
+
+$(function(){
+
+	$("#search_btn").unbind("click").bind("click", function() {
+	    $("input[name='selectAll']").prop("checked",false);
+		search();
+	});
+
+    $("#download_btn").unbind("click").bind("click", function() {
+	    download();
+	});
+
+	$("#export_btn").unbind("click").bind("click", function() {
+	    exports();
+	});
+
+	 //查询页面--绑定全选控件
+    $("input[name='selectAll']").click(function(){
+         //alert("selected");
+         if($("input[name='selectAll']").prop("checked")==true){
+             $("input[name='memIdGroup']").prop("checked",true);
+         }else{
+             $("input[name='memIdGroup']").prop("checked",false);
+         }
+
+    });
+
+})
+
+/**页面分页控件的使用方式;
+ * page：int类型的值，默认给1
+ */
+function search() {
+	var data = $("#searchCustomerInfoForm").serializeArray();//序列化表单
+	$.ajax({
+		type : "GET",
+		contentType : "application/x-www-form-urlencoded",
+		url : "restful/userIdCard/getUserId",
+		dataType : "json",
+		data : data||"",
+		success : function(data) {
+			if (data.length > 0) {
+				var addHtml = "";
+				//显示层绑定控件
+				$.each(data, function(index, item) {
+					addHtml = addHtml + "<tr>"
+					        +"<td class='fontCenter2'><input type='checkbox' name='memIdGroup' value='"+item.idNumber+"'id='"+item.idNumber+"'></td>"
+							+ "<td class='fontCenter2' style='width:250px'>"
+							+ item.userName + "</td>"
+							+ "<td class='fontCenter2' style='width:200px'>"
+							+ item.idNumber + "</td>"
+							/*+ "<td class='fontCenter2' style='width:200px'>"
+							+ "<a href='/pic/" + item.picF + ".jpg' download>下载</a> </td>"
+							+ "<td class='fontCenter2' style='width:200px'>"
+							+ "<a href='/pic/" + item.picS + ".jpg' download>下载</a> </td>"*/
+						    + "</tr>";
+				});
+				//显示值在页面
+				$("#dataTbody").empty().append(addHtml).trigger("create");
+
+			} else {
+			    $("#dataTbody").empty();
+				alert("没有满足条件的值.....");
+			}
+		},
+		error : function(data) {
+		    $("#dataTbody").empty();
+			alert("绑定事件的失败....");
+		}
+	});
+}
+
+function download(){
+    var data = $("input[name='memIdGroup']:checked").serialize();
+    $("#searchCustomerInfoForm").attr("onsubmit","return true");
+    $("#searchCustomerInfoForm").attr("action","../restful/admin/downloadModel");
+    $("#searchCustomerInfo_content").val(data);
+    $("#searchCustomerInfoForm").submit();
+    $("#searchCustomerInfoForm").attr("onsubmit","return false");
+}
+
+
+</script>
