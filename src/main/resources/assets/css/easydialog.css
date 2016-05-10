@@ -1,0 +1,104 @@
+button::-moz-focus-inner {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.easyDialog_wrapper {
+    -moz-border-radius: 5px;
+    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    -webkit-border-radius: 5px;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    border: 3px solid rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    color: #444;
+    display: none;
+    font-family: "Microsoft yahei", Arial;
+    width: 320px;
+}
+
+.easyDialog_wrapper .easyDialog_content {
+        
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+}
+
+.easyDialog_wrapper .easyDialog_title {
+    background: #f7f7f7;
+    border-bottom: 1px solid #e5e5e5;
+    border-radius: 4px 4px 0 0;
+    color: #666;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0px;
+    overflow: hidden;
+    padding: 0 10px;
+}
+
+.easyDialog_wrapper .close_btn {
+    color: #999;
+    float: right;
+    font-family: arial;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    _font-size: 12px;
+}
+
+.easyDialog_wrapper .close_btn:hover { color: #333; }
+
+.easyDialog_wrapper .easyDialog_text {
+    font-size: 13px;
+    line-height: 22px;
+    padding: 25px 10px;
+}
+
+.easyDialog_wrapper .easyDialog_footer {
+    padding: 0 10px;
+    *zoom: 1;
+}
+
+.easyDialog_wrapper .easyDialog_footer:after {
+    clear: both;
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+.easyDialog_wrapper .btn_highlight,
+.easyDialog_wrapper .btn_normal {
+    border: 1px solid;
+    border-radius: 2px;
+    cursor: pointer;
+    float: right;
+    font-family: "Microsoft yahei", Arial;
+    font-size: 12px;
+    height: 24px;
+    line-height: 24px;
+    margin-bottom: 10px;
+    padding: 0 12px;
+}
+
+.easyDialog_wrapper .btn_highlight {
+    background: #93CA4C;
+    background: -webkit-gradient(linear, center bottom, center top, from(#93CA4C), to(#93CA4C));
+    background: -moz-linear-gradient(90deg, #93CA4C, #93CA4C);
+    border-color: #93CA4C;
+    color: #fff;
+}
+
+.easyDialog_wrapper .btn_normal {
+    background: #ececec;
+    background: -webkit-gradient(linear, center bottom, center top, from(#ececec), to(#f4f4f4));
+    background: -moz-linear-gradient(90deg, #ececec, #f4f4f4);
+    border-color: #c3c3c3;
+    color: #333;
+    margin-left: 10px;
+}

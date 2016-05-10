@@ -1,0 +1,204 @@
+/* Preload images */
+body:after {
+    content: url(../images/close.png) url(../images/loading.gif) url(../images/prev.png) url(../images/next.png);
+    display: none;
+}
+
+.lightboxOverlay {
+    background-color: black;
+    display: none;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+    left: 0;
+    opacity: 0.8;
+    position: absolute;
+    top: 0;
+    z-index: 9999;
+}
+
+.lightbox {
+    font-weight: normal;
+    left: 0;
+    line-height: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    z-index: 10000;
+}
+
+.lightbox .lb-image {
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    display: block;
+    height: auto;
+    max-width: inherit;
+}
+
+.lightbox a img { border: none; }
+
+.lb-outerContainer {
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background-color: white;
+    border-radius: 4px;
+    height: 250px;
+    margin: 0 auto;
+    position: relative;
+    width: 250px;
+    *zoom: 1;
+}
+
+.lb-outerContainer:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.lb-container { padding: 4px; }
+
+.lb-loader {
+    height: 25%;
+    left: 0;
+    line-height: 0;
+    position: absolute;
+    text-align: center;
+    top: 43%;
+    width: 100%;
+}
+
+.lb-cancel {
+    background: url(../images/loading.gif) no-repeat;
+    display: block;
+    height: 32px;
+    margin: 0 auto;
+    width: 32px;
+}
+
+.lb-nav {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.lb-container > .nav { left: 0; }
+
+.lb-nav a {
+    background-image: url('data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
+    outline: none;
+}
+
+.lb-prev, .lb-next {
+    cursor: pointer;
+    display: block;
+    height: 100%;
+}
+
+.lb-nav a.lb-prev {
+    -moz-transition: opacity 0.6s;
+    -o-transition: opacity 0.6s;
+    -webkit-transition: opacity 0.6s;
+    background: url(../images/prev.png) left 48% no-repeat;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+    float: left;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.6s;
+    width: 34%;
+}
+
+.lb-nav a.lb-prev:hover {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+}
+
+.lb-nav a.lb-next {
+    -moz-transition: opacity 0.6s;
+    -o-transition: opacity 0.6s;
+    -webkit-transition: opacity 0.6s;
+    background: url(../images/next.png) right 48% no-repeat;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+    float: right;
+    opacity: 0;
+    right: 0;
+    transition: opacity 0.6s;
+    width: 64%;
+}
+
+.lb-nav a.lb-next:hover {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+}
+
+.lb-dataContainer {
+    -moz-border-radius-bottomleft: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    margin: 0 auto;
+    padding-top: 5px;
+    width: 100%;
+    *zoom: 1;
+}
+
+.lb-dataContainer:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.lb-data {
+    color: #ccc;
+    padding: 0 4px;
+}
+
+.lb-data .lb-details {
+    float: left;
+    line-height: 1.1em;
+    text-align: left;
+    width: 85%;
+}
+
+.lb-data .lb-caption {
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1em;
+}
+
+.lb-data .lb-number {
+    clear: left;
+    color: #999999;
+    display: block;
+    font-size: 12px;
+    padding-bottom: 1em;
+}
+
+.lb-data .lb-close {
+    -moz-transition: opacity 0.2s;
+    -o-transition: opacity 0.2s;
+    -webkit-transition: opacity 0.2s;
+    background: url(../images/close.png) top right no-repeat;
+    display: block;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+    float: right;
+    height: 30px;
+    opacity: 0.7;
+    outline: none;
+    text-align: right;
+    transition: opacity 0.2s;
+    width: 30px;
+}
+
+.lb-data .lb-close:hover {
+    cursor: pointer;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+}

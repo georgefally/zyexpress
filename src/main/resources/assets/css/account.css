@@ -1,0 +1,204 @@
+
+
+.validation-summary-errors {
+    color: red;
+    padding-bottom: 5px;
+}
+
+
+
+/*--登录--*/
+.login_con {
+    padding: 20px 30px;
+    position: relative;
+}
+
+.mg_b_10 {
+    margin-bottom: 10px;
+}
+
+.input-group {
+    border-collapse: separate;
+    display: table;
+    position: relative;
+}
+
+.input-group-addon:first-child {
+    border-right: 0 none;
+}
+
+.input-group .form-control1:first-child, .input-group-addon:first-child, .input-group-btn:first-child > .btn1, .input-group-btn:first-child > .dropdown-toggle, .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.input-group-addon {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #555;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1;
+    padding: 6px 12px;
+    text-align: center;
+}
+
+.input-group-addon, .input-group-btn {
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 1%;
+}
+
+.fa-user::before {
+    content: "";
+}
+
+.input-group .form-control1:last-child, .input-group-addon:last-child, .input-group-btn:last-child > .btn1, .input-group-btn:last-child > .dropdown-toggle, .input-group-btn:first-child > .btn:not(:first-child) {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.input-group-addon, .input-group-btn, .input-group .form-control1 {
+    display: table-cell;
+}
+
+.form-control1 {
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555;
+    display: block;
+    font-size: 14px;
+    height: 34px;
+    line-height: 1.42857;
+    padding: 4px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    vertical-align: middle;
+    width: 90%;
+}
+
+    .form-control1:focus {
+        border-color: #66afe9;
+        outline: 0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(102,175,233,0.6);
+    }
+
+    .form-control1:-moz-placeholder {
+        color: #999;
+    }
+
+    .form-control1::-moz-placeholder {
+        color: #999;
+        opacity: 1;
+    }
+
+    .form-control1:-ms-input-placeholder {
+        color: #999;
+    }
+
+    .form-control1::-webkit-input-placeholder {
+        color: #999;
+    }
+
+    .form-control1[disabled], .form-control1[readonly], fieldset[disabled] .form-control1 {
+        cursor: not-allowed;
+        background-color: #eee;
+    }
+
+textarea.form-control1 {
+    height: auto;
+}
+
+.fa-lock::before {
+    content: "";
+}
+
+.fa {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+}
+
+.btn-blue {
+    background: none repeat scroll 0 0 #0581b2;
+    border-color: #0581b2;
+}
+
+    .btn-blue, .btn-blue:hover {
+        border: 1px solid;
+        color: #fff;
+    }
+
+.btn-blue {
+    background: none repeat scroll 0 0 #0581b2;
+    border-color: #0581b2;
+}
+
+    .btn-blue, .btn-blue:hover {
+        border: 1px solid;
+        color: #fff;
+    }
+
+.btn-block {
+    display: block;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+}
+
+.btn-lg1 {
+    border-radius: 6px;
+    font-size: 18px;
+    line-height: 1.33;
+    padding: 10px 16px;
+}
+
+.btn1 {
+    -moz-user-select: none;
+    cursor: pointer;
+    font-weight: normal;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.btn-blue, .btn-blue:hover {
+    border: 1px;
+    border-style: solid;
+    color: #fff;
+}
+
+.btn-blue {
+    background: #0581b2;
+    border-color: #0581b2;
+}
+
+    .btn-blue:hover {
+        background: #0374A4;
+        border-color: #0374A4;
+    }
+
+.modal-font {
+    color: #6a6a6a;
+    font-family: "Vernada","微软雅黑";
+    line-height: 180%;
+}
+
+a.reg {
+    color: #0581b2;
+    display: block;
+    padding: 5px 10px 0;
+    text-align: right;
+    font-size: 14px;
+}
+
+.pull-right {
+    float: right !important;
+}

@@ -1,0 +1,147 @@
+.table-condensed > thead > tr > th, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > tbody > tr > td, .table-condensed > tfoot > tr > td {
+    padding: 5px;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    list-style: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    background-clip: padding-box;
+}
+
+    .dropdown-menu.pull-right {
+        right: 0;
+        left: auto;
+    }
+
+    .dropdown-menu .divider {
+        height: 1px;
+        margin: 9px 0;
+        overflow: hidden;
+        background-color: #e5e5e5;
+    }
+
+/*========Í¼±êÑùÊ½=======*/
+.mini-stat-icon {
+    -moz-border-radius: 100%;
+    -webkit-border-radius: 100%;
+    background: #eee;
+    border-radius: 100%;
+    color: #fff;
+    display: inline-block;
+    font-size: 25px;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 3px;
+    margin-right: 5px;
+    text-align: center;
+    width: 25px;
+}
+
+.small {
+    height: 22px;
+    line-height: 10px;
+    width: 22px;
+}
+
+    .small i {
+        font-size: 12px;
+    }
+
+.mini-stat-icon:hover {
+    color: #fff;
+}
+
+.fenhong {
+    background: #fa8564 !important;
+}
+
+.shenlv {
+    background: #5cb85c !important;
+}
+
+.yellow {
+    background: #e4ba00 !important;
+}
+
+.orange {
+    background: #f08526 !important;
+}
+
+.tar {
+    background: #1fb5ac !important;
+}
+
+.pink {
+    background: #a48ada !important;
+}
+
+/*========ÎÒµÄ°ü¹üÑùÊ½£º²é¿´Í¼Æ¬=======*/
+.courselist8 {
+    height: 50px;
+    width: 270px;
+    margin: 0 auto;
+}
+
+.btn_left, .btn_right {
+    display: block;
+    cursor: pointer;
+}
+
+.btn_left {
+    float: left;
+    padding-top: 18px;
+}
+
+.btn_right {
+    float: right;
+    padding-top: 18px;
+}
+
+.courselist8 .wapper {
+    width: 220px;
+    float: left;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+
+.courselist8 .wscroll {
+    width: 3000px;
+    height: 50px;
+}
+
+.courselist8 a {
+    display: block;
+    float: left;
+    padding: 5px;
+}
+
+/*========ÎÒµÄÕË»§ÑùÊ½========*/
+
+
+
+
+
+
+
+
