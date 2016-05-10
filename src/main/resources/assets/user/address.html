@@ -2,9 +2,1012 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>中洋国际快递集团</title>
+    <script src="../scripts/jquery/jquery.js"></script>
+    <script src="../scripts/jquery/lightbox.js"></script>
+    <script src="../scripts/jquery/easydialog.js"></script>
+    <script src="../scripts/jquery/jquery.form.js"></script>
+    <script src="../bootstrap-3.3.6/js/bootstrap.js"></script>
+    <script src="../scripts/jquery/PCASClass.js"></script>
+    <link href="../bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../css/custom.css" rel="stylesheet"/>
+    <link href="../css/register.css" rel="stylesheet"/>
+    <link href="../css/account.css" rel="stylesheet"/>
+    <link href="../css/loyout.css" rel="stylesheet"/>
+    <link href="../css/lightbox.css" rel="stylesheet"/>
+    <link href="../css/easydialog.css" rel="stylesheet"/>
+
+    <style type="text/css">
+
+        .user-address-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        }
+
+        .user-address-table thead tr {
+        background-color: rgb(208,232,255);
+        }
+
+        .user-address-table tr {
+        height: 46px;
+        }
+
+        .user-address-table .operate-address {
+        padding-top: 5px;
+        }
+
+        .user-address-table .operate-address div {
+        float: left;
+        margin-right: 5px;
+        }
+
+        .user-address-table .operate-address .check-address {
+        background: url(../Resources/Images/Address/defaultAddress.png) no-repeat;
+        width: 75px;
+        }
+
+        .user-address-table .operate-address .set-address {
+        background: url(../Resources/Images/Address/setDefault.png) no-repeat;
+        width: 75px;
+        }
+
+        label {
+        border: 0px;
+        }
+
+        .clear {
+        clear: both;
+        }
+
+        .add-address {
+        background-color: #3389AD;
+        width: 120px;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        margin: 15px 0px 25px 0px;
+        border: 0;
+        border-radius: 3px;
+        }
+
+        .add-address a {
+        width: 119px;
+        height: 35px;
+        display: block;
+        }
+
+        .add-address:hover {
+        background: #006C99;
+        color: #fff;
+        }
+
+
+        .batch {
+        margin-bottom: 15px;
+        height: 22px;
+        }
+
+        .batch div.floatLeft {
+        float: left;
+        height: 22px;
+        line-height: 22px;
+        text-align: center;
+        margin-right: 15px;
+        }
+
+        .batch-delete {
+        background: url(../Resources/Images/Address/defaultAddress.png) no-repeat;
+        width: 75px;
+        }
+
+        .batch-delete a {
+        width: 75px;
+        height: 22px;
+        display: block;
+        }
+
+        .user-address-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        }
+
+        .user-address-table thead tr {
+        background-color: rgb(208,232,255);
+        }
+
+        .user-address-table tr {
+        height: 46px;
+        }
+
+        .user-address-table .operate-address {
+        padding-top: 5px;
+        }
+
+        .user-address-table .operate-address div {
+        float: left;
+        margin-right: 5px;
+        }
+
+        .user-address-table .operate-address .check-address {
+        background: url(../Resources/Images/Address/defaultAddress.png) no-repeat;
+        width: 75px;
+        }
+
+        .user-address-table .operate-address .set-address {
+        background: url(../Resources/Images/Address/setDefault.png) no-repeat;
+        width: 75px;
+        }
+
+        .modal-footer {
+        text-align: center;
+        margin: 0px auto;
+        }
+
+        .modal-footer div {
+        margin: 0px 28%;
+        }
+
+        .modal-footer div div {
+        float: left;
+        margin: 0px 5px;
+        }
+
+        .modal-footer .modal-footer-sava {
+        background-color: #3389AD;
+        width: 120px;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        border: 0;
+        border-radius: 3px;
+        }
+
+        .modal-footer .modal-footer-sava:hover {
+        background: #006C99;
+        color: #fff;
+        }
+
+        .modal-footer .modal-footer-close {
+        /*background-color:rgb(0,108,153);*/ /*url(../Images/Address/u24.png) no-repeat;*/
+        width: 120px;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        border: 1px rgb(0,108,153) solid;
+        border-radius: 3px;
+        }
+
+        .modal-footer div div a {
+        width: 119px;
+        height: 35px;
+        display: block;
+        }
+
+        .modal-footer div div.modal-footer-close a {
+        color: rgb(0,108,153);
+        }
+
+        /*新增收货地址*/
+        .modal-header h4 {
+        font-family: inherit;
+        font-size: 20px;
+        color: rgb(106, 106, 106);
+        font-weight: 500;
+        }
+
+        .pop_con {
+        margin: 0 auto;
+        padding: 20px 20px 10px;
+        }
+
+        .pop_con .pop_table {
+        width: 540px;
+        }
+
+        .pop_table td {
+        padding: 5px;
+        }
+
+        .pop_table .tetRed {
+        color: red;
+        }
+
+        .pop_table td.align_r {
+        text-align: right;
+        }
+
+
+        .fontcolor77 {
+        color: #777777;
+        }
+
+        .form_control {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        font-size: 14px;
+        height: 32px;
+        line-height: 20px;
+        padding: 0px 10px;
+        width: 88%;
+        }
+
+        .slec_100 {
+        border: 1px solid #ddd;
+        height: 34px;
+        width: 100%;
+        border-radius: 3px;
+        }
+
+        .pop_table td.pd_r5 {
+        padding: 0px;
+        }
+
+        .pop_table td.pd_r5 .add-card {
+        /*background: url(../Images/Address/u24.png) no-repeat;*/
+        width: 109px;
+        height: 31px;
+        text-align: center;
+        line-height: 31px;
+        margin: auto;
+        border: 1px rgb(0,108,153) solid;
+        border-radius: 3px;
+        }
+
+        .pop_table td.pd_r5 .add-card a {
+        width: 108px;
+        height: 30px;
+        display: block;
+        color: rgb(0,108,153);
+        }
+
+        .pop_table td.info {
+        color: rgb(187,187,187);
+        }
+
+        .file {
+        position: relative;
+        top: -36px;
+        left: auto;
+        filter: alpha(opacity: 0);
+        opacity: 0;
+        width: 109px;
+        height: 35px;
+        cursor: pointer;
+        }
+
+        .popover {
+        z-index: 10000;
+        }
+
+        input:checked + label {
+        border-bottom: 0px;
+        }
+    </style>
+
+
 </head>
 <body>
 
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#"><img width="120" height="38" src="../image/zyexpresswhite.png"></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="../userLogin.html">首页</a></li>
+                <li><a href="/hrExpress.html">人才招聘</a></li>
+                <li><a href="/bizKnowledge.html">业务常识</a></li>
+                <li><a href="#">联系我们</a></li>
+                <li><a href="../userLogin.html">退出</a></li>
+                <!-- <li>
+                     <form method="post" id="logoutform" action="/Account/Ajax/DoLogOff.ashx">
+                         <a href="javascript:document.getElementById('logoutform').submit()">退出</a>
+                     </form>
+                 </li>-->
+            </ul>
+        </div> <!-- .nav-collapse -->
+    </div>
+</div>
+
+
+<div style="height: 100%; width: 100%; padding-top: 100px; padding-bottom: 50px;">
+    <div class="case">
+        <div id="divleft">
+            <div class="personal_l">
+                <div style="padding-top: 5px; padding-bottom: 10px; text-align: center; font-size: 14px;">
+                    <label id='username' style="color:#006C99;">账户名:</label>
+                </div>
+                <table style="width: 100%; border-collapse: collapse; text-align: center;" border="0">
+                    <tr>
+                        <td></td>
+                        <td style="width: 100px;">
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <ul id="navpage">
+                <li data-type="7"><a href="./info.html">
+                    <div>
+                        &nbsp;我的资料
+                    </div>
+                </a>
+                </li>
+                <li data-type="1"><a href="/Box/MyBox.aspx">
+                    <div>
+                        &nbsp;我的包裹&nbsp;
+                    </div>
+                </a>
+                </li>
+                <li data-type="6"><a href="#">
+                    <div>&nbsp;我的收货地址</div>
+                </a>
+                </li>
+
+            </ul>
+        </div>
+        <div id="divright">
+            <form action="/Address/MyAddress.aspx" id="submitform" method="post">
+                <div class="hdbx-content">
+                    <ul class="hdbx-tabs-nav">
+                        <li class="hover">
+                            <a href="MyAddress.aspx" style="color: #000000;">
+                                <div style="font-size: 16px;">我的地址</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="add-address">
+                    <a href="javascript:page.AddAddress();">添加收货地址</a>
+                </div>
+                <div class="batch">
+                    <div class="floatLeft">
+                        <input type="checkbox" name="cbxAll" id="cbxAll" />全选
+                    </div>
+                    <div class="floatLeft batch-delete">
+                        <a href="javascript:page.BatchDelete();" style="color: rgb(51,167,216);">批量删除</a>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <table class="user-address-table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th style="width: 8%;">姓名</th>
+                        <th style="width: 10%;">手机</th>
+                        <th style="width: 20%;">身份证号码</th>
+                        <th style="width: 30%;">详细地址</th>
+                        <th style="width: 17%;">证件照片</th>
+                        <th style="width: 15%;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr>
+                        <td colspan="7">
+                            <div style="width: 100%; height: 300px; margin: auto 0px;">
+                                <div style="text-align: center; margin: auto 0px; margin-top: 100px;">
+                                    <br />
+                                    <span style="font-size: 16px; font-weight: bold;">抱歉，没有相关信息</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <!-- 以table表格的形式显示数据源 -->
+                <input type="hidden" name="pageindex" value="1" />
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addorupdateaddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">新增中国收货地址</h4>
+            </div>
+            <form id="AddressForm">
+                
+                <div class="pop_con" style="width: 540px">
+                    <table class="pop_table">
+                        <tr>
+                            <td class="align_r fontcolor77" style="width: 100px;"><span class="tetRed">*</span>姓名</td>
+                            <td style="width: 345px;">
+                                <input type="hidden" name="Id" id="UserId" class="form_control pop_cf" />
+                                <input type="text" id="UserName1" name="UserName" class="form_control pop_cf fontcolor77" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align_r fontcolor77"><span class="tetRed">*</span>手机号码</td>
+                            <td>
+                                <input type="text" id="Mobile" name="Mobile" class="form_control pop_cf fontcolor77" maxlength="11" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align_r fontcolor77"><span class="tetRed">*</span>所在地区</td>
+                            <td class="td_lr0" style="padding-left: 3px;">
+                                <table style="width: 385px;">
+                                    <tr>
+                                        <td class="pd_r5" style="width: 34%">
+                                            <select class="slec_100 fontcolor77" name="provience" id="provience"></select>
+                                        </td>
+                                        <td class="pd_r5" style="width: 33%">
+                                            <select class="slec_100 fontcolor77" name="city"></select>
+                                        </td>
+                                        <td class="pd_r5" style="width: 33%">
+                                            <select class="slec_100 fontcolor77" name="area"></select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align_r fontcolor77"><span class="tetRed">*</span>详细地址</td>
+                            <td>
+                                    <textarea id="Street" name="Street" class="form_control pop_cf fontcolor77" rows="3" cols="50" style="height: 60px;">
+                                    </textarea>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align_r fontcolor77"><span class="tetRed">*</span>邮政编码</td>
+                            <td>
+                                <input type="text" id="Cardnum" name="Cardnum" class="form_control pop_cf fontcolor77" maxlength="18" oncut="return false;" oncopy="return false;" onpaste="return false;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <div class="square-green">
+                                    <div class="checkbox ">
+                                        <input type="checkbox" name="ckb_com" id="ckb_com" />
+                                        <label>默认收货地址</label>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="Ckstate" name="Ckstate" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <div style="width: auto; min-width: 300px;">
+                        <div class="modal-footer-sava">
+                            <a id="btnSavaAddress" href="javascript:page.Sava();" onclick="">保存</a>
+
+                        </div>
+                        <div class="modal-footer-close">
+                            <a id="btnCloseAddress" href="javascript:page.Close();">取消</a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div style="display: none;">
+                    X:<input id="startXA" name="startXA" readonly="readonly" />
+                    Y:<input id="startYA" name="startYA" readonly="readonly" /><br />
+                    <br />
+                    宽:<input id="widthA" name="widthA" readonly="readonly" />
+                    高:<input id="heightA" name="heightA" readonly="readonly" />
+                    路径:<input id="picpathA" name="picpathA" readonly="readonly" />
+
+                    X:<input id="startXB" name="startXB" readonly="readonly" />
+                    Y:<input id="startYB" name="startYB" readonly="readonly" /><br />
+                    <br />
+                    宽:<input id="widthB" name="widthB" readonly="readonly" />
+                    高:<input id="heightB" name="heightB" readonly="readonly" />
+                    路径:<input id="picpathB" name="picpathB" readonly="readonly" />
+                    ID:<input type="hidden" id="userAddressId" name="userAddressId" value="" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--新增地址结束-->
+
+<script>
+    var login_token = sessionStorage.login_token;
+    var login_user = sessionStorage.login_user;
+    $("#username").html("账户名："+login_user);
+
+     //初始化收件人地址省市县信息
+        new PCAS("provience", "city", "area");
+
+
+
+        var page = {
+            //弹出新增框
+            AddAddress: function () {
+                //新增前清空数据
+                $('#userAddressId').val("0");
+                $("#UserId").val("0");
+                $("#Mobile").val("");
+                $("#Cardnum").val("");
+                $("#UserName").val("");
+                $("#myModalLabel").text("新增中国收货地址");
+                $("#provience option:first").attr("selected", true);
+                $('[name="provience"]').change();
+                $("#Street").val("");
+                $('#fileImagea').val("");
+                $('#fileImageb').val("");
+                $('#imgCarda').attr('src', '../Resources/Images/User/CardA.jpg');
+                $('#imgCardb').attr('src', '../Resources/Images/User/CardB.jpg');
+                $('[name="Ckstate"]').val(0);
+                $("[name=ckb_com]:checkbox").attr("checked", false);
+                $("#btnSavaAddress").attr("href", "javascript:page.Sava();");
+                $('#btnSavaAddress').html("保存");
+                $('#addorupdateaddress').modal({
+                    keyboard: false
+                });
+
+                $('.cropper-bg').hide();
+                $('#imgCarda').removeClass('cropper-hidden');
+                $('#imgCardb').removeClass('cropper-hidden');
+            },
+            //删除
+            Delete: function (ids) {
+                $.ajax({
+                    url: 'Ajax/DoMyAddress.ashx',
+                    type: 'POST',
+                    async: false,
+                    data: { Act: "DelAddress", Ids: ids },
+                    dataType: 'json',
+                    error: function () { DiaLog("亲，提交出错了，稍后再试哦……") },
+                    success: function (data) {
+                        if (data.state == 200) {
+                            //window.location.href = data.returl;
+                            window.location.reload();
+                        }
+                        else if (data.state == 500) {
+                            DiaLog(data.msg);
+                        }
+                        else {
+                            //页面更改提示或者业务逻辑编写
+
+                        }
+                    },
+                    error: function errorCallback(xmlHttpRequest, textStatus, errorThrown) {
+                        DiaLog(errorThrown + ":" + textStatus);
+                    }
+                });
+            },
+            //批量删除
+            BatchDelete: function () {
+                var ids = "";
+                $('input[name="cbxAddress"]').each(function () {
+                    if ($(this).attr("checked"))
+                        ids += $(this).val() + ",";
+                });
+                ids = ids.substring(0, ids.length - 1);
+                if (ids == "") {
+                    DiaLog("请选择需要删除的地址");
+                    return;
+                }
+                page.Delete(ids);
+            },
+            //设为默认
+            SetDefault: function (id) {
+                $.ajax({
+                    url: 'Ajax/DoMyAddress.ashx',
+                    type: 'POST',
+                    async: false,
+                    data: { Act: "SetCkstate", Id: id },
+                    dataType: 'json',
+                    error: function () { DiaLog("亲，提交出错了，稍后再试哦……") },
+                    success: function (data) {
+                        if (data.state == 200) {
+                            //window.location.href = data.returl;
+                            window.location.reload();
+                        }
+                        else if (data.msg != "") {
+                            DiaLog(data.msg);
+                        }
+                        else {
+                            //页面更改提示或者业务逻辑编写
+
+                        }
+                    },
+                    error: function errorCallback(xmlHttpRequest, textStatus, errorThrown) {
+                        DiaLog(errorThrown + ":" + textStatus);
+                    }
+                });
+            },
+            //验证收件信息
+            Validate: function () {
+                var tel = $("#Mobile").val();
+                var cardnum = $("#Cardnum").val();
+                var userName = $("#UserName").val();
+                var street = $("#Street").val();
+                var provience = $("#provience").find("option:selected").text();
+                var photoa = $('#fileImagea').val();
+                var photob = $('#fileImageb').val();
+                if (userName == "") {
+                    DiaLog("请输入收货人姓名");
+                    return false;
+                }
+                if (!IsMobilePhone_Common(tel)) {
+                    DiaLog("请输入有效的手机号码");
+                    return false;
+                }
+                if (provience == "--选择省份--") {
+                    DiaLog("请选择省市区");
+                    return false;
+                }
+                if (street == "") {
+                    DiaLog("请输入街道地址");
+                    return false;
+                }
+                if (!IdCardValidate_Common(cardnum)) {
+                    DiaLog("请输入有效的身份证号码");
+                    return false;
+                }
+                if (photoa == "" && photob != "") {
+                    DiaLog("请上传身份证正面照片");
+                    return false;
+                }
+                if (photoa != "" && photob == "") {
+                    DiaLog("请上传身份证反面照片");
+                    return false;
+                }
+                return true;
+            },
+            //保存收货人信息
+            Sava: function () {
+                if (page.Validate()) {
+                    $("#btnSavaAddress").attr("href", "javascript:;");
+                    $('#btnSavaAddress').html("提交中...");
+                    var oUrl = $("#UserId").val() == "0" ? "Ajax/DoMyAddress.ashx?Act=AddAddress" : "Ajax/DoMyAddress.ashx?Act=EditAddress";
+                    $("#AddressForm").ajaxSubmit({
+                        url: oUrl,
+                        type: "POST",
+                        async: true,
+                        dataType: 'json',
+                        beforeSend: function () {
+                            $('.loading').show();
+                        },
+                        complete: function () {
+                            $('.loading').hide();
+                        },
+                        error: function () { $('.loading').hide(); DiaLog("亲，提交出错了，稍后再试哦…") },
+                        success: function (data) {
+                            $('.loading').hide();
+                            if (data.state == 0) {
+                                //刷新当前页
+                                window.location.reload();
+                            }
+                            else if (data.msg != "") {
+                                DiaLog(data.msg);
+                            }
+                            else {
+                                DiaLog("网络异常，请刷新页面重试！");
+                            }
+                            $("#btnSavaAddress").attr("href", "javascript:page.Sava();");
+                            $('#btnSavaAddress').html("保存");
+                        }
+                    });
+
+
+
+                }
+            },
+
+
+            InitiImageA: function () {
+                var $startXA = $('#startXA'),
+                $startYA = $('#startYA'),
+                $heightA = $('#heightA'),
+                $widthA = $('#widthA');
+
+                //$('.cropper-container').remove();
+                //$('#imgCarda').removeClass("cropper-hidden");
+                //$('#imgCardb').removeClass("cropper-hidden");
+
+                $(".imgCarda").cropper({
+                    aspectRatio: 3.18 / 2,
+                    modal: true,
+                    preview: ".imgCarda-preview",
+                    done: function (data) {
+                        //console.log(data);
+                    },
+                    crop: function (data) {
+                        $startXA.val(Math.round(data.x));
+                        $startYA.val(Math.round(data.y));
+                        $heightA.val(Math.round(data.height));
+                        $widthA.val(Math.round(data.width));
+                    }
+                });
+
+
+            },
+            InitiImageB: function () {
+                var $startXB = $('#startXB'),
+                $startYB = $('#startYB'),
+                $heightB = $('#heightB'),
+                $widthB = $('#widthB');
+
+                //$('.cropper-container').remove();
+                //$('#imgCarda').removeClass("cropper-hidden");
+                //$('#imgCardb').removeClass("cropper-hidden");
+
+                $(".imgCardb").cropper({
+                    aspectRatio: 3.18 / 2,
+                    modal: true,
+                    preview: ".imgCardb-preview",
+                    done: function (data) {
+                        //console.log(data);
+                    },
+                    crop: function (data) {
+                        $startXB.val(Math.round(data.x));
+                        $startYB.val(Math.round(data.y));
+                        $heightB.val(Math.round(data.height));
+                        $widthB.val(Math.round(data.width));
+                    }
+                });
+
+
+
+            },
+            ShowImg: function (data) {
+                img.Initi(data, null, img.Bind);
+
+
+            },
+            //关闭
+            Close: function () {
+                $('#addorupdateaddress').modal("hide");
+            }
+
+        }
+
+
+
+
+        $(function () {
+            $(function () { $("[data-toggle='popover']").popover(); });
+
+
+            //全选
+            $("#cbxAll").click(function () {
+                if ($(this).attr("checked")) {
+                    $('[name=cbxAddress]:checkbox').attr("checked", true);
+                }
+                else {
+                    $('[name=cbxAddress]:checkbox').attr("checked", false);
+                }
+            });
+
+            $("[name=cbxAddress]").click(function () {
+                $('[name=cbxAll]:checkbox').attr("checked", false);
+                if ($(this).attr("checked")) {
+                    //判断是否所有的checkbox都已被选中
+                    var all_checked = true;
+                    $("[name=cbxAddress]:checkbox").each(function () {
+                        if (this.checked == false) {
+                            all_checked = false;
+                        }
+                    });
+                    if (all_checked) {
+                        $('[name=cbxAll]:checkbox').attr("checked", true);
+                    }
+                }
+            });
+
+            //删除收件人信息
+            $(".del").live("click", function () {
+                var e = $(this);
+                easyDialog.open({
+                    container: {
+                        header: '确认删除',
+                        content: '确认删除吗？',
+                        yesFn: function () {
+                            var id = e.parent().parent().parent().parent().find("[data-name=Id]").html();
+                            page.Delete(id);
+                            return true;
+                        },
+                        noFn: true
+                    }
+                });
+            });
+
+
+            //修改收件人信息
+            $(".edit").live("click", function () {
+                $("#myModalLabel").text("修改中国收货地址");
+                var e = $(this).parent().parent().parent().parent();
+                $('#userAddressId').val(e.find("[data-name='Id']").html());
+                $('[name="Id"]').val(e.find("[data-name='Id']").html());
+                $('[name="UserName"]').val(e.find("[data-name='UserName']").html());
+                $('[name="Mobile"]').val(e.find("[data-name='Mobile']").html());
+                $('[name="provience"]').val(e.find("[data-name='Provience']").html());
+                $('[name="provience"]').change();
+
+                $('[name="city"]').val(e.find("[data-name='City']").html());
+                $('[name="city"]').change();
+                $('[name="area"]').val(e.find("[data-name='Area']").html());
+                $('[name="Street"]').val(e.find("[data-name='Street']").html());
+                $('[name="Cardnum"]').val(e.find("[data-name='Cardnum']").html());
+
+                $('[name="fileImagea"]').val("");
+                $('[name="fileImageb"]').val("");
+
+                var srcA = e.find("[data-name='Photoa']").html();
+                if (srcA.substring(srcA.length - 1, srcA.length) == "/")
+                    $('#imgCarda').attr("src", "../Resources/Images/User/CardA.jpg");
+                else
+                    $('#imgCarda').attr("src", srcA);
+
+                var srcB = e.find("[data-name='Photob']").html();
+                if (srcB.substring(srcB.length - 1, srcB.length) == "/")
+                    $('#imgCardb').attr("src", "../Resources/Images/User/CardB.jpg")
+                else
+                    $('#imgCardb').attr("src", srcB)
+
+
+                $('[name="Ckstate"]').val(e.find("[data-name='Ckstate']").html());
+                $('[name="ckb_com"]:checkbox').attr("checked", false);
+                if (e.find("[data-name='Ckstate']").html() == 1) {
+                    $("[name='ckb_com']:checkbox").attr("checked", true);
+                }
+                $("#btnSavaAddress").attr("href", "javascript:page.Sava();");
+                $('#btnSavaAddress').html("保存");
+
+                //page.InitiImageA();
+
+                $('#addorupdateaddress').modal({
+                    keyboard: false
+                });
+
+                $('.cropper-bg').hide();
+                $('#imgCarda').removeClass('cropper-hidden');
+                $('#imgCardb').removeClass('cropper-hidden');
+            });
+            //绑定上传按钮
+            var $fileImagea = $('#fileImagea'), $fileImageb = $('#fileImageb'), URL = window.URL || window.webkitURL, blobURL;
+            if (URL) {
+                $fileImagea.change(function () {
+                    var files = this.files,
+                        file;
+
+                    if (files && files.length) {
+                        file = files[0];
+
+                        if (/^image\/\w+$/.test(file.type)) {
+
+                            $("#AddressForm").ajaxSubmit({
+                                url: "Ajax/DoMyAddress.ashx?Act=UploadCard&imageType=1",
+                                type: "POST",
+                                async: true,
+                                dataType: 'json',
+                                beforeSend: function () {
+                                    $('.loading').show();
+                                },
+                                complete: function () {
+                                    $('.loading').hide();
+                                },
+                                error: function () { $('.loading').hide(); DiaLog("亲，图片上传出错了，稍后再试哦…"); },
+                                success: function (data) {
+                                    $('.loading').hide();
+                                    if (data.state == 200) {
+                                        $("#imgCarda").attr("src", data.data);
+                                        $("#picpathA").val(data.data);
+
+                                        var imgCarda = document.getElementById("imgCarda");
+                                        imgCarda.onload = function () {
+                                            if ($fileImagea.val() != "") {
+                                                blobURL = URL.createObjectURL(file);
+                                                page.InitiImageA();
+                                                $(".imgCarda").one('built.cropper', function () {
+                                                    URL.revokeObjectURL(blobURL); // Revoke when load complete
+                                                }).cropper('reset', true).cropper('replace', blobURL);
+                                            }
+                                        }
+
+                                    } else {
+                                        if (data.msg != "")
+                                            DiaLog(data.msg);
+                                        else
+                                            DiaLog("亲，图片上传出错了，稍后再试哦…");
+                                        $fileImagea.val('');
+                                    }
+                                }
+                            });
+                        } else {
+                            DiaLog('请选择图片文件.');
+                        }
+                    }
+                });
+                $fileImageb.change(function () {
+                    var files = this.files,
+                        file;
+
+                    if (files && files.length) {
+                        file = files[0];
+
+                        if (/^image\/\w+$/.test(file.type)) {
+
+                            $("#AddressForm").ajaxSubmit({
+                                url: "Ajax/DoMyAddress.ashx?Act=UploadCard&imageType=2",
+                                type: "POST",
+                                async: true,
+                                dataType: 'json',
+                                beforeSend: function () {
+                                    $('.loading').show();
+                                },
+                                complete: function () {
+                                    $('.loading').hide();
+                                },
+                                error: function () { $('.loading').hide(); DiaLog("亲，图片上传出错了，稍后再试哦…"); },
+                                success: function (data) {
+                                    $('.loading').hide();
+                                    if (data.state == 200) {
+                                        $("#imgCardb").attr("src", data.data);
+                                        $("#picpathB").val(data.data);
+
+                                        var imgCardb = document.getElementById("imgCardb");
+                                        imgCardb.onload = function () {
+                                            if ($fileImageb.val() != "") {
+                                                blobURL = URL.createObjectURL(file);
+                                                page.InitiImageB();
+                                                $(".imgCardb").one('built.cropper', function () {
+                                                    URL.revokeObjectURL(blobURL); // Revoke when load complete
+                                                }).cropper('reset', true).cropper('replace', blobURL);
+                                            }
+                                        };
+
+                                    } else {
+                                        if (data.msg != "")
+                                            DiaLog(data.msg);
+                                        else
+                                            DiaLog("亲，图片上传出错了，稍后再试哦…");
+                                        $fileImageb.val('');
+                                    }
+                                }
+                            });
+
+                        } else {
+                            DiaLog('请选择图片文件.');
+                        }
+                    }
+                });
+            } else {
+                $fileImagea.parent().remove();
+                $fileImageb.parent().remove();
+            }
+
+            //查看图片
+            $(".showimg").live("click", function () {
+                var array = $(this).parent().children('a');
+                var data = [];
+                for (var i = 0; i < array.length; i++) {
+                    data.push({ url: $(array[i]).children('img').attr('src') });
+                }
+                page.ShowImg(data);
+            });
+
+            //默认多选框
+            $(":checkbox[name='ckb_com']").click(function () {
+                if ($(this).attr("checked") == "checked") {
+                    $('[name="Ckstate"]').val(1);
+                }
+                else {
+                    $('[name="Ckstate"]').val(0);
+                }
+            });
+
+        });
+
+
+
+
+</script>
 </body>
 </html>
