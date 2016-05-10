@@ -31,6 +31,35 @@
     </div>
 </form>
 
+<form id="packageUploadForm" class="form-inline" method="post" onsubmit="return false;">
+    <div class="row col-md-offset-2">
+        <div class="form-group">
+            <label>订单上传</label>
+            <input type="text" name="package_account_name" id="package_account_name"
+                   class="form-control" placeholder="帐户名" value="">
+            <input type="text" name="package_weight" id="package_weight"
+                   class="form-control" placeholder="重量" value="">
+            <input type="text" name="package_item1_name" id="package_item1_name"
+                   class="form-control" placeholder="物品1名称" value="">
+            <input type="text" name="package_item1_brand" id="package_item1_brand"
+                   class="form-control" placeholder="物品1品牌" value="">
+            <input type="text" name="package_item1_specification" id="package_item1_specification"
+                   class="form-control" placeholder="物品1规格" value="">
+            <input type="text" name="package_item1_quantity" id="package_item1_quantity"
+                   class="form-control" placeholder="物品1数量" value="">
+            <input type="text" name="package_item2_name" id="package_item2_name"
+                   class="form-control" placeholder="物品2名称" value="">
+            <input type="text" name="package_item2_brand" id="package_item2_brand"
+                   class="form-control" placeholder="物品2品牌" value="">
+            <input type="text" name="package_item2_specification" id="package_item2_specification"
+                   class="form-control" placeholder="物品2规格" value="">
+            <input type="text" name="package_item2_quantity" id="package_item2_quantity"
+                   class="form-control" placeholder="物品2数量" value="">
+            <input type="submit" name="package_upload_submit" id="package_upload_submit" class="form-control" value="添加订单">
+        </div>
+    </div>
+</form>
+
 <h2>用户上传照片</h2>
 <h2>管理员上传照片</h2>
 
@@ -74,6 +103,26 @@
             },
             error : function(jqXHR, textStatus, errorThrown) {
                 alert("Password update failed, error: " + jqXHR.responseText);
+            }
+        });
+    });
+
+    $("#package_upload_submit").unbind("click").bind("click", function() {
+        var data = $("#packageUploadForm").serializeArray();//序列化表单
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            headers: {
+                "Authorization": "Basic " + btoa(login_user + ":" + login_token)
+            },
+            url : "../restful/package/add",
+            dataType : "json",
+            data : data || "",
+            success : function(data) {
+                alert("Package upload succeeded: " + JSON.stringify(data.payload));
+            },
+            error : function(jqXHR, textStatus, errorThrown) {
+                alert("Package upload failed, error: " + jqXHR.responseText);
             }
         });
     });
