@@ -102,78 +102,7 @@ a:link, a:visited {
     }
 
 /*========模板页样式========*/
-.nav {
-    width: 100%;
-    height: 100px;
-    line-height: 100px;
-    background-color: #006C99;
-    background: #006C99;
-    /*position: fixed;*/
-    _position: absolute;
-    z-index: 99;
-    top: 0;
-    _top: expression(eval(document.documentElement.scrollTop));
-    left: 0;
-}
 
-    .nav ul {
-        overflow: hidden;
-        *zoom: 1;
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
-
-    .nav li {
-        width: 8em;
-        float: left;
-        margin-right: 10px;
-        text-align: center;
-    }
-
-        .nav li a:link, .nav li a:visited {
-            display: block;
-            width: 100%;
-            height: 46px;
-            line-height: 46px;
-            margin-top: 7px;
-            font-size: 16px;
-        }
-
-        .nav li a:hover, .nav a.current {
-            background-color: #7497B7;
-            border-radius: 5px;
-        }
-
-        .nav li.reg a:link, .nav li.reg a:visited {
-            width: 4em;
-            border: 2px solid #d1f0f0;
-            border-radius: 5px;
-            height: 30px;
-            line-height: 30px;
-            margin-top: 14px;
-            margin-left: 10px;
-        }
-
-        .nav li.reg a:hover {
-            border-radius: 5px;
-            background-color: #7497B7;
-        }
-
-        .nav li.login a:link, .nav li.login a:visited {
-            width: 4em;
-            border: 2px solid #d1f0f0;
-            border-radius: 5px;
-            height: 30px;
-            line-height: 30px;
-            margin-top: 14px;
-            margin-left: -15px;
-        }
-
-        .nav li.login a:hover {
-            border-radius: 5px;
-            background-color: #4aca79;
-        }
 
 .wrap {
     width: 1200px;

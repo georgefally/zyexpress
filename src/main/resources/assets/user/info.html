@@ -2,9 +2,720 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>中洋国际快递集团</title>
+    <script src="../scripts/jquery/jquery.js"></script>
+    <script src="../scripts/jquery/lightbox.js"></script>
+    <script src="../scripts/jquery/easydialog.js"></script>
+    <script src="../scripts/jquery/jquery.form.js"></script>
+    <script src="../bootstrap-3.3.6/js/bootstrap.js"></script>
+    <link href="../bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../css/custom.css" rel="stylesheet"/>
+    <link href="../css/register.css" rel="stylesheet"/>
+    <link href="../css/account.css" rel="stylesheet"/>
+    <link href="../css/loyout.css" rel="stylesheet"/>
+    <link href="../css/lightbox.css" rel="stylesheet"/>
+    <link href="../css/easydialog.css" rel="stylesheet"/>
+    <style type="text/css">
+        label {
+        border: 0px;
+        }
+
+        .clear {
+        clear: both;
+        }
+
+        .add-address {
+        background-color: #3389AD;
+        width: 120px;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        margin: 15px 0px 25px 0px;
+        border: 0;
+        border-radius: 3px;
+        }
+
+        .add-address a {
+        width: 119px;
+        height: 35px;
+        display: block;
+        }
+
+        .add-address:hover {
+        background: #006C99;
+        color: #fff;
+        }
+
+
+        .batch {
+        margin-bottom: 15px;
+        height: 22px;
+        }
+
+        .batch div.floatLeft {
+        float: left;
+        height: 22px;
+        line-height: 22px;
+        text-align: center;
+        margin-right: 15px;
+        }
+
+        .batch-delete {
+        background: url(../Resources/Images/Address/defaultAddress.png) no-repeat;
+        width: 75px;
+        }
+
+        .batch-delete a {
+        width: 75px;
+        height: 22px;
+        display: block;
+        }
+
+        .user-address-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        }
+
+        .user-address-table thead tr {
+        background-color: rgb(208,232,255);
+        }
+
+        .user-address-table tr {
+        height: 46px;
+        }
+
+        .user-address-table .operate-address {
+        padding-top: 5px;
+        }
+
+        .user-address-table .operate-address div {
+        float: left;
+        margin-right: 5px;
+        }
+
+        .user-address-table .operate-address .check-address {
+        background: url(../Resources/Images/Address/defaultAddress.png) no-repeat;
+        width: 75px;
+        }
+
+        .user-address-table .operate-address .set-address {
+        background: url(../Resources/Images/Address/setDefault.png) no-repeat;
+        width: 75px;
+        }
+
+        .modal-footer {
+        text-align: center;
+        margin: 0px auto;
+        }
+
+        .modal-footer div {
+        margin: 0px 28%;
+        }
+
+        .modal-footer div div {
+        float: left;
+        margin: 0px 5px;
+        }
+
+        .modal-footer .modal-footer-sava {
+        background-color: #3389AD;
+        width: 120px;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        border: 0;
+        border-radius: 3px;
+        }
+
+        .modal-footer .modal-footer-sava:hover {
+        background: #006C99;
+        color: #fff;
+        }
+
+        .modal-footer .modal-footer-close {
+        /*background-color:rgb(0,108,153);*/ /*url(../Images/Address/u24.png) no-repeat;*/
+        width: 120px;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        border: 1px rgb(0,108,153) solid;
+        border-radius: 3px;
+        }
+
+        .modal-footer div div a {
+        width: 119px;
+        height: 35px;
+        display: block;
+        }
+
+        .modal-footer div div.modal-footer-close a {
+        color: rgb(0,108,153);
+        }
+
+        /*新增收货地址*/
+        .modal-header h4 {
+        font-family: inherit;
+        font-size: 20px;
+        color: rgb(106, 106, 106);
+        font-weight: 500;
+        }
+
+        .pop_con {
+        margin: 0 auto;
+        padding: 20px 20px 10px;
+        }
+
+        .pop_con .pop_table {
+        width: 540px;
+        }
+
+        .pop_table td {
+        padding: 5px;
+        }
+
+        .pop_table .tetRed {
+        color: red;
+        }
+
+        .pop_table td.align_r {
+        text-align: right;
+        }
+
+
+        .fontcolor77 {
+        color: #777777;
+        }
+
+        .form_control {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        font-size: 14px;
+        height: 32px;
+        line-height: 20px;
+        padding: 0px 10px;
+        width: 88%;
+        }
+
+        .slec_100 {
+        border: 1px solid #ddd;
+        height: 34px;
+        width: 100%;
+        border-radius: 3px;
+        }
+
+        .pop_table td.pd_r5 {
+        padding: 0px;
+        }
+
+        .pop_table td.pd_r5 .add-card {
+        /*background: url(../Images/Address/u24.png) no-repeat;*/
+        width: 109px;
+        height: 31px;
+        text-align: center;
+        line-height: 31px;
+        margin: auto;
+        border: 1px rgb(0,108,153) solid;
+        border-radius: 3px;
+        }
+
+        .pop_table td.pd_r5 .add-card a {
+        width: 108px;
+        height: 30px;
+        display: block;
+        color: rgb(0,108,153);
+        }
+
+        .pop_table td.info {
+        color: rgb(187,187,187);
+        }
+
+        .file {
+        position: relative;
+        top: -36px;
+        left: auto;
+        filter: alpha(opacity: 0);
+        opacity: 0;
+        width: 109px;
+        height: 35px;
+        cursor: pointer;
+        }
+
+        .popover {
+        z-index: 10000;
+        }
+
+        input:checked + label {
+        border-bottom: 0px;
+        }
+    </style>
+
+
 </head>
 <body>
 
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#"><img width="120" height="38" src="../image/zyexpresswhite.png"></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="../userLogin.html">首页</a></li>
+                <li><a href="/hrExpress.html">人才招聘</a></li>
+                <li><a href="/bizKnowledge.html">业务常识</a></li>
+                <li><a href="#">联系我们</a></li>
+                <li><a href="../userLogin.html">退出</a></li>
+               <!-- <li>
+                    <form method="post" id="logoutform" action="/Account/Ajax/DoLogOff.ashx">
+                        <a href="javascript:document.getElementById('logoutform').submit()">退出</a>
+                    </form>
+                </li>-->
+            </ul>
+        </div> <!-- .nav-collapse -->
+    </div>
+</div>
+
+
+    <div style="height: 100%; width: 100%; padding-top: 100px; padding-bottom: 50px;">
+        <div class="case">
+            <div id="divleft">
+                <div class="personal_l">
+                    <div style="padding-top: 5px; padding-bottom: 10px; text-align: center; font-size: 14px;">
+                        <label id='username' style="color:#006C99;">账户名:</label>
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse; text-align: center;" border="0">
+                        <tr>
+                            <td></td>
+                            <td style="width: 100px;">
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                <ul id="navpage">
+                    <li data-type="7"><a href="#">
+                        <div>
+                            &nbsp;我的资料
+                        </div>
+                    </a>
+                    </li>
+                    <li data-type="1"><a href="/Box/MyBox.aspx">
+                        <div>
+                            &nbsp;我的包裹&nbsp;
+                        </div>
+                    </a>
+                    </li>
+                    <li data-type="6"><a href="/Address/MyAddress.aspx">
+                        <div>&nbsp;我的收货地址</div>
+                    </a>
+                    </li>
+
+                </ul>
+            </div>
+            <div id="divright">
+                <table class="pop_table" style="margin-top: 25px;">
+                    <tr>
+                        <td class="span1" style="height: 50px; float: right; text-align: right; line-height: 50px;">当前状态：</td>
+                        <td id="userStatus" colspan="3"></td>
+                    </tr>
+                    <tr>
+                        <td class="span1" style="height: 50px; float: right; text-align: right; line-height: 50px;">登录密码：</td>
+                        <td colspan="3">******<a href="javascript:page.UpdatePWD();" style="color: #0091ce; margin-left: 20px;">修改密码</a></td>
+                    </tr>
+                </table>
+                <div style="display: none;">
+                    X:<input id="startX" name="startX" readonly="readonly" />
+                    Y:<input id="startY" name="startY" readonly="readonly" /><br />
+                    <br />
+                    宽:<input id="width" name="width" readonly="readonly" />
+                    高:<input id="height" name="height" readonly="readonly" />
+                    路径:<input id="picpath" name="picpath" readonly="readonly" />
+                </div>
+
+                <hr style="border: none; border-top: 2px dashed #D9F3FF; width: 100%;" />
+
+                <input type="hidden" id="firlink" value="6" />
+            </div>
+        </div>
+    </div>
+
+
+
+
+<!--登录-->
+<div class="modal fade" id="mymodal">
+    <div style="width: 410px; height: 300px; overflow: hidden;" class="modal-dialog modal-font">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+                <h4 style="font-size: 20px;" class="modal-title">登录</h4>
+            </div>
+            <div class="row">
+                <div style="border: 0px solid #bbbbbb; height: 300px; width: 400px;">
+                    <div class="login_con" id="logindiv">
+                        <form role="form" id="userLoginForm" onsubmit="return validate_loginformi()" method="post" class="form-inline">
+                            <div class="input-group mg_b_10">
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-user"></i>
+                                    </span>
+                                <input type="text" class="form-control1" data-val="true" data-val-required="账户名 字段是必需的。"
+                                       id="IUserName" name="login_username" placeholder="账户名" value="" />
+                            </div>
+                            <div class="input-group mg_b_10">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-lock"></span>
+                                    </span>
+                                <input type="password" class="form-control1" data-val="true" data-val-required="密码 字段是必需的。" id="IPassword" name="login_password" placeholder="密码" onkeydown="if(event.keyCode==13) {validate_loginformi();return false;}" />
+                            </div>
+                            <button class="btn1 btn-blue btn-lg1 btn-block" type="button" onclick="validate_loginformi();">登录</button>
+                            <a style="text-align: left; color: #0581b2; display: block; font-size: 14px; padding: 5px 10px 0; float: left;" href="/Account/ResetQueryPwd.aspx">忘记密码</a>
+                            <a style="text-align: left; color: #0581b2; display: block; font-size: 14px; padding-top: 5px; padding-right: 10px; float: right" href="/Account/Register.aspx">免费注册</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- 模态弹出窗 -->
+
+<!--修改密码-->
+<div class="modal fade" id="updatePwd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+            </div>
+            <form id="UpdateForm">
+                <div class="pop_con" style="width: 540px">
+                    <table class="pop_table">
+                        <tr>
+                            <td class="align_r fontcolor77" style="width: 100px;">原密码</td>
+                            <td style="width: 345px;">
+                                <input type="password" id="OldPSW" name="OldPSW" class="form_control pop_cf fontcolor77" placeholder="请输入原密码" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align_r fontcolor77">新密码</td>
+                            <td>
+                                <input type="text" id="NewPSW" name="modify_password_new_password" class="form_control pop_cf fontcolor77" maxlength="20" placeholder="请输入新密码,6-20个字符" />
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <div class="modal-footer-sava">
+                            <a id="btnSava" style="width:108px;height:30px;" href="javascript:page.Update();" onclick="">保存</a>
+
+                        </div>
+                        <div class="modal-footer-close">
+                            <a id="btnClose" style="width:108px;height:30px;" href="javascript:page.Close();">取消</a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--修改密码结束-->
+
+<script>
+    var login_token = sessionStorage.login_token;
+    var login_user = sessionStorage.login_user;
+    $("#username").html("账户名："+login_user);
+    var form, grid, LoadGrid;
+    var page = {
+        //弹出新增框
+        UpdatePWD: function () {
+            //新增前清空数据
+            $('#updatePwd').modal({
+                keyboard: false
+            });
+        },
+        //验证收件信息
+        ValidatePWD: function () {
+            if ($("#NewPSW").val().length < 6) {
+                DiaLog("新密码必须为6-20个字符");
+                return false;
+            }
+            return true;
+        },
+        //保存收货人信息
+        Update: function () {
+            if (page.ValidatePWD()) {
+                $("#btnSava").attr("href", "javascript:;");
+                $('#btnSava').html("提交中...");
+
+                $("#UpdateForm").ajaxSubmit({
+                    url : "../restful/user/password",
+                    type: "POST",
+                    async: true,
+                    dataType: 'json',
+                    contentType : "application/x-www-form-urlencoded",
+                    headers: {
+                        "Authorization": "Basic " + btoa(login_user + ":" + login_token)
+                    },
+                    beforeSend: function () {
+                        $('.loading').show();
+                    },
+                    complete: function () {
+                        $('.loading').hide();
+                    },
+                    error: function () { $('.loading').hide(); DiaLog("亲，提交出错了，稍后再试哦…") },
+                    success: function (data) {
+                        $('.loading').hide();
+                        if (data.responseStatus=="SUCCESS") {
+                            DiaLog("修改密码成功！");
+                            page.Close();
+                        }
+                        else {
+                            DiaLog("网络异常，请刷新页面重试！");
+                        }
+                        $("#btnSava").attr("href", "javascript:page.Update();");
+                        $('#btnSava').html("保存");
+                    }
+                });
+
+
+
+            }
+        },
+        //关闭
+        Close: function () {
+            $("#OldPSW").val("");
+            $("#NewPSW").val("");
+            $('#updatePwd').modal("hide");
+        },
+        Validate: function () {
+            if (provience == "--选择省份--") {
+                DiaLog("请选择省市区");
+                return false;
+            }
+            if (street == "") {
+                DiaLog("请输入街道地址");
+                return false;
+            }
+            return true;
+        },
+        Save: function () {
+            if (page.Validate()) {
+                $("#btnUpdate").attr("href", "javascript:;");
+                $('#btnUpdate').html("提交中...");
+                var oUrl = "Ajax/DoMyPersonal.ashx?Act=UpdatePersonal";
+                $("#PersonalForm").ajaxSubmit({
+                    url: oUrl,
+                    type: "POST",
+                    async: true,
+                    dataType: 'json',
+                    beforeSend: function () {
+                        $('.loading').show();
+                    },
+                    complete: function () {
+                        $('.loading').hide();
+                    },
+                    error: function () { $('.loading').hide(); DiaLog("亲，提交出错了，稍后再试哦…") },
+                    success: function (data) {
+                        $('.loading').hide();
+                        if (data.state == 200) {
+                            $('#fileImage').attr('value', '');
+                            DiaLog("修改成功！");
+                            window.location.reload();
+                        }
+                        else {
+                            DiaLog("网络异常，修改失败，请刷新页面重试！");
+                        }
+                        $("#btnUpdate").attr("href", "javascript:page.Save();");
+                        $('#btnUpdate').html("保存");
+                    }
+                });
+            }
+        }
+    };
+
+
+
+        $(function () {
+            $("input[name=tabs]").click(function () {
+                var pa = $("input[name='tabs']:checked").val();
+                if (pa == 1) {
+                    window.location = "MyLevel.aspx";
+                }
+                else if (pa == 3) {
+                    window.location = "MyBind.aspx";
+                }
+            });
+
+            $('[name="provience"]').val("");
+            $('[name="provience"]').change();
+            $('[name="city"]').val("");
+            $('[name="city"]').change();
+            $('[name="area"]').val("");
+            $('[name="street"]').val("");
+
+            //绑定上传按钮
+            var $fileImage = $('#fileImage'), URL = window.URL || window.webkitURL, blobURL;
+            if (URL) {
+                $fileImage.change(function () {
+                    var files = this.files,
+                        file;
+
+                    if (files && files.length) {
+                        file = files[0];
+
+                        if (/^image\/\w+$/.test(file.type)) {
+
+                            $("#PersonalForm").ajaxSubmit({
+                                url: "Ajax/DoMyPersonal.ashx?Act=Upload",
+                                type: "POST",
+                                async: true,
+                                dataType: 'json',
+                                beforeSend: function () {
+                                    $('.loading').show();
+                                },
+                                complete: function () {
+                                    $('.loading').hide();
+                                },
+                                error: function () { $('.loading').hide(); DiaLog("亲，图片上传出错了，稍后再试哦…"); },
+                                success: function (data) {
+                                    $('.loading').hide();
+                                    if (data.state == 200) {
+                                        $("#imgCard").attr("src", data.data);
+                                        $("#picpath").val(data.data);
+
+                                        var imgCard = document.getElementById("imgCard");
+                                        imgCard.onload = function () {
+                                            if ($fileImage.val() != "") {
+                                                blobURL = URL.createObjectURL(file);
+                                                page.InitiImage();
+                                                $(".imgCard").one('built.cropper', function () {
+                                                    URL.revokeObjectURL(blobURL); // Revoke when load complete
+                                                }).cropper('reset', true).cropper('replace', blobURL);
+                                            }
+                                        }
+
+                                    } else {
+                                        if (data.msg != "")
+                                            DiaLog(data.msg);
+                                        else
+                                            DiaLog("亲，图片上传出错了，稍后再试哦…");
+                                        $fileImage.val('');
+                                    }
+                                }
+                            });
+                        } else {
+                            DiaLog('请选择图片文件.');
+                        }
+                    }
+                });
+            } else {
+                $fileImage.parent().remove();
+            }
+
+            $('#birthday').datepicker({
+                format: 'yyyy/mm/dd'
+            });
+        });
+
+$(function () {
+        $("#navpage li").removeClass("hover_v1");
+        $("#navpage li").removeClass("hover_v2");
+        $("#navpage li").addClass("hover_v2");
+        var firlink = $("#firlink").val();
+        $("#navpage li[data-type='" + firlink + "']").addClass("hover_v1");
+        $("#navpage li[data-type='" + firlink + "']").removeClass("hover_v2");
+
+        var photoPath = $("li[data-type='" + firlink + "'] img").attr("src");
+        var strs = photoPath.split(".png");
+        var newStrs = strs[0] + "f.png";
+        $("li[data-type='" + firlink + "'] img").attr("src", newStrs);
+
+        $("a[href=#detail]").click(function () {
+            $("#detail").load($(this).attr("data-url"));
+        });
+        $("a[href=#withdraw]").click(function () {
+            $("#withdraw").load($(this).attr("data-url"));
+        });
+    });
+
+    function DiaLog(e) {
+        easyDialog.open({
+            container: {
+                content: e
+            },
+            autoClose: 2000
+        });
+    }
+
+    function DiaMsg(e) {
+        easyDialog.open({
+            container: {
+                content: e
+            },
+            autoClose: 3000
+        });
+    }
+
+    function DiaUpload(e) {
+        easyDialog.open({
+            container: {
+                content: e
+            },
+            autoClose: 300000
+        });
+    }
+
+    function hidemodel() {
+        $("#detail").modal("hide");
+        $("#zitiaddress").modal("hide");
+    }
+
+    $(function () {
+        var oA = $('#pagination a');
+        $.each(oA, function (i) {
+            $(oA[i]).click(function (e) {
+                if (!$(oA[i]).parent('li').hasClass('active')) {
+                    var index = $(this).attr('href').replace("#", "");
+                    $("input[name='pageindex']").val(index);
+                    $("#submitform").submit();
+                    //$('form').submit();
+                }
+                e.preventDefault();
+            });
+        });
+    });
+
+  function btn_left(pa) {
+        $('#wscroll' + pa).children().first().animate({ marginLeft: '-=216px' }, 'slow', function () {
+            $(this).appendTo($('#wscroll' + pa)).css('marginLeft', '0px');
+        });
+    }
+
+    function btn_right(pa) {
+        $('#wscroll' + pa).children().last().prependTo($('#wscroll' + pa)).css('marginLeft', '-216px');
+        $('#wscroll' + pa).children().first().animate({ marginLeft: '+=216px' }, 'slow');
+    }
+
+    function hxbtn_left(pa) {
+        $('#hxwscroll' + pa).children().first().animate({ marginLeft: '-=216px' }, 'slow', function () {
+            $(this).appendTo($('#hxwscroll' + pa)).css('marginLeft', '0px');
+        });
+    }
+
+    function hxbtn_right(pa) {
+        $('#hxwscroll' + pa).children().last().prependTo($('#hxwscroll' + pa)).css('marginLeft', '-216px');
+        $('#hxwscroll' + pa).children().first().animate({ marginLeft: '+=216px' }, 'slow');
+    }
+
+
+
+</script>
 </body>
 </html>

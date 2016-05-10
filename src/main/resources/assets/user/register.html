@@ -8,6 +8,7 @@
     <link href="../bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet"/>
     <link href="../css/custom.css" rel="stylesheet"/>
     <link href="../css/register.css" rel="stylesheet"/>
+    <link href="../css/account.css" rel="stylesheet"/>
     <style type="text/css">
         #modal-read {
         height: 650px;
@@ -91,11 +92,11 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="#">首页</a></li>
+                <li><a href="../userLogin.html">首页</a></li>
                 <li><a href="/hrExpress.html">人才招聘</a></li>
                 <li><a href="/bizKnowledge.html">业务常识</a></li>
                 <li><a href="#">联系我们</a></li>
-                <li><a href="user/register.html">注册</a></li>
+                <li class="active"><a href="#">注册</a></li>
                 <li><a href="#" id="aLogin" data-toggle="modal" data-target="#mymodal">登录</a></li>
             </ul>
         </div> <!-- .nav-collapse -->
@@ -151,6 +152,47 @@
         </div>
     </div>
 </footer>
+
+
+<!--登录-->
+<div class="modal fade" id="mymodal">
+    <div style="width: 410px; height: 300px; overflow: hidden;" class="modal-dialog modal-font">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+                <h4 style="font-size: 20px;" class="modal-title">登录</h4>
+            </div>
+            <div class="row">
+                <div style="border: 0px solid #bbbbbb; height: 300px; width: 400px;">
+                    <div class="login_con" id="logindiv">
+                        <form role="form" id="userLoginForm" onsubmit="return validate_loginformi()" method="post" class="form-inline">
+                            <div class="input-group mg_b_10">
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-user"></i>
+                                    </span>
+                                <input type="text" class="form-control1" data-val="true" data-val-required="账户名 字段是必需的。"
+                                       id="IUserName" name="login_username" placeholder="账户名" value="" />
+                            </div>
+                            <div class="input-group mg_b_10">
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-lock"></span>
+                                    </span>
+                                <input type="password" class="form-control1" data-val="true" data-val-required="密码 字段是必需的。" id="IPassword" name="login_password" placeholder="密码" onkeydown="if(event.keyCode==13) {validate_loginformi();return false;}" />
+                            </div>
+                            <button class="btn1 btn-blue btn-lg1 btn-block" type="button" onclick="validate_loginformi();">登录</button>
+                            <a style="text-align: left; color: #0581b2; display: block; font-size: 14px; padding: 5px 10px 0; float: left;" href="/Account/ResetQueryPwd.aspx">忘记密码</a>
+                            <a style="text-align: left; color: #0581b2; display: block; font-size: 14px; padding-top: 5px; padding-right: 10px; float: right" href="/Account/Register.aspx">免费注册</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- 模态弹出窗 -->
+
 <script>
      $(function () {
 
@@ -279,6 +321,61 @@
                 });*/
             }
         }
+
+         function validate_loginformi() {
+            if ($('#logindiv #IUserName').val() == null || $('#logindiv #IUserName').val() == "") {
+                alert("登录名（账户名）不能为空！");
+                return false;
+            }
+            if ($('#logindiv #IPassword').val() == null || $('#logindiv #IPassword').val() == "") {
+                alert("密码不能为空！");
+                return false;
+            }
+
+            //用户登录
+            var username = $('#logindiv #IUserName').val();
+            var password = $('#logindiv #IPassword').val();
+            var returnUrl = "/Index.aspx";
+            var data = $("#userLoginForm").serializeArray();//序列化表单
+
+            $.ajax({
+                type : "POST",
+                async: false,
+                contentType : "application/x-www-form-urlencoded",
+                url : "../restful/user/login",
+                dataType : "json",
+                data : data || "",
+                success : function(data) {
+                    var login_user = username;
+                    var login_token = data.payload;
+                    sessionStorage.login_user = username;
+                    sessionStorage.login_token = data.payload;
+                    alert("Login submitted, user=" + login_user + ", token=" + login_token);
+                    window.location = "./info.html"
+                },
+                error : function(jqXHR, textStatus, errorThrown) {
+                    alert("Login failed, error: " + jqXHR.responseText);
+                }
+            });
+
+            /*$.ajax({
+                url: "/Account/Ajax/DoLogin.ashx",
+                type: "POST",
+                async: false,
+                data: "Act=Login&username=" + username + "&password=" + password + "&returl=" + returnUrl,
+                dataType: 'json',
+                error: function () { alert("亲，提交出错了，稍后再试哦...") },
+                success: function (data) {
+                    if (data.msg != "") {
+                        $("#liError").html(data.msg);
+                    }
+                    if (data.returl != "") {
+                        window.location.href = data.returl;
+                    }
+                }
+            });*/
+        }
+
 
 </script>
 </body>
