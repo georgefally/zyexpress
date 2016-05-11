@@ -12,13 +12,11 @@ import io.dropwizard.setup.Environment;
 import net.zyexpress.site.auth.AuthPrincipal;
 import net.zyexpress.site.auth.TokenBasedAuthenticator;
 import net.zyexpress.site.auth.TokenBasedAuthorizer;
+import net.zyexpress.site.dao.AddressDAO;
 import net.zyexpress.site.dao.PackageDAO;
 import net.zyexpress.site.dao.UserDAO;
 import net.zyexpress.site.dao.UserIdCardDAO;
-import net.zyexpress.site.resources.AdminResource;
-import net.zyexpress.site.resources.PackageResource;
-import net.zyexpress.site.resources.UserIdCardResource;
-import net.zyexpress.site.resources.UserResource;
+import net.zyexpress.site.resources.*;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.skife.jdbi.v2.DBI;
 
@@ -53,6 +51,8 @@ public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
         addPackageResource(configuration, environment, jdbi);
 
         addAuthentication(configuration, environment);
+
+        addAddressResource(configuration, environment, jdbi);
     }
 
     private void addAuthentication(ZYExpressConfiguration configuration, Environment environment) {
@@ -105,5 +105,12 @@ public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
 
         final PackageResource packageResource = new PackageResource(packageDAO);
         environment.jersey().register(packageResource);
+    }
+
+    private void addAddressResource(ZYExpressConfiguration configuration, Environment environment, DBI jdbi) {
+        final AddressDAO addressDAO = jdbi.onDemand(AddressDAO.class);
+        addressDAO.createAddressItemTable();
+        final AddressResource addressResource = new AddressResource(addressDAO);
+        environment.jersey().register(addressResource);
     }
 }

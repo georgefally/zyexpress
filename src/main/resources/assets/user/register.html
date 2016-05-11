@@ -68,7 +68,7 @@
         padding: 4px 12px;
         transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
         vertical-align: middle;
-        width: 90%;
+        width: 100%;
         }
 
         .radio, .checkbox {
@@ -164,17 +164,17 @@
             </div>
             <div class="row">
                 <div style="border: 0px solid #bbbbbb; height: 300px; width: 400px;">
-                    <div class="login_con" id="logindiv">
+                    <div class="login_con" style="padding-left:75px;" id="logindiv">
                         <form role="form" id="userLoginForm" onsubmit="return validate_loginformi()" method="post" class="form-inline">
-                            <div class="input-group mg_b_10">
-                                    <span class="input-group-addon">
+                            <div class="input-group mg_b_10" style="width:100%;">
+                                    <span class="input-group-addon" style="width:10%;">
                                         <i class="glyphicon glyphicon-user"></i>
                                     </span>
                                 <input type="text" class="form-control1" data-val="true" data-val-required="账户名 字段是必需的。"
                                        id="IUserName" name="login_username" placeholder="账户名" value="" />
                             </div>
-                            <div class="input-group mg_b_10">
-                                    <span class="input-group-addon">
+                            <div class="input-group mg_b_10" style="width:100%;">
+                                    <span class="input-group-addon"  style="width:10%;">
                                         <span class="glyphicon glyphicon-lock"></span>
                                     </span>
                                 <input type="password" class="form-control1" data-val="true" data-val-required="密码 字段是必需的。" id="IPassword" name="login_password" placeholder="密码" onkeydown="if(event.keyCode==13) {validate_loginformi();return false;}" />
