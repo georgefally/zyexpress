@@ -353,8 +353,7 @@
         <div id="divright">
             <form id="userQueryForm" class="form-inline" method="post" onsubmit="return false;">
                     <div class="form-group">
-                        <label>会员个人信息查询(只允许查询当前已登录的用户)</label>
-                       <input type="text" name="query_username" id="query_username" class="form-control" placeholder="用户名" value="">
+                        <label>会员收货地址查询</label>
                         <input type="submit" name="query_submit" id="query_submit" class="form-control" value="查询">
                     </div>
             </form>
@@ -383,31 +382,18 @@
 
                     <div class="clear"></div>
                 </div>
-                <table class="user-address-table">
+                <table class="user-address-table table-condensed table-hover table-bordered">
                     <thead>
                     <tr>
                         <th></th>
-                        <th style="width: 8%;">姓名</th>
-                        <th style="width: 10%;">手机</th>
+                        <th style="width: 10%;">姓名</th>
+                        <th style="width: 15%;">手机</th>
                         <th style="width: 20%;">身份证号码</th>
-                        <th style="width: 30%;">详细地址</th>
-                        <th style="width: 17%;">证件照片</th>
+                        <th style="width: 40%;">详细地址</th>
                         <th style="width: 15%;">操作</th>
                     </tr>
                     </thead>
                     <tbody id="dataTbody">
-
-                    <tr>
-                        <td colspan="7">
-                            <div style="width: 100%; height: 300px; margin: auto 0px;">
-                                <div style="text-align: center; margin: auto 0px; margin-top: 100px;">
-                                    <br />
-                                    <span style="font-size: 16px; font-weight: bold;">抱歉，没有相关信息</span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-
                     </tbody>
                 </table>
                 <!-- 以table表格的形式显示数据源 -->
@@ -530,18 +516,57 @@
 
 
      $("#query_submit").unbind("click").bind("click", function() {
-            var data = $("#userQueryForm").serializeArray();//序列化表单
             $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
                 headers: {
                     "Authorization": "Basic " + btoa(login_user + ":" + login_token)
                 },
-                url : "../restful/address/query",
+                url : "../restful/address/query?login_username="+login_user,
                 dataType : "json",
-                data : data || "",
                 success : function(data) {
                     alert("User info: " + JSON.stringify(data.payload));
+                    if (data.payload.length > 0) {
+                        var addHtml = "";
+                        //显示层绑定控件
+                        $.each(data.payload, function(index, item) {
+                            addHtml = addHtml + "<tr>"
+                                    +"<td class='fontCenter2'><input type='checkbox' name='memIdGroup' value='"+item.idNumber+"'id='"+item.idNumber+"'></td>"
+                                    + "<td class='fontCenter2' style='width:250px'>"
+                                    + item.receiverName + "</td>"
+                                    + "<td class='fontCenter2' style='width:200px'>"
+                                    + item.phoneNumber + "</td>"
+                                    + "<td class='fontCenter2' style='width:200px'>"
+                                    + item.address + "</td>"
+                                     + "<td class='fontCenter2' style='width:200px'>"
+                                    + item.postcode + "</td>"
+                                    +"<td><div class='operate-address'>"
+                                    +" <div class='check-address'>"
+                                    +"            <span style='color: rgb(51,167,216);'>默认地址</span>"
+                                    +"         </div>"
+                                    +"         <div style='margin-top: 1px;'>"
+                                    +"             <a class='edit' href='javascript:void(0);'>"
+                                    +"                 <img src='../image/icon_edit.png' /></a>"
+                                    +"         </div>"
+                                    +"         <div style='margin-top: 1px;'>"
+                                    +"             <a class='del' style='cursor: pointer;'>"
+                                    +"                 <img src='../image/icon_del.png' /></a>"
+                                    +"         </div>"
+                                    +"         <div class='clear'></div>"
+                                    +"     </div>"
+                                    +"  </td>"
+                                    + "</tr>";
+                        });
+                        //显示值在页面
+                        $("#dataTbody").empty().append(addHtml).trigger("create");
+                    }else{
+                        var addHtml = "";
+                        addHtml = "<tr><td colspan='7'><div style='width: 100%; height: 300px; margin: auto 0px;'>"
+                            +"<div style='text-align: center; margin: auto 0px; margin-top: 100px;'>"
+                            +" <br /><span style='font-size: 16px; font-weight: bold;'>抱歉，没有相关信息</span></div></div></td></tr>"
+                         $("#dataTbody").empty().append(addHtml).trigger("create");
+                    }
+
                 },
                 error : function(jqXHR, textStatus, errorThrown) {
                     alert("User query failed, error: " + jqXHR.responseText);

@@ -58,7 +58,7 @@ public class AddressResource {
     @POST
     @Timed
     public Response getUser(@Auth AuthPrincipal principal,
-                            @FormParam("query_username") @NotEmpty String userName) {
+                            @FormParam("login_username") @NotEmpty String userName) {
         if (!Objects.equal(principal.getName(), userName)) {
             RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
                     "Not authorized - have you logged in?");
