@@ -387,9 +387,9 @@
                     <tr>
                         <th></th>
                         <th style="width: 10%;">姓名</th>
-                        <th style="width: 15%;">手机</th>
-                        <th style="width: 20%;">身份证号码</th>
+                        <th style="width: 25%;">手机</th>
                         <th style="width: 40%;">详细地址</th>
+                        <th style="width: 10%;">邮编</th>
                         <th style="width: 15%;">操作</th>
                     </tr>
                     </thead>
@@ -435,7 +435,7 @@
                                 <table style="width: 385px;">
                                     <tr>
                                         <td class="pd_r5" style="width: 34%">
-                                            <select class="slec_100 fontcolor77" name="provience" id="provience"></select>
+                                            <select class="slec_100 fontcolor77" name="provience" id="province"></select>
                                         </td>
                                         <td class="pd_r5" style="width: 33%">
                                             <select class="slec_100 fontcolor77" name="city"></select>
@@ -530,20 +530,30 @@
                         var addHtml = "";
                         //显示层绑定控件
                         $.each(data.payload, function(index, item) {
+                            var defaultAddress = "";
+                            if(item.isDefault == true){
+                                defaultAddress = "<div class='check-address'>"
+                                                 +"<span style='color: rgb(51,167,216);'>默认地址</span>"
+                                                 +"</div>";
+                            }
                             addHtml = addHtml + "<tr>"
-                                    +"<td class='fontCenter2'><input type='checkbox' name='memIdGroup' value='"+item.idNumber+"'id='"+item.idNumber+"'></td>"
+                                    +"<td data-name='Id' style='display: none;'>"+item.id+"</td>"
+                                    +"<td data-name='Provience' style='display: none;'>"+item.id+"</td>"
+                                    +"<td data-name='City' style='display: none;'>"+item.id+"</td>"
+                                    +"<td data-name='Area' style='display: none;'>"+item.id+"</td>"
+                                    +"<td data-name='Street' style='display: none;'>"+item.id+"</td>"
+                                    +"<td data-name='Ckstate' style='display: none;'>"+item.id+"</td>"
+                                    +"<td class='fontCenter2'><input type='checkbox' name='cbxAddress' value="+item.id+" id="+item.id+"></td>"
                                     + "<td class='fontCenter2' style='width:250px'>"
                                     + item.receiverName + "</td>"
                                     + "<td class='fontCenter2' style='width:200px'>"
                                     + item.phoneNumber + "</td>"
                                     + "<td class='fontCenter2' style='width:200px'>"
                                     + item.address + "</td>"
-                                     + "<td class='fontCenter2' style='width:200px'>"
+                                    + "<td class='fontCenter2' style='width:200px'>"
                                     + item.postcode + "</td>"
                                     +"<td><div class='operate-address'>"
-                                    +" <div class='check-address'>"
-                                    +"            <span style='color: rgb(51,167,216);'>默认地址</span>"
-                                    +"         </div>"
+                                    +defaultAddress
                                     +"         <div style='margin-top: 1px;'>"
                                     +"             <a class='edit' href='javascript:void(0);'>"
                                     +"                 <img src='../image/icon_edit.png' /></a>"
@@ -606,22 +616,22 @@
             //删除
             Delete: function (ids) {
                 $.ajax({
-                    url: 'Ajax/DoMyAddress.ashx',
+                    url: '../restful/address/delete?Ids='+ids+'&login_username='+login_user,
                     type: 'POST',
                     async: false,
-                    data: { Act: "DelAddress", Ids: ids },
+                    headers: {
+                        "Authorization": "Basic " + btoa(login_user + ":" + login_token)
+                    },
+                    data: {Ids: ids, login_username:login_user },
                     dataType: 'json',
                     error: function () { DiaLog("亲，提交出错了，稍后再试哦……") },
                     success: function (data) {
-                        if (data.state == 200) {
+                        if (data.responseStatus == "SUCCESS") {
+                            DiaLog("删除成功！");
                             window.location.reload();
                         }
-                        else if (data.state == 500) {
-                            DiaLog(data.msg);
-                        }
-                        else {
-                            //页面更改提示或者业务逻辑编写
-
+                        else{
+                            DiaLog("没有记录删除，请刷新查询结果！");
                         }
                     },
                     error: function errorCallback(xmlHttpRequest, textStatus, errorThrown) {
@@ -712,7 +722,7 @@
                             $('.loading').hide();
                             if (data.responseStatus == "SUCCESS") {
                                 DiaLog("添加成功");
-                                //window.location.reload();
+                                window.location.reload();
                             }
                             else {
                                 DiaLog("网络异常，请刷新页面重试！");
@@ -759,7 +769,7 @@
             });
 
             //删除收件人信息
-            /*$(".del").on("click",".del", function () {
+            $(document).on("click",".del", function () {
                 var e = $(this);
                 easyDialog.open({
                     container: {
@@ -773,41 +783,23 @@
                         noFn: true
                     }
                 });
-            });*/
-
+            });
 
             //修改收件人信息
-            $(".edit").live("click", function () {
+            $(document).on("click", ".edit",function () {
                 $("#myModalLabel").text("修改中国收货地址");
                 var e = $(this).parent().parent().parent().parent();
                 $('#userAddressId').val(e.find("[data-name='Id']").html());
                 $('[name="Id"]').val(e.find("[data-name='Id']").html());
-                $('[name="UserName"]').val(e.find("[data-name='UserName']").html());
+                $('[name="UserName1"]').val(e.find("[data-name='UserName1']").html());
                 $('[name="Mobile"]').val(e.find("[data-name='Mobile']").html());
                 $('[name="provience"]').val(e.find("[data-name='Provience']").html());
-                $('[name="provience"]').change();
+                //$('[name="provience"]').change();
 
                 $('[name="city"]').val(e.find("[data-name='City']").html());
-                $('[name="city"]').change();
+                //$('[name="city"]').change();
                 $('[name="area"]').val(e.find("[data-name='Area']").html());
                 $('[name="Street"]').val(e.find("[data-name='Street']").html());
-                $('[name="Cardnum"]').val(e.find("[data-name='Cardnum']").html());
-
-                $('[name="fileImagea"]').val("");
-                $('[name="fileImageb"]').val("");
-
-                var srcA = e.find("[data-name='Photoa']").html();
-                if (srcA.substring(srcA.length - 1, srcA.length) == "/")
-                    $('#imgCarda').attr("src", "../Resources/Images/User/CardA.jpg");
-                else
-                    $('#imgCarda').attr("src", srcA);
-
-                var srcB = e.find("[data-name='Photob']").html();
-                if (srcB.substring(srcB.length - 1, srcB.length) == "/")
-                    $('#imgCardb').attr("src", "../Resources/Images/User/CardB.jpg")
-                else
-                    $('#imgCardb').attr("src", srcB)
-
 
                 $('[name="Ckstate"]').val(e.find("[data-name='Ckstate']").html());
                 $('[name="ckb_com"]:checkbox').attr("checked", false);
@@ -817,15 +809,11 @@
                 $("#btnSavaAddress").attr("href", "javascript:page.Sava();");
                 $('#btnSavaAddress').html("保存");
 
-                //page.InitiImageA();
-
                 $('#addorupdateaddress').modal({
                     keyboard: false
                 });
 
                 $('.cropper-bg').hide();
-                $('#imgCarda').removeClass('cropper-hidden');
-                $('#imgCardb').removeClass('cropper-hidden');
             });
             //绑定上传按钮
             var $fileImagea = $('#fileImagea'), $fileImageb = $('#fileImageb'), URL = window.URL || window.webkitURL, blobURL;
@@ -1041,6 +1029,28 @@
             });
         });
     });
+
+ function btn_left(pa) {
+        $('#wscroll' + pa).children().first().animate({ marginLeft: '-=216px' }, 'slow', function () {
+            $(this).appendTo($('#wscroll' + pa)).css('marginLeft', '0px');
+        });
+    }
+
+    function btn_right(pa) {
+        $('#wscroll' + pa).children().last().prependTo($('#wscroll' + pa)).css('marginLeft', '-216px');
+        $('#wscroll' + pa).children().first().animate({ marginLeft: '+=216px' }, 'slow');
+    }
+
+    function hxbtn_left(pa) {
+        $('#hxwscroll' + pa).children().first().animate({ marginLeft: '-=216px' }, 'slow', function () {
+            $(this).appendTo($('#hxwscroll' + pa)).css('marginLeft', '0px');
+        });
+    }
+
+    function hxbtn_right(pa) {
+        $('#hxwscroll' + pa).children().last().prependTo($('#hxwscroll' + pa)).css('marginLeft', '-216px');
+        $('#hxwscroll' + pa).children().first().animate({ marginLeft: '+=216px' }, 'slow');
+    }
 
 
 </script>

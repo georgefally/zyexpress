@@ -33,9 +33,12 @@ public class AddressResource {
     public Response addNewAddress(@QueryParam("login_name") String accountName,
                                   @FormParam("receiver_name") @NotEmpty String receiverName,
                                   @FormParam("phone_number") @NotEmpty String phoneNumber,
-                                  @FormParam("address") @NotEmpty String address,
                                   @FormParam("postcode") String postcode,
-                                  @FormParam("is_default") String isDefaultSet) {
+                                  @FormParam("is_default") String isDefaultSet,
+                                  @FormParam("provience") String province,
+                                  @FormParam("city") String city,
+                                  @FormParam("area") String area,
+                                  @FormParam("address") String street) {
         Boolean isDefault = false;
         try {
             if(isDefaultSet != null){
@@ -43,7 +46,9 @@ public class AddressResource {
                     isDefault = true;
                 }
             }
-            Address addressItem = new Address(accountName,receiverName,phoneNumber,address,postcode,isDefault);
+            String address = province + city + area + street;
+
+            Address addressItem = new Address(new Integer(0),accountName,receiverName,address,phoneNumber,postcode,isDefault,province,city,area,street);
             addressDAO.addAddressItem(addressItem);
 
             RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS,"success");
@@ -67,6 +72,27 @@ public class AddressResource {
         try {
             List<Address> addressItem = addressDAO.findByUserName(userName);
             RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, addressItem);
+            return Response.status(200).entity(response).build();
+        } catch (Exception ex) {
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.getMessage());
+            return Response.status(500).entity(response).build();
+        }
+    }
+
+    @Path("delete")
+    @POST
+    @Timed
+    public Response deleteAddress(@Auth AuthPrincipal principal,
+                                  @QueryParam("login_username") @NotEmpty String userName,
+                                  @QueryParam("Ids") @NotEmpty String id) {
+        if (!Objects.equal(principal.getName(), userName)) {
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
+                    "Not authorized - have you logged in?");
+            return Response.status(403).entity(response).build();
+        }
+        try {
+            Long result = addressDAO.deleteAddressById(Integer.parseInt(id));
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, result);
             return Response.status(200).entity(response).build();
         } catch (Exception ex) {
             RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.getMessage());
