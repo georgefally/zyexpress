@@ -7,6 +7,9 @@
     <script src="../bootstrap-3.3.6/js/bootstrap.js"></script>
     <link href="../bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet"/>
     <link href="../css/custom.css" rel="stylesheet"/>
+    <script src="../scripts/jquery/jquery.ajaxfileupload.js"></script>
+    <script src="../scripts/jquery/fileinput.js"></script>
+    <link href="../css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
@@ -31,33 +34,12 @@
     </div>
 </form>
 
-<form id="packageUploadForm" class="form-inline" method="post" onsubmit="return false;">
-    <div class="row col-md-offset-2">
-        <div class="form-group">
-            <label>订单上传</label>
-            <input type="text" name="package_account_name" id="package_account_name"
-                   class="form-control" placeholder="帐户名" value="">
-            <input type="text" name="package_weight" id="package_weight"
-                   class="form-control" placeholder="重量" value="">
-            <input type="text" name="package_item1_name" id="package_item1_name"
-                   class="form-control" placeholder="物品1名称" value="">
-            <input type="text" name="package_item1_brand" id="package_item1_brand"
-                   class="form-control" placeholder="物品1品牌" value="">
-            <input type="text" name="package_item1_specification" id="package_item1_specification"
-                   class="form-control" placeholder="物品1规格" value="">
-            <input type="text" name="package_item1_quantity" id="package_item1_quantity"
-                   class="form-control" placeholder="物品1数量" value="">
-            <input type="text" name="package_item2_name" id="package_item2_name"
-                   class="form-control" placeholder="物品2名称" value="">
-            <input type="text" name="package_item2_brand" id="package_item2_brand"
-                   class="form-control" placeholder="物品2品牌" value="">
-            <input type="text" name="package_item2_specification" id="package_item2_specification"
-                   class="form-control" placeholder="物品2规格" value="">
-            <input type="text" name="package_item2_quantity" id="package_item2_quantity"
-                   class="form-control" placeholder="物品2数量" value="">
-            <input type="submit" name="package_upload_submit" id="package_upload_submit" class="form-control" value="添加订单">
-        </div>
-    </div>
+<form enctype="multipart/form-data"  id="packageUploadForm">
+    <label class="control-label">上传Excel </label>
+    <input id="packageExcelFile" name="packageExcelFile" class="file" type="file" data-show-preview="false"
+           data-show-upload="true" data-show-caption="true" data-allowed-file-extensions='["xlsx", "xls"]'>
+    <div id="fileError" class="help-block"></div>
+    <br />
 </form>
 
 <h2>用户上传照片</h2>
@@ -107,24 +89,12 @@
         });
     });
 
-    $("#package_upload_submit").unbind("click").bind("click", function() {
-        var data = $("#packageUploadForm").serializeArray();//序列化表单
-        $.ajax({
-            type : "POST",
-            contentType : "application/x-www-form-urlencoded",
-            headers: {
-                "Authorization": "Basic " + btoa(login_user + ":" + login_token)
-            },
-            url : "../restful/package/add",
-            dataType : "json",
-            data : data || "",
-            success : function(data) {
-                alert("Package upload succeeded: " + JSON.stringify(data.payload));
-            },
-            error : function(jqXHR, textStatus, errorThrown) {
-                alert("Package upload failed, error: " + jqXHR.responseText);
-            }
-        });
+    $("#packageExcelFile").fileinput({
+        uploadUrl: "../restful/package/upload", // server upload action
+        uploadAsync: true,
+        minFileCount: 1,
+        maxFileCount: 1,
+        overwriteInitial: false
     });
 
 </script>

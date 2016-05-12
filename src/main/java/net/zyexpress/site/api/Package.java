@@ -34,6 +34,11 @@ public class Package {
         public Integer getQuantity() {
             return quantity;
         }
+
+        @Override
+        public String toString() {
+            return String.format("name=%s,brand=%s,specification=%s,quantity=%s", name, brand, specification, quantity);
+        }
     }
 
     private final String accountName;
@@ -61,4 +66,8 @@ public class Package {
         return accountName;
     }
 
+    @Override
+    public String toString() {
+        return String.format("accountName=%s,weight=%s,items=%s", accountName, weight, items);
+    }
 }
