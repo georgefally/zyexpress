@@ -7,6 +7,8 @@ import java.sql.SQLException;
 
 public class AddressMapper implements ResultSetMapper<Address> {
     public Address map(int index, ResultSet rs, StatementContext ctx) throws SQLException {
-        return new Address(rs.getString("accountname"),rs.getString("receivername"),rs.getString("address"),rs.getString("phonenumber"),rs.getString("postcode"),rs.getBoolean("isdefault"));
+        return new Address(rs.getInt("id"),rs.getString("accountname"),rs.getString("receivername"),
+                rs.getString("address"),rs.getString("phonenumber"),rs.getString("postcode"),
+                rs.getBoolean("isdefault"),rs.getString("province"),rs.getString("city"),rs.getString("area"),rs.getString("street"));
     }
 }
