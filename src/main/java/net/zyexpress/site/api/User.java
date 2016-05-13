@@ -29,6 +29,7 @@ public class User {
         this.userName = userName;
         this.password = password;
         this.isAdmin = isAdmin;
+        this.isApproved = isApproved;
     }
 
     @JsonProperty

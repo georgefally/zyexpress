@@ -351,12 +351,6 @@
             </ul>
         </div>
         <div id="divright">
-            <form id="userQueryForm" class="form-inline" method="post" onsubmit="return false;">
-                    <div class="form-group">
-                        <label>会员收货地址查询</label>
-                        <input type="submit" name="query_submit" id="query_submit" class="form-control" value="查询">
-                    </div>
-            </form>
 
             <form id="submitform" method="post">
                 <div class="hdbx-content">
@@ -514,9 +508,8 @@
     var login_user = sessionStorage.login_user;
     $("#username").html("账户名："+login_user);
 
-
-     $("#query_submit").unbind("click").bind("click", function() {
-            $.ajax({
+     $(function () {
+         $.ajax({
                 type : "POST",
                 contentType : "application/x-www-form-urlencoded",
                 headers: {
@@ -525,7 +518,7 @@
                 url : "../restful/address/query?login_username="+login_user,
                 dataType : "json",
                 success : function(data) {
-                    alert("User info: " + JSON.stringify(data.payload));
+                    //alert("User info: " + JSON.stringify(data.payload));
                     if (data.payload.length > 0) {
                         var addHtml = "";
                         //显示层绑定控件
@@ -582,8 +575,7 @@
                     alert("User query failed, error: " + jqXHR.responseText);
                 }
             });
-      });
-
+     });
 
 
     //初始化收件人地址省市县信息

@@ -288,37 +288,15 @@
                     data : data || "",
                     success : function(data) {
                         var user = data.payload;
-                        alert("Successfully registered, user: " + user);
+                        alert("注册成功, user: " + user);
                         $('#btn_register').prop("disabled", false);
                         $('#btn_register').html("注册");
+                        //validate_loginformi();
                     },
                     error : function(jqXHR, textStatus, errorThrown) {
                         alert("Failed to register, error: " + jqXHR.responseText);
                     }
                 });
-
-               /* $.ajax({
-                    url: 'Ajax/DoRegister.ashx',
-                    type: 'POST',
-                    async: false,
-                    data: "Act=Register&username=" + username + "&password=" + $.md5(password) + "&realname=" + realname
-                        +"&smscode="+smscode+"&ip=100*97*185*158&comeform=HDB",
-                    dataType: 'json',
-                    error: function () { DiaLog("亲，提交出错了，稍后再试哦……") },
-                    success: function (data) {
-                        if (data.msg != "") {
-                            DiaLog(data.msg);
-                        }
-                        else if (data.returl != "") {
-                            window.location.href = data.returl;
-                        }
-                        $('#btn_register').prop("disabled", false);
-                        $('#btn_register').html("注册");
-                    },
-                    error: function errorCallback(xmlHttpRequest, textStatus, errorThrown) {
-                        DiaLog(errorThrown + ":" + textStatus);
-                    }
-                });*/
             }
         }
 

@@ -337,6 +337,36 @@
                 <hr style="border: none; border-top: 2px dashed #D9F3FF; width: 100%;" />
 
                 <input type="hidden" id="firlink" value="6" />
+
+
+
+                <form id="userQueryForm" class="form-inline" method="post" onsubmit="return false;">
+                    <div class="form-group">
+                        <label>身份证信息</label>
+                    </div>
+                </form>
+
+                <form id="submitform" method="post">
+
+                    <div class="add-address">
+                        <a href="javascript:page.AddAddress();">添加身份证信息</a>
+                    </div>
+                    <table class="user-address-table table-condensed table-hover table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="text-align:center;">姓名</th>
+                            <th style="text-align:center;">身份证号</th>
+                            <th style="text-align:center;">审核状态</th>
+                            <th style="text-align:center;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="dataTbody">
+                        </tbody>
+                    </table>
+                    <!-- 以table表格的形式显示数据源 -->
+                    <input type="hidden" name="pageindex" value="1" />
+                </form>
+
             </div>
         </div>
     </div>
@@ -427,12 +457,213 @@
 </div>
 <!--修改密码结束-->
 
+
+<div class="modal fade" id="addorupdateaddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">新增身份证信息</h4>
+            </div>
+            <form id="IdCardForm">
+                <div class="pop_con" style="width: 540px">
+                    <table class="pop_table">
+                        <tr>
+                            <td class="align_r fontcolor77" style="width: 100px;"><span class="tetRed">*</span>姓名</td>
+                            <td style="width: 345px;">
+                                <input type="hidden" name="Id" id="UserId" class="form_control pop_cf" />
+                                <input type="text" id="UserName1" name="idcard_name" class="form_control pop_cf fontcolor77" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align_r fontcolor77"><span class="tetRed">*</span>身份证号</td>
+                            <td>
+                                <input type="text" id="Cardnum" name="Cardnum" class="form_control pop_cf fontcolor77" maxlength="18" oncut="return false;" oncopy="return false;" onpaste="return false;" />
+                                <img data-toggle="popover" data-trigger="hover" data-placement="bottom" data-container="body"
+                                     data-content="身份证信息仅用于海关检查，海带宝不会向任何人泄露或用于商业用途" src="../image/icon_90.png" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align_r fontcolor77">身份证照片</td>
+                            <td>
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td class="pd_r5" style="width: 50%">
+                                            <div class="add-card">
+                                                <a href="javascript:;">上传正面照片</a>
+                                                <input id="fileImagea" name="fileImagea" class="file" type="file" accept="image/*" />
+                                            </div>
+                                        </td>
+                                        <td class="pd_r5" style="width: 50%">
+                                            <div class="add-card">
+                                                <a href="javascript:;">添加反面照片</a>
+                                                <input id="fileImageb" name="fileImageb" class="file" type="file" accept="image/*" />
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="info">支持JPG、JPEG和PNG格式，单张图片大小不超过1.5M</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <img src="../image/CardA.jpg" class="imgCarda" width="121" height="77" id="imgCarda" />
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <img src="../image/CardB.jpg" class="imgCardb" width="121" height="77" id="imgCardb" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <div style="width: auto; min-width: 300px;">
+                        <div class="modal-footer-sava">
+                            <a id="btnSavaAddress" href="javascript:page.Sava();" onclick="">保存</a>
+
+                        </div>
+                        <div class="modal-footer-close">
+                            <a id="btnCloseAddress" href="javascript:page.Close();">取消</a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div style="display: none;">
+                    X:<input id="startXA" name="startXA" readonly="readonly" />
+                    Y:<input id="startYA" name="startYA" readonly="readonly" /><br />
+                    <br />
+                    宽:<input id="widthA" name="widthA" readonly="readonly" />
+                    高:<input id="heightA" name="heightA" readonly="readonly" />
+                    路径:<input id="picpathA" name="picpathA" readonly="readonly" />
+
+                    X:<input id="startXB" name="startXB" readonly="readonly" />
+                    Y:<input id="startYB" name="startYB" readonly="readonly" /><br />
+                    <br />
+                    宽:<input id="widthB" name="widthB" readonly="readonly" />
+                    高:<input id="heightB" name="heightB" readonly="readonly" />
+                    路径:<input id="picpathB" name="picpathB" readonly="readonly" />
+                    ID:<input type="hidden" id="userAddressId" name="userAddressId" value="" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <script>
     var login_token = sessionStorage.login_token;
     var login_user = sessionStorage.login_user;
     $("#username").html("账户名："+login_user);
+
+
+     $(function () {
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            headers: {
+                        "Authorization": "Basic " + btoa(login_user + ":" + login_token)
+            },
+            url : "../restful/user/query",
+            dataType : "json",
+            data : {query_username:login_user},
+            success : function(data) {
+                if(data.payload.isApproved == false){
+                    //alert(data);
+                    $("#userStatus").html("您的账号还没审核，请查询身份证审核情况");
+                }else{
+                    $("#userStatus").html("已有身份证通过审核");
+                }
+            },
+            error : function(jqXHR, textStatus, errorThrown) {
+                alert("Login failed, error: " + jqXHR.responseText);
+            }
+        });
+
+
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            headers: {
+                    "Authorization": "Basic " + btoa(login_user + ":" + login_token)
+                },
+            url : "../restful/idcard/query?login_user="+login_user,
+            dataType : "json",
+            data : {query_username:login_user},
+            success : function(data) {
+                if (data.payload.length > 0) {
+                        var addHtml = "";
+                        //显示层绑定控件
+                        $.each(data.payload, function(index, item) {
+                            var defaultAddress = "";
+                            if(item.isDefault == true){
+                                defaultAddress = "<div class='check-address'>"
+                                                 +"<span style='color: rgb(51,167,216);'>默认地址</span>"
+                                                 +"</div>";
+                            }
+                            addHtml = addHtml + "<tr>"
+                                    +"<td data-name='Id' style='display: none;'>"+item.id+"</td>"
+                                    +"<td data-name='Provience' style='display: none;'>"+item.id+"</td>"
+                                    +"<td data-name='City' style='display: none;'>"+item.id+"</td>"
+                                    +"<td data-name='Area' style='display: none;'>"+item.id+"</td>"
+                                    +"<td data-name='Street' style='display: none;'>"+item.id+"</td>"
+                                    +"<td data-name='Ckstate' style='display: none;'>"+item.id+"</td>"
+                                    + "<td class='fontCenter2' style='width:250px'>"
+                                    + item.idCardName + "</td>"
+                                    + "<td class='fontCenter2' style='width:200px'>"
+                                    + item.idCardNumber + "</td>"
+                                    + "<td class='fontCenter2' style='width:200px'>"
+                                    + item.approved + "</td>"
+                                    +"<td><div class='operate-address' style='text-align:center'>"
+                                    +defaultAddress
+                                    +"         <div style='margin-top: 1px;'>"
+                                    +"             <a class='edit' href='javascript:void(0);'>"
+                                    +"                 <img src='../image/icon_edit.png' /></a>"
+                                    +"         </div>"
+                                    +"         <div style='margin-top: 1px;'>"
+                                    +"             <a class='del' style='cursor: pointer;'>"
+                                    +"                 <img src='../image/icon_del.png' /></a>"
+                                    +"         </div>"
+                                    +"         <div class='clear'></div>"
+                                    +"     </div>"
+                                    +"  </td>"
+                                    + "</tr>";
+                        });
+                        //显示值在页面
+                        $("#dataTbody").empty().append(addHtml).trigger("create");
+                    }else{
+                        var addHtml = "";
+                        $("#dataTbody").empty().append(addHtml).trigger("create");
+                    }
+            },
+            error : function(jqXHR, textStatus, errorThrown) {
+                //alert("Login failed, error: " + jqXHR.responseText);
+            }
+        });
+     });
+
+
     var form, grid, LoadGrid;
     var page = {
+         //弹出新增框
+         AddAddress: function () {
+                //新增前清空数据
+                $('#userAddressId').val("0");
+                $("#UserId").val("0");
+                $("#UserName1").val("");
+                $("#myModalLabel").text("新增身份证");
+                $("#btnSavaAddress").attr("href", "javascript:page.Sava();");
+                $('#btnSavaAddress').html("保存");
+                $('#addorupdateaddress').modal({
+                    keyboard: false
+                });
+
+                $('.cropper-bg').hide();
+                $('#imgCarda').removeClass('cropper-hidden');
+                $('#imgCardb').removeClass('cropper-hidden');
+        },
         //弹出新增框
         UpdatePWD: function () {
             //新增前清空数据
@@ -448,6 +679,32 @@
             }
             return true;
         },
+        //删除
+        Delete: function (ids) {
+            $.ajax({
+                url: '../restful/idcard/delete?Ids='+ids+'&login_username='+login_user,
+                type: 'POST',
+                async: false,
+                headers: {
+                    "Authorization": "Basic " + btoa(login_user + ":" + login_token)
+                },
+                data: {Ids: ids, login_username:login_user },
+                dataType: 'json',
+                error: function () { DiaLog("亲，提交出错了，稍后再试哦……") },
+                success: function (data) {
+                    if (data.responseStatus == "SUCCESS") {
+                        DiaLog("删除成功！");
+                        window.location.reload();
+                    }
+                    else{
+                        DiaLog("没有记录删除，请刷新查询结果！");
+                    }
+                },
+                error: function errorCallback(xmlHttpRequest, textStatus, errorThrown) {
+                    DiaLog(errorThrown + ":" + textStatus);
+                }
+            });
+         },
         //保存收货人信息
         Update: function () {
             if (page.ValidatePWD()) {
@@ -484,8 +741,6 @@
                     }
                 });
 
-
-
             }
         },
         //关闭
@@ -495,25 +750,21 @@
             $('#updatePwd').modal("hide");
         },
         Validate: function () {
-            if (provience == "--选择省份--") {
-                DiaLog("请选择省市区");
-                return false;
-            }
-            if (street == "") {
-                DiaLog("请输入街道地址");
-                return false;
-            }
+
             return true;
         },
-        Save: function () {
+        Sava: function () {
             if (page.Validate()) {
                 $("#btnUpdate").attr("href", "javascript:;");
                 $('#btnUpdate').html("提交中...");
-                var oUrl = "Ajax/DoMyPersonal.ashx?Act=UpdatePersonal";
-                $("#PersonalForm").ajaxSubmit({
+                var oUrl = "../restful/idcard/add?login_name="+login_user;
+                $("#IdCardForm").ajaxSubmit({
                     url: oUrl,
                     type: "POST",
                     async: true,
+                    headers: {
+                        "Authorization": "Basic " + btoa(login_user + ":" + login_token)
+                    },
                     dataType: 'json',
                     beforeSend: function () {
                         $('.loading').show();
@@ -524,15 +775,14 @@
                     error: function () { $('.loading').hide(); DiaLog("亲，提交出错了，稍后再试哦…") },
                     success: function (data) {
                         $('.loading').hide();
-                        if (data.state == 200) {
-                            $('#fileImage').attr('value', '');
-                            DiaLog("修改成功！");
-                            window.location.reload();
+                        if (data.responseStatus == "SUCCESS") {
+                                DiaLog("添加成功");
+                                window.location.reload();
                         }
                         else {
                             DiaLog("网络异常，修改失败，请刷新页面重试！");
                         }
-                        $("#btnUpdate").attr("href", "javascript:page.Save();");
+                        $("#btnUpdate").attr("href", "javascript:page.Sava();");
                         $('#btnUpdate').html("保存");
                     }
                 });
@@ -559,6 +809,23 @@
             $('[name="city"]').change();
             $('[name="area"]').val("");
             $('[name="street"]').val("");
+
+            //删除收件人信息
+            $(document).on("click",".del", function () {
+                var e = $(this);
+                easyDialog.open({
+                    container: {
+                        header: '确认删除',
+                        content: '确认删除吗？',
+                        yesFn: function () {
+                            var id = e.parent().parent().parent().parent().find("[data-name=Id]").html();
+                            page.Delete(id);
+                            return true;
+                        },
+                        noFn: true
+                    }
+                });
+            });
 
             //绑定上传按钮
             var $fileImage = $('#fileImage'), URL = window.URL || window.webkitURL, blobURL;
