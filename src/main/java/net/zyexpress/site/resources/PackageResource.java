@@ -12,13 +12,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.skife.jdbi.v2.DBI;
+import org.skife.jdbi.v2.Handle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -31,9 +30,11 @@ import java.util.List;
 public class PackageResource {
     private static final Logger logger = LoggerFactory.getLogger(PackageResource.class);
 
+    private final DBI jdbi;
     private final PackageDAO packageDAO;
 
-    public PackageResource(PackageDAO packageDAO) {
+    public PackageResource(DBI jdbi, PackageDAO packageDAO) {
+        this.jdbi = jdbi;
         this.packageDAO = packageDAO;
     }
 
@@ -99,5 +100,31 @@ public class PackageResource {
             RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.toString());
             return Response.status(500).entity(response).build();
         }
+    }
+
+    @Path("/search")
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response searchPackages(@FormParam("search_user_name") final String searchUserName) {
+    try (Handle handle = jdbi.open()) {
+        List<Integer> packageIds = packageDAO.searchPackages(searchUserName);
+        List<Package> packages = Lists.newLinkedList();
+        for (Integer packageId : packageIds) {
+            Package pkg = packageDAO.searchPackageDetail(packageId);
+            List<Package.PackageItem> items = packageDAO.searchPackageItems(packageId);
+            pkg.addItems(items);
+            packages.add(pkg);
+        }
+        RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, packages);
+        logger.info("In total {} packages found for user {}: {}.", packages.size(), searchUserName,
+                packages.toString());
+        return Response.status(200).entity(response).build();
+    } catch (Exception ex) {
+        logger.error("Failed to query package for " + searchUserName, ex);
+        RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.toString());
+        return Response.status(500).entity(response).build();
+    }
+
     }
 }

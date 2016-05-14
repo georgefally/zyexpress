@@ -102,7 +102,7 @@ public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
         packageDAO.createPackageTable();
         packageDAO.createPackageItemTable();
 
-        final PackageResource packageResource = new PackageResource(packageDAO);
+        final PackageResource packageResource = new PackageResource(jdbi, packageDAO);
         environment.jersey().register(packageResource);
     }
 

@@ -58,6 +58,10 @@ public class Package {
         this.items.add(new PackageItem(name, brand, specification, quantity));
     }
 
+    public void addItems(List<PackageItem> items) {
+        this.items.addAll(items);
+    }
+
     public Double getWeight() {
         return weight;
     }

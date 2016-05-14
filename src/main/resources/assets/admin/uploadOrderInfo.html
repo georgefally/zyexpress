@@ -58,16 +58,13 @@
             <div style="min-height: 16px;"></div>
 
             <div class="row-fluid">
-                <form id="searchCustomerInfoForm" class="form-inline" method="post" onsubmit="return false;">
+                <form id="searchPackageInfoForm" class="form-inline" method="post" onsubmit="return false;">
                     <div class="form-group">
-                        <label>订单结果查询</label>
-                        <input type="text" name="cname" id="search_name" class="form-control" placeholder="搜索用户名" value="">
-                        <input type="hidden" id="searchCustomerInfo_content" name="memIdGroup">
+                        <label>订单查询</label>
+                        <input type="text" name="search_user_name" id="search_user_name" class="form-control" placeholder="搜索用户名" value="">
+                        <input type="submit" name="package_search_submit" id="package_search_submit" class="btn btn-primary btn-lg btn-block" value="搜索">
                     </div>
 
-                    <button class="btn btn-primary" id="search_btn" type="button">
-                        <span class="glyphicon glyphicon-search"></span> 查询
-                    </button>
                 </form>
             </div>
 
@@ -172,5 +169,23 @@ function search() {
         maxFileCount: 1,
         overwriteInitial: false
  });
+
+$("#package_search_submit").unbind("click").bind("click", function() {
+    var data = $("#searchPackageInfoForm").serializeArray();//序列化表单
+    $.ajax({
+        type : "POST",
+        contentType : "application/x-www-form-urlencoded",
+        url : "../restful/package/search",
+        dataType : "json",
+        data : data || "",
+        success : function(data) {
+            var packages = JSON.stringify(data.payload);
+            alert("Packages: " + packages);
+        },
+        error : function(jqXHR, textStatus, errorThrown) {
+            alert("Package query failed, error: " + jqXHR.responseText);
+        }
+    });
+});
 
 </script>
