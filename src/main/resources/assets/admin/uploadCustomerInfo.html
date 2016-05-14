@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>上传顾客信息</title>
-    <script src="scripts/jquery/jquery.js"></script>
-    <script src="scripts/jquery/jquery.ajaxfileupload.js"></script>
-    <script src="bootstrap-3.3.6/js/bootstrap.js"></script>
-    <script src="scripts/jquery/fileinput.js"></script>
-    <link href="bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet"/>
-    <link href="css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+    <script src="../scripts/jquery/jquery.js"></script>
+    <script src="../scripts/jquery/jquery.ajaxfileupload.js"></script>
+    <script src="../bootstrap-3.3.6/js/bootstrap.js"></script>
+    <script src="../scripts/jquery/fileinput.js"></script>
+    <link href="../bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
@@ -16,7 +16,7 @@
 <nav class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#"><img width="120" height="38" src="image/zyexpresswhite.png"></a>
+            <a class="navbar-brand" href="#"><img width="120" height="38" src="../image/zyexpresswhite.png"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
         </div> <!-- .nav-collapse -->
@@ -73,7 +73,7 @@
 <script>
 
 $("#excelfile").fileinput({
-    uploadUrl: "restful/userIdCard/uploadExcel", // server upload action
+    uploadUrl: "../restful/userIdCard/uploadExcel", // server upload action
     uploadAsync: true,
     minFileCount: 1,
     maxFileCount: 1,
@@ -81,7 +81,7 @@ $("#excelfile").fileinput({
 });
 
 $("#picfile").fileinput({
-    uploadUrl: "restful/userIdCard/uploadPicture", // server upload action
+    uploadUrl: "../restful/userIdCard/uploadPicture", // server upload action
     uploadAsync: true,
     minFileCount: 1,
     maxFileCount: 1,
