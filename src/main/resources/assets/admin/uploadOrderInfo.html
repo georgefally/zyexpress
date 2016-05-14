@@ -39,16 +39,16 @@
 
         <div class="col-md-9" id="content2">
             <div class="row-fluid">
-                <form enctype="multipart/form-data"  id="uploadForm">
-                    <label class="control-label">上传订单文件 </label>
-                    <label class="help-block">格式：参考模板下载（EXCEL）</label>
+                <form enctype="multipart/form-data"  id="packageUploadForm">
+                    <label class="control-label">上传订单文件</label>
                     <input id="packageExcelFile" name="packageExcelFile" class="file" type="file" data-show-preview="false"
                            data-show-upload="true" data-show-caption="true" data-allowed-file-extensions='["xlsx", "xls"]'>
                     <div id="fileError" class="help-block"></div>
-                    <button class="btn btn-primary" id="download_btn" type="button">
-                        <span class="glyphicon glyphicon-download-alt"></span> 模板下载
-                    </button>
+                    <br />
                 </form>
+                <a href="order_file_sample.xlsx" target="_blank" download="order_file_sample.xlsx">
+                    <label class="control-label">订单文件格式样例</label>
+                </a>
             </div>
 
             <div style="min-height: 16px;"></div>
@@ -109,14 +109,6 @@ $(function(){
 		search();
 	});
 
-    $("#download_btn").unbind("click").bind("click", function() {
-	    download();
-	});
-
-	$("#export_btn").unbind("click").bind("click", function() {
-	    exports();
-	});
-
 	 //查询页面--绑定全选控件
     $("input[name='selectAll']").click(function(){
          //alert("selected");
@@ -171,15 +163,6 @@ function search() {
 			alert("绑定事件的失败....");
 		}
 	});
-}
-
-function download(){
-    var data = $("input[name='memIdGroup']:checked").serialize();
-    $("#searchCustomerInfoForm").attr("onsubmit","return true");
-    $("#searchCustomerInfoForm").attr("action","../restful/admin/downloadModel");
-    $("#searchCustomerInfo_content").val(data);
-    $("#searchCustomerInfoForm").submit();
-    $("#searchCustomerInfoForm").attr("onsubmit","return false");
 }
 
  $("#packageExcelFile").fileinput({

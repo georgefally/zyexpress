@@ -12,6 +12,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -27,6 +29,7 @@ import java.util.List;
 @Path("/package")
 @Produces(MediaType.APPLICATION_JSON)
 public class PackageResource {
+    private static final Logger logger = LoggerFactory.getLogger(PackageResource.class);
 
     private final PackageDAO packageDAO;
 
@@ -88,6 +91,7 @@ public class PackageResource {
                 }
                 savedPackages.add(p);
             }
+            logger.info("In total {} new packages added: {}. ", savedPackages.size(), savedPackages.toString());
 
             RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, savedPackages);
             return Response.status(200).entity(response).build();
