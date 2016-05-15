@@ -187,7 +187,7 @@ textarea.form-control1 {
 
 .modal-font {
     color: #6a6a6a;
-    font-family: "Vernada","微软雅黑";
+    font-family: "Vernada", "微软雅黑", serif;
     line-height: 180%;
 }
 

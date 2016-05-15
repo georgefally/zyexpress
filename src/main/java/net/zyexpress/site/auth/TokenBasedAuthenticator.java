@@ -6,6 +6,7 @@ import com.google.common.cache.CacheBuilder;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.basic.BasicCredentials;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -20,14 +21,14 @@ import java.util.concurrent.TimeUnit;
 //          "Authorization": "Basic " + btoa(USERNAME + ":" + PASSWORD)
 public class TokenBasedAuthenticator implements Authenticator<BasicCredentials, AuthPrincipal> {
 
-    private static final Cache<String, AuthPrincipal> principalCache = CacheBuilder.newBuilder()
+    private static final Cache<Pair<String, String>, AuthPrincipal> principalCache = CacheBuilder.newBuilder()
             .maximumSize(10000).expireAfterWrite(30, TimeUnit.MINUTES).build();
 
     public static String getUniqueToken() {
         return UUID.randomUUID().toString();
     }
     public static void addPrincipalToCache(final String token, final AuthPrincipal principal) {
-        principalCache.put(token, principal);
+        principalCache.put(Pair.of(principal.getName(), token), principal);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class TokenBasedAuthenticator implements Authenticator<BasicCredentials, 
         String userName = credentials.getUsername();
         String token = credentials.getPassword();
 
-        AuthPrincipal principal = principalCache.getIfPresent(token);
+        AuthPrincipal principal = principalCache.getIfPresent(Pair.of(userName, token));
         if (principal == null) return Optional.empty();
         if (!Objects.equal(principal.getToken(), token)) return Optional.empty();
         if (!Objects.equal(principal.getName(), userName)) return Optional.empty();

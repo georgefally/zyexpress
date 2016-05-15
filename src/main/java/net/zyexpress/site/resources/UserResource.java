@@ -37,7 +37,7 @@ public class UserResource {
                     "Invalid user name or password");
             return Response.status(403).entity(response).build();
         }
-        if (!Objects.equal(user.getPassword(),  password)) {
+        if (!Objects.equal(user.getPassword(), password)) {
             RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
                     "Invalid user name or password");
             return Response.status(403).entity(response).build();
@@ -57,6 +57,12 @@ public class UserResource {
     public Response registerUser(@FormParam("register_username") @NotEmpty String userName,
                                  @FormParam("register_password") @NotEmpty String password) {
         try {
+            User existingUser = userDAO.findByUserName(userName);
+            if (existingUser != null) {
+                String msg = String.format("User name %s already exists", userName);
+                RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, msg);
+                return Response.status(500).entity(response).build();
+            }
             User user = new User(userName, password, false, false);
             userDAO.insert(user);
             RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, user);

@@ -4,84 +4,62 @@
     <meta charset="UTF-8">
     <title>中洋国际快递集团</title>
     <script src="../scripts/jquery/jquery.js"></script>
+    <script src="../scripts/jquery/easydialog.js"></script>
     <script src="../bootstrap-3.3.6/js/bootstrap.js"></script>
     <link href="../bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet"/>
     <link href="../css/custom.css" rel="stylesheet"/>
     <link href="../css/register.css" rel="stylesheet"/>
     <link href="../css/account.css" rel="stylesheet"/>
+    <link href="../css/easydialog.css" rel="stylesheet"/>
     <style type="text/css">
-        #modal-read {
-        height: 650px;
-        margin-top: 60px;
-        width: 760px;
-        }
 
         label {
-        display: inline-block;
-        font-weight: bold;
-        margin-bottom: 5px;
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
 
         .btn-blue, .btn-blue:hover {
-        border: 1px;
-        border-style: solid;
-        color: #fff;
+            border: 1px solid;
+            color: #fff;
         }
 
         .btn-blue {
-        background: #0581b2;
-        border-color: #0581b2;
+            background: #0581b2;
+            border-color: #0581b2;
         }
 
         .btn-blue:hover {
-        background: #0374A4;
-        border-color: #0374A4;
+            background: #0374A4;
+            border-color: #0374A4;
         }
 
         .reg_left a:hover {
-        color: #0581b2;
+            color: #0581b2;
         }
 
         .field-valid {
-        float: right;
-        color: red;
-        display: none;
-        }
-
-        .pop_con {
-        color: #999;
-        margin: 0 auto;
-        padding: 20px 30px 10px;
+            float: right;
+            color: red;
+            display: none;
         }
 
         .form-control1 {
-        background-color: #fff;
-        background-image: none;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-        color: #555;
-        display: block;
-        font-size: 14px;
-        height: 34px;
-        line-height: 1.42857;
-        padding: 4px 12px;
-        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-        vertical-align: middle;
-        width: 100%;
-        }
-
-        .radio, .checkbox {
-        display: block;
-        margin-bottom: 10px;
-        margin-top: 10px;
-        min-height: 20px;
-        padding-left: 20px;
-        vertical-align: middle;
+            background: #fff none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+            color: #555;
+            display: block;
+            font-size: 14px;
+            height: 34px;
+            line-height: 1.42857;
+            padding: 4px 12px;
+            transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+            vertical-align: middle;
+            width: 100%;
         }
     </style>
-
-
 </head>
 <body>
 
@@ -93,8 +71,8 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="../index.html">首页</a></li>
-                <li><a href="/hrExpress.html">人才招聘</a></li>
-                <li><a href="/bizKnowledge.html">业务常识</a></li>
+                <li><a href="../hrExpress.html">人才招聘</a></li>
+                <li><a href="../bizKnowledge.html">业务常识</a></li>
                 <li><a href="#">联系我们</a></li>
                 <li class="active"><a href="#">注册</a></li>
                 <li><a href="#" id="aLogin" data-toggle="modal" data-target="#mymodal">登录</a></li>
@@ -105,54 +83,58 @@
 
 <div class="container">
     <div class="w_960 clearfix" style="padding-top: 50px;">
-        <form class="login-form"  id="userRegisterForm"  method="post" onsubmit="return false;">
-        <div class="reg_left">
-            <div class="reg_left_con">
-                <h3 class="bd_b2">新用户注册</h3>
-                <div class="form-group">
-                    <label class="font_normal pd_l_10">账户名</label>
-                    <span class="field-valid" id="tipusername">请输入登录名</span>
-                    <input class="form-control2" id="username" maxlength="11" name="register_username" placeholder="登录名" type="text" value="" />
-                    <input type="hidden" id="hdexituser" value="" />
-                </div>
-                <div class="form-group mg_b_0 ">
-                    <label class="font_normal pd_l_10">
-                        真实姓名
-                    </label>
-                    <span class="field-valid" id="tiprealname">请输入有效的真实姓名</span>
-                    <input class="form-control2" id="realname" name="realname" placeholder="请输入有效的真实姓名" type="text" value="" />
-                </div>
-                <div class="form-group">
-                    <label class="font_normal pd_l_10">设置密码</label><span class="field-valid" id="tipfirstpassword">密码必须至少包含6个字符。</span>
-                    <input class="form-control2" id="firstpassword" name="firstpassword" placeholder="设置密码" type="password" value="" />
-                </div>
-                <div class="form-group">
-                    <label class="font_normal pd_l_10">确认密码</label><span class="field-valid" id="tipconfirmpassword">密码和确认密码不匹配。</span>
-                    <input class="form-control2" id="confirmpassword" name="register_password" placeholder="确认密码" type="password" />
-                </div>
-                <div class="square-green">
-                    <div class="checkbox pd_0">
-                        <input type="checkbox" id="ckb_com" />
-                        <label style="font-weight: normal">我同意业务常识中的服务协议</a></label>
+        <form class="login-form" id="userRegisterForm" method="post" onsubmit="return false;">
+            <div class="reg_left">
+                <div class="reg_left_con">
+                    <h3 class="bd_b2">新用户注册</h3>
+                    <div class="form-group">
+                        <label class="font_normal pd_l_10">账户名</label>
+                        <span class="field-valid" id="tipusername">请输入登录名</span>
+                        <input class="form-control2" id="username" maxlength="11" name="register_username"
+                               placeholder="登录名" type="text" value=""/>
+                        <input type="hidden" id="hdexituser" value=""/>
                     </div>
+                    <div class="form-group mg_b_0 ">
+                        <label class="font_normal pd_l_10"> 真实姓名 </label>
+                        <span class="field-valid" id="tiprealname">请输入有效的真实姓名</span>
+                        <input class="form-control2" id="realname" name="realname" placeholder="请输入有效的真实姓名" type="text"
+                               value=""/>
+                    </div>
+                    <div class="form-group">
+                        <label class="font_normal pd_l_10">设置密码</label><span class="field-valid" id="tipfirstpassword">密码必须至少包含6个字符。</span>
+                        <input class="form-control2" id="firstpassword" name="firstpassword" placeholder="设置密码"
+                               type="password" value=""/>
+                    </div>
+                    <div class="form-group">
+                        <label class="font_normal pd_l_10">确认密码</label><span class="field-valid"
+                                                                             id="tipconfirmpassword">密码和确认密码不匹配。</span>
+                        <input class="form-control2" id="confirmpassword" name="register_password" placeholder="确认密码"
+                               type="password"/>
+                    </div>
+                    <div class="square-green">
+                        <div class="checkbox pd_0">
+                            <input type="checkbox" id="ckb_com"/>
+                            <label style="font-weight: normal">我同意业务常识中的服务协议</a></label>
+                        </div>
+                    </div>
+                    <div class="line_40"></div>
+                    <button type="button" id="btn_register" onclick="validate_register_form()"
+                            class="btn1 btn-blue btn-lg1 btn-block mg_t_20">注册
+                    </button>
                 </div>
-                <div class="line_40"></div>
-                <button type="button" id="btn_register" onclick="validate_registerform()" class="btn1 btn-blue btn-lg1 btn-block mg_t_20">注册</button>
             </div>
-        </div>
-    </form>
+        </form>
     </div>
 
 </div>
 
 <footer class="footer">
     <div class="panel panel-default">
-        <div class="panel-footer">
+        <div class="panel-footer" align="center">
             <p>Copyright &copy; 2016 ZYExpress - All Rights Reserved</p>
         </div>
     </div>
 </footer>
-
 
 <!--登录-->
 <div class="modal fade" id="mymodal">
@@ -165,23 +147,31 @@
             <div class="row">
                 <div style="border: 0px solid #bbbbbb; height: 300px; width: 400px;">
                     <div class="login_con" style="padding-left:75px;" id="logindiv">
-                        <form role="form" id="userLoginForm" onsubmit="return validate_loginformi()" method="post" class="form-inline">
+                        <form role="form" id="userLoginForm" onsubmit="return validate_login_form()" method="post"
+                              class="form-inline">
                             <div class="input-group mg_b_10" style="width:100%;">
                                     <span class="input-group-addon" style="width:10%;">
                                         <i class="glyphicon glyphicon-user"></i>
                                     </span>
                                 <input type="text" class="form-control1" data-val="true" data-val-required="账户名 字段是必需的。"
-                                       id="IUserName" name="login_username" placeholder="账户名" value="" />
+                                       id="IUserName" name="login_username" placeholder="账户名" value=""/>
                             </div>
                             <div class="input-group mg_b_10" style="width:100%;">
-                                    <span class="input-group-addon"  style="width:10%;">
+                                    <span class="input-group-addon" style="width:10%;">
                                         <span class="glyphicon glyphicon-lock"></span>
                                     </span>
-                                <input type="password" class="form-control1" data-val="true" data-val-required="密码 字段是必需的。" id="IPassword" name="login_password" placeholder="密码" onkeydown="if(event.keyCode==13) {validate_loginformi();return false;}" />
+                                <input type="password" class="form-control1" data-val="true"
+                                       data-val-required="密码 字段是必需的。" id="IPassword" name="login_password"
+                                       placeholder="密码"
+                                       onkeydown="if(event.keyCode==13) {validate_login_form();return false;}"/>
                             </div>
-                            <button class="btn1 btn-blue btn-lg1 btn-block" type="button" onclick="validate_loginformi();">登录</button>
-                            <a style="text-align: left; color: #0581b2; display: block; font-size: 14px; padding: 5px 10px 0; float: left;" href="/Account/ResetQueryPwd.aspx">忘记密码</a>
-                            <a style="text-align: left; color: #0581b2; display: block; font-size: 14px; padding-top: 5px; padding-right: 10px; float: right" href="/Account/Register.aspx">免费注册</a>
+                            <button class="btn1 btn-blue btn-lg1 btn-block" type="button"
+                                    onclick="validate_login_form();">登录
+                            </button>
+                            <a style="text-align: left; color: #0581b2; display: block; font-size: 14px; padding: 5px 10px 0; float: left;"
+                               href="javascript:void(0)" onclick="forget_password();">忘记密码</a>
+                            <a style="text-align: left; color: #0581b2; display: block; font-size: 14px; padding-top: 5px; padding-right: 10px; float: right"
+                               href="./register.html">免费注册</a>
                         </form>
                     </div>
                 </div>
@@ -194,166 +184,173 @@
 <!-- 模态弹出窗 -->
 
 <script>
-     $(function () {
+    $(function () {
 
-            $('#realname').blur(function () {
-                var reg = /^[\u2E80-\u9FFF]{2,10}$/;
-                if ($(this).val().trim().length = 0 || $(this).val().trim() == "") {
-                    $('#tiprealname').html('真实姓名不能为空').show();
-                }
-                else {
-                    $('#tiprealname').hide();
-                }
-            });
-
-            $('#firstpassword').blur(function () {
-                if ($(this).val().trim() == "") {
-                    $('#tipfirstpassword').html('请输入密码').show();
-                }
-                else if ($(this).val().trim().length < 6) {
-                    $('#tipfirstpassword').html('密码必须至少包含6个字符').show();
-                }
-                else {
-                    $('#tipfirstpassword').hide();
-                }
-            });
-
-            $('#confirmpassword').blur(function () {
-                if ($(this).val().trim() == "") {
-                    $('#tipconfirmpassword').html('请输入确认密码').show();
-                }
-                else if ($(this).val().trim().length < 6) {
-                    $('#tipconfirmpassword').html('确认密码必须至少包含6个字符').show();
-                }
-                else if ($(this).val() != $('#firstpassword').val()) {
-                    $('#tipconfirmpassword').html('密码和确认密码不匹配').show();
-                }
-                else {
-                    $('#tipconfirmpassword').hide();
-                }
-            });
+        $('#realname').blur(function () {
+            var reg = /^[\u2E80-\u9FFF]{2,10}$/;
+            if ($(this).val().trim().length = 0 || $(this).val().trim() == "") {
+                $('#tiprealname').html('真实姓名不能为空').show();
+            }
+            else {
+                $('#tiprealname').hide();
+            }
         });
 
-        //表单校验
-        function validate_form() {
-            if (!$("#ckb_com").is(":checked")) {
-                alert("您还未同意中洋快递相关服务协议哦！");
-                return false;
-            }
-            if ($('#username').val().trim().length == 0 || $('#username').val() == "") {
-                $('#tipusername').html('请输入用户名').show();
-                return false;
-            }
-            if ($('#realname').val().trim().length == 0 || $('#realname').val() == "") {
-                $('#tiprealname').html('真实姓名不能为空').show();
-                return false;
-            }
-
-            if ($('#firstpassword').val().trim().length == 0 || $('#firstpassword').val() == "") {
+        $('#firstpassword').blur(function () {
+            if ($(this).val().trim() == "") {
                 $('#tipfirstpassword').html('请输入密码').show();
-                return false;
             }
-            if ($('#confirmpassword').val().trim().length == 0 || $('#confirmpassword').val() == "") {
+            else if ($(this).val().trim().length < 6) {
+                $('#tipfirstpassword').html('密码必须至少包含6个字符').show();
+            }
+            else {
+                $('#tipfirstpassword').hide();
+            }
+        });
+
+        $('#confirmpassword').blur(function () {
+            if ($(this).val().trim() == "") {
                 $('#tipconfirmpassword').html('请输入确认密码').show();
-                return false;
             }
-            if ($('#confirmpassword').val() != $('#firstpassword').val()) {
+            else if ($(this).val().trim().length < 6) {
+                $('#tipconfirmpassword').html('确认密码必须至少包含6个字符').show();
+            }
+            else if ($(this).val() != $('#firstpassword').val()) {
                 $('#tipconfirmpassword').html('密码和确认密码不匹配').show();
-                return false;
             }
+            else {
+                $('#tipconfirmpassword').hide();
+            }
+        });
+    });
 
-            if ($('.field-valid:visible').length > 0) {
-                return false;
-            }
-            return true;
+    //表单校验
+    function validate_form() {
+        if (!$("#ckb_com").is(":checked")) {
+            alert("您还未同意中洋快递相关服务协议哦！");
+            return false;
+        }
+        if ($('#username').val().trim().length == 0 || $('#username').val() == "") {
+            $('#tipusername').html('请输入用户名').show();
+            return false;
+        }
+        if ($('#realname').val().trim().length == 0 || $('#realname').val() == "") {
+            $('#tiprealname').html('真实姓名不能为空').show();
+            return false;
         }
 
-        //提交
-        function validate_registerform() {
-            if (validate_form()) {
-                var username = $('#username').val().trim();
-                var password=$('#firstpassword').val().trim();
-                var realname = $('#realname').val().trim();
-
-                $("#btn_register").prop("disabled", true);
-                $("#btn_register").html("正在为您注册…");
-
-                 var data = $("#userRegisterForm").serializeArray();//序列化表单
-                $.ajax({
-                    type : "PUT",
-                    contentType : "application/x-www-form-urlencoded",
-                    async: false,
-                    url : "../restful/user",
-                    dataType : "json",
-                    data : data || "",
-                    success : function(data) {
-                        var user = data.payload;
-                        alert("注册成功, user: " + user);
-                        $('#btn_register').prop("disabled", false);
-                        $('#btn_register').html("注册");
-                        //validate_loginformi();
-                    },
-                    error : function(jqXHR, textStatus, errorThrown) {
-                        alert("Failed to register, error: " + jqXHR.responseText);
-                    }
-                });
-            }
+        if ($('#firstpassword').val().trim().length == 0 || $('#firstpassword').val() == "") {
+            $('#tipfirstpassword').html('请输入密码').show();
+            return false;
+        }
+        if ($('#confirmpassword').val().trim().length == 0 || $('#confirmpassword').val() == "") {
+            $('#tipconfirmpassword').html('请输入确认密码').show();
+            return false;
+        }
+        if ($('#confirmpassword').val() != $('#firstpassword').val()) {
+            $('#tipconfirmpassword').html('密码和确认密码不匹配').show();
+            return false;
         }
 
-         function validate_loginformi() {
-            if ($('#logindiv #IUserName').val() == null || $('#logindiv #IUserName').val() == "") {
-                alert("登录名（账户名）不能为空！");
-                return false;
-            }
-            if ($('#logindiv #IPassword').val() == null || $('#logindiv #IPassword').val() == "") {
-                alert("密码不能为空！");
-                return false;
-            }
+        if ($('.field-valid:visible').length > 0) {
+            return false;
+        }
+        return true;
+    }
 
-            //用户登录
-            var username = $('#logindiv #IUserName').val();
-            var password = $('#logindiv #IPassword').val();
-            var returnUrl = "/Index.aspx";
-            var data = $("#userLoginForm").serializeArray();//序列化表单
+    //提交
+    function validate_register_form() {
+        if (validate_form()) {
+            var username = $('#username').val().trim();
+            var password = $('#firstpassword').val().trim();
+            var realname = $('#realname').val().trim();
 
+            $("#btn_register").prop("disabled", true);
+            $("#btn_register").html("正在为您注册…");
+
+            var data = $("#userRegisterForm").serializeArray();//序列化表单
             $.ajax({
-                type : "POST",
+                type: "PUT",
+                contentType: "application/x-www-form-urlencoded",
                 async: false,
-                contentType : "application/x-www-form-urlencoded",
-                url : "../restful/user/login",
-                dataType : "json",
-                data : data || "",
-                success : function(data) {
-                    var login_user = username;
-                    var login_token = data.payload;
-                    sessionStorage.login_user = username;
-                    sessionStorage.login_token = data.payload;
-                    alert("Login submitted, user=" + login_user + ", token=" + login_token);
-                    window.location = "./info.html"
+                url: "../restful/user",
+                dataType: "json",
+                data: data || "",
+                success: function (data) {
+                    $('#btn_register').prop("disabled", false);
+                    $('#btn_register').html("注册");
+                    easyDialog.open({
+                        container: {
+                            content: "注册成功，用户名： " + data.payload.userName
+                        },
+                        autoClose: 2000
+                    });
                 },
-                error : function(jqXHR, textStatus, errorThrown) {
-                    alert("Login failed, error: " + jqXHR.responseText);
+                error: function (jqXHR, textStatus, errorThrown) {
+                    easyDialog.open({
+                        container: {
+                            content: "注册失败，错误： " + jqXHR.responseJSON.payload
+                        },
+                        autoClose: 2000
+                    });
+                    $('#btn_register').prop("disabled", false);
+                    $('#btn_register').html("注册");
                 }
             });
+        }
+    }
 
-            /*$.ajax({
-                url: "/Account/Ajax/DoLogin.ashx",
-                type: "POST",
-                async: false,
-                data: "Act=Login&username=" + username + "&password=" + password + "&returl=" + returnUrl,
-                dataType: 'json',
-                error: function () { alert("亲，提交出错了，稍后再试哦...") },
-                success: function (data) {
-                    if (data.msg != "") {
-                        $("#liError").html(data.msg);
-                    }
-                    if (data.returl != "") {
-                        window.location.href = data.returl;
-                    }
-                }
-            });*/
+    function validate_login_form() {
+        if ($('#logindiv #IUserName').val() == null || $('#logindiv #IUserName').val() == "") {
+            alert("登录名（账户名）不能为空！");
+            return false;
+        }
+        if ($('#logindiv #IPassword').val() == null || $('#logindiv #IPassword').val() == "") {
+            alert("密码不能为空！");
+            return false;
         }
 
+        //用户登录
+        var username = $('#logindiv #IUserName').val();
+        var password = $('#logindiv #IPassword').val();
+        var data = $("#userLoginForm").serializeArray();//序列化表单
+
+        $.ajax({
+            type: "POST",
+            async: false,
+            contentType: "application/x-www-form-urlencoded",
+            url: "../restful/user/login",
+            dataType: "json",
+            data: data || "",
+            success: function (data) {
+                var login_user = username;
+                var login_token = data.payload;
+                sessionStorage.login_user = username;
+                sessionStorage.login_token = data.payload;
+                window.location = "./info.html"
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                easyDialog.open({
+                    container: {
+                        content: "登录失败，错误： " + jqXHR.responseJSON.payload
+                    },
+                    autoClose: 2000
+                });
+            }
+        });
+    }
+
+    function forget_password() {
+        easyDialog.open({
+            container: {
+                header : '忘记密码',
+                content: "请将您的用户名、注册时间、真实用户名等信息发送至xxx@xxx.com，管理员经审核核实后，将发送重置密码邮件给您。",
+                yesFn: true
+            },
+            fixed: false,
+            autoClose: 10000
+        });
+    }
 
 </script>
 </body>
