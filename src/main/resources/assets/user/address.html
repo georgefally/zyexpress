@@ -552,10 +552,13 @@
                             }
                             addHtml = addHtml + "<tr>"
                                     +"<td data-name='Id' style='display: none;'>"+item.id+"</td>"
-                                    +"<td data-name='Provience' style='display: none;'>"+item.id+"</td>"
-                                    +"<td data-name='City' style='display: none;'>"+item.id+"</td>"
-                                    +"<td data-name='Area' style='display: none;'>"+item.id+"</td>"
-                                    +"<td data-name='Street' style='display: none;'>"+item.id+"</td>"
+                                    +"<td data-name='UserName1' style='display: none;'>"+item.receiverName+"</td>"
+                                    +"<td data-name='Mobile' style='display: none;'>"+item.phoneNumber+"</td>"
+                                    +"<td data-name='Provience' style='display: none;'>"+item.province+"</td>"
+                                    +"<td data-name='City' style='display: none;'>"+item.city+"</td>"
+                                    +"<td data-name='Area' style='display: none;'>"+item.area+"</td>"
+                                    +"<td data-name='Street' style='display: none;'>"+item.street+"</td>"
+                                    +"<td data-name='Postcode' style='display: none;'>"+item.postcode+"</td>"
                                     +"<td data-name='Ckstate' style='display: none;'>"+item.id+"</td>"
                                     +"<td class='fontCenter2'><input type='checkbox' name='cbxAddress' value="+item.id+" id="+item.id+"></td>"
                                     + "<td class='fontCenter2' style='width:250px'>"
@@ -804,15 +807,16 @@
                 var e = $(this).parent().parent().parent().parent();
                 $('#userAddressId').val(e.find("[data-name='Id']").html());
                 $('[name="Id"]').val(e.find("[data-name='Id']").html());
-                $('[name="UserName1"]').val(e.find("[data-name='UserName1']").html());
-                $('[name="Mobile"]').val(e.find("[data-name='Mobile']").html());
+                $('[name="receiver_name"]').val(e.find("[data-name='UserName1']").html());
+                $('[name="phone_number"]').val(e.find("[data-name='Mobile']").html());
                 $('[name="provience"]').val(e.find("[data-name='Provience']").html());
-                //$('[name="provience"]').change();
+                $('[name="provience"]').change();
 
                 $('[name="city"]').val(e.find("[data-name='City']").html());
-                //$('[name="city"]').change();
+                $('[name="city"]').change();
                 $('[name="area"]').val(e.find("[data-name='Area']").html());
-                $('[name="Street"]').val(e.find("[data-name='Street']").html());
+                $('[name="address"]').val(e.find("[data-name='Street']").html());
+                $('[name="postcode"]').val(e.find("[data-name='Postcode']").html());
 
                 $('[name="Ckstate"]').val(e.find("[data-name='Ckstate']").html());
                 $('[name="ckb_com"]:checkbox').attr("checked", false);
