@@ -59,6 +59,41 @@ public class AddressResource {
         }
     }
 
+    // TODO: pass json object array instead of many form fields
+    @Path("/edit")
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response editAddress(@QueryParam("login_name") String accountName,
+                                  @FormParam("Id") @NotEmpty String id,
+                                  @FormParam("receiver_name") @NotEmpty String receiverName,
+                                  @FormParam("phone_number") @NotEmpty String phoneNumber,
+                                  @FormParam("postcode") String postcode,
+                                  @FormParam("is_default") String isDefaultSet,
+                                  @FormParam("provience") String province,
+                                  @FormParam("city") String city,
+                                  @FormParam("area") String area,
+                                  @FormParam("address") String street) {
+        Boolean isDefault = false;
+        try {
+            if(isDefaultSet != null){
+                if(isDefaultSet.equals("on")) {
+                    isDefault = true;
+                }
+            }
+            String address = province + city + area + street;
+
+            Address addressItem = new Address(new Integer(id),accountName,receiverName,address,phoneNumber,postcode,isDefault,province,city,area,street);
+            addressDAO.editAddressItem(addressItem);
+
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS,"success");
+            return Response.status(200).entity(response).build();
+        } catch (Exception ex) {
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.toString());
+            return Response.status(500).entity(response).build();
+        }
+    }
+
     @Path("query")
     @POST
     @Timed

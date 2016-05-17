@@ -18,6 +18,11 @@ public interface AddressDAO {
             "values(:accountName, :receiverName, :address, :phoneNumber, :postcode,:default,:province, :city,:area,:street)")
     void addAddressItem(@BindBean Address address);
 
+    @SqlUpdate("update addressItem set receiverName=:receiverName, address=:address, phonenumber=:phoneNumber , postcode=:postcode, "+
+            "isDefault=:default, province=:province, city=:city, area=:area,street=:street " +
+            "where id=:id ")
+    void editAddressItem(@BindBean Address address);
+
     @SqlQuery("select * from addressItem where accountName = :accountName")
     @Mapper(AddressMapper.class)
     List<Address> findByUserName(@Bind("accountName") String accountName);

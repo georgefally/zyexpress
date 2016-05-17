@@ -387,7 +387,8 @@
                 <div class="add-address">
                     <a href="javascript:page.AddAddress();">添加收货地址</a>
                 </div>
-                <div class="batch">
+
+               <!-- <div class="batch">
                     <div class="floatLeft">
                         <input type="checkbox" name="cbxAll" id="cbxAll" />全选
                     </div>
@@ -396,11 +397,11 @@
                     </div>
 
                     <div class="clear"></div>
-                </div>
+                </div>-->
                 <table class="user-address-table table-condensed table-hover table-bordered">
                     <thead>
                     <tr>
-                        <th></th>
+                        <!--<th></th>-->
                         <th style="width: 10%;">姓名</th>
                         <th style="width: 25%;">手机</th>
                         <th style="width: 40%;">详细地址</th>
@@ -560,7 +561,7 @@
                                     +"<td data-name='Street' style='display: none;'>"+item.street+"</td>"
                                     +"<td data-name='Postcode' style='display: none;'>"+item.postcode+"</td>"
                                     +"<td data-name='Ckstate' style='display: none;'>"+item.id+"</td>"
-                                    +"<td class='fontCenter2'><input type='checkbox' name='cbxAddress' value="+item.id+" id="+item.id+"></td>"
+                                    //+"<td class='fontCenter2'><input type='checkbox' name='cbxAddress' value="+item.id+" id="+item.id+"></td>"
                                     + "<td class='fontCenter2' style='width:250px'>"
                                     + item.receiverName + "</td>"
                                     + "<td class='fontCenter2' style='width:200px'>"
@@ -624,10 +625,7 @@
                 $('#addorupdateaddress').modal({
                     keyboard: false
                 });
-
                 $('.cropper-bg').hide();
-                $('#imgCarda').removeClass('cropper-hidden');
-                $('#imgCardb').removeClass('cropper-hidden');
             },
             //删除
             Delete: function (ids) {
@@ -721,7 +719,7 @@
                 if (page.Validate()) {
                     $("#btnSavaAddress").attr("href", "javascript:;");
                     $('#btnSavaAddress').html("提交中...");
-                    var oUrl = $("#UserId").val() == "0" ? "../restful/address/add?login_name="+login_user : "Ajax/DoMyAddress.ashx?Act=EditAddress";
+                    var oUrl = $("#UserId").val() == "0" ? "../restful/address/add?login_name="+login_user : "../restful/address/edit?login_name="+login_user;
                     $("#AddressForm").ajaxSubmit({
                         url: oUrl,
                         type: "POST",
@@ -832,128 +830,6 @@
 
                 $('.cropper-bg').hide();
             });
-            //绑定上传按钮
-            var $fileImagea = $('#fileImagea'), $fileImageb = $('#fileImageb'), URL = window.URL || window.webkitURL, blobURL;
-            if (URL) {
-                $fileImagea.change(function () {
-                    var files = this.files,
-                        file;
-
-                    if (files && files.length) {
-                        file = files[0];
-
-                        if (/^image\/\w+$/.test(file.type)) {
-
-                            $("#AddressForm").ajaxSubmit({
-                                url: "Ajax/DoMyAddress.ashx?Act=UploadCard&imageType=1",
-                                type: "POST",
-                                async: true,
-                                dataType: 'json',
-                                beforeSend: function () {
-                                    $('.loading').show();
-                                },
-                                complete: function () {
-                                    $('.loading').hide();
-                                },
-                                error: function () { $('.loading').hide(); DiaLog("亲，图片上传出错了，稍后再试哦…"); },
-                                success: function (data) {
-                                    $('.loading').hide();
-                                    if (data.state == 200) {
-                                        $("#imgCarda").attr("src", data.data);
-                                        $("#picpathA").val(data.data);
-
-                                        var imgCarda = document.getElementById("imgCarda");
-                                        imgCarda.onload = function () {
-                                            if ($fileImagea.val() != "") {
-                                                blobURL = URL.createObjectURL(file);
-                                                page.InitiImageA();
-                                                $(".imgCarda").one('built.cropper', function () {
-                                                    URL.revokeObjectURL(blobURL); // Revoke when load complete
-                                                }).cropper('reset', true).cropper('replace', blobURL);
-                                            }
-                                        }
-
-                                    } else {
-                                        if (data.msg != "")
-                                            DiaLog(data.msg);
-                                        else
-                                            DiaLog("亲，图片上传出错了，稍后再试哦…");
-                                        $fileImagea.val('');
-                                    }
-                                }
-                            });
-                        } else {
-                            DiaLog('请选择图片文件.');
-                        }
-                    }
-                });
-                $fileImageb.change(function () {
-                    var files = this.files,
-                        file;
-
-                    if (files && files.length) {
-                        file = files[0];
-
-                        if (/^image\/\w+$/.test(file.type)) {
-
-                            $("#AddressForm").ajaxSubmit({
-                                url: "Ajax/DoMyAddress.ashx?Act=UploadCard&imageType=2",
-                                type: "POST",
-                                async: true,
-                                dataType: 'json',
-                                beforeSend: function () {
-                                    $('.loading').show();
-                                },
-                                complete: function () {
-                                    $('.loading').hide();
-                                },
-                                error: function () { $('.loading').hide(); DiaLog("亲，图片上传出错了，稍后再试哦…"); },
-                                success: function (data) {
-                                    $('.loading').hide();
-                                    if (data.state == 200) {
-                                        $("#imgCardb").attr("src", data.data);
-                                        $("#picpathB").val(data.data);
-
-                                        var imgCardb = document.getElementById("imgCardb");
-                                        imgCardb.onload = function () {
-                                            if ($fileImageb.val() != "") {
-                                                blobURL = URL.createObjectURL(file);
-                                                page.InitiImageB();
-                                                $(".imgCardb").one('built.cropper', function () {
-                                                    URL.revokeObjectURL(blobURL); // Revoke when load complete
-                                                }).cropper('reset', true).cropper('replace', blobURL);
-                                            }
-                                        };
-
-                                    } else {
-                                        if (data.msg != "")
-                                            DiaLog(data.msg);
-                                        else
-                                            DiaLog("亲，图片上传出错了，稍后再试哦…");
-                                        $fileImageb.val('');
-                                    }
-                                }
-                            });
-
-                        } else {
-                            DiaLog('请选择图片文件.');
-                        }
-                    }
-                });
-            } else {
-                $fileImagea.parent().remove();
-                $fileImageb.parent().remove();
-            }
-
-            //查看图片
-            $(".showimg").live("click", function () {
-                var array = $(this).parent().children('a');
-                var data = [];
-                for (var i = 0; i < array.length; i++) {
-                    data.push({ url: $(array[i]).children('img').attr('src') });
-                }
-                page.ShowImg(data);
-            });
 
             //默认多选框
             $(":checkbox[name='ckb_com']").click(function () {
@@ -980,10 +856,6 @@
         var strs = photoPath.split(".png");
         var newStrs = strs[0] + "f.png";
         $("li[data-type='" + firlink + "'] img").attr("src", newStrs);
-        //divfooter();
-        //$('.default-date-picker').datepicker({
-        //    format: 'yyyy/mm/dd'
-        //});
 
         $("a[href=#detail]").click(function () {
             $("#detail").load($(this).attr("data-url"));
@@ -1047,27 +919,7 @@
         });
     });
 
- function btn_left(pa) {
-        $('#wscroll' + pa).children().first().animate({ marginLeft: '-=216px' }, 'slow', function () {
-            $(this).appendTo($('#wscroll' + pa)).css('marginLeft', '0px');
-        });
-    }
 
-    function btn_right(pa) {
-        $('#wscroll' + pa).children().last().prependTo($('#wscroll' + pa)).css('marginLeft', '-216px');
-        $('#wscroll' + pa).children().first().animate({ marginLeft: '+=216px' }, 'slow');
-    }
-
-    function hxbtn_left(pa) {
-        $('#hxwscroll' + pa).children().first().animate({ marginLeft: '-=216px' }, 'slow', function () {
-            $(this).appendTo($('#hxwscroll' + pa)).css('marginLeft', '0px');
-        });
-    }
-
-    function hxbtn_right(pa) {
-        $('#hxwscroll' + pa).children().last().prependTo($('#hxwscroll' + pa)).css('marginLeft', '-216px');
-        $('#hxwscroll' + pa).children().first().animate({ marginLeft: '+=216px' }, 'slow');
-    }
 
 
 </script>
