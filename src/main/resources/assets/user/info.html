@@ -60,11 +60,6 @@
         margin-right: 15px;
         }
 
-        .batch-delete {
-        background: url(../Resources/Images/Address/defaultAddress.png) no-repeat;
-        width: 75px;
-        }
-
         .batch-delete a {
         width: 75px;
         height: 22px;
@@ -92,16 +87,6 @@
         .user-address-table .operate-address div {
         float: left;
         margin-right: 5px;
-        }
-
-        .user-address-table .operate-address .check-address {
-        background: url(../Resources/Images/Address/defaultAddress.png) no-repeat;
-        width: 75px;
-        }
-
-        .user-address-table .operate-address .set-address {
-        background: url(../Resources/Images/Address/setDefault.png) no-repeat;
-        width: 75px;
         }
 
         .modal-footer {
@@ -134,7 +119,6 @@
         }
 
         .modal-footer .modal-footer-close {
-        /*background-color:rgb(0,108,153);*/ /*url(../Images/Address/u24.png) no-repeat;*/
         width: 120px;
         height: 36px;
         text-align: center;
@@ -182,7 +166,6 @@
         text-align: right;
         }
 
-
         .fontcolor77 {
         color: #777777;
         }
@@ -198,19 +181,11 @@
         width: 88%;
         }
 
-        .slec_100 {
-        border: 1px solid #ddd;
-        height: 34px;
-        width: 100%;
-        border-radius: 3px;
-        }
-
         .pop_table td.pd_r5 {
         padding: 0px;
         }
 
         .pop_table td.pd_r5 .add-card {
-        /*background: url(../Images/Address/u24.png) no-repeat;*/
         width: 109px;
         height: 31px;
         text-align: center;
@@ -263,20 +238,14 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="../index.html">首页</a></li>
-                <li><a href="/hrExpress.html">人才招聘</a></li>
-                <li><a href="/bizKnowledge.html">业务常识</a></li>
+                <li><a href="../hrExpress.html">人才招聘</a></li>
+                <li><a href="../bizKnowledge.html">业务常识</a></li>
                 <li><a href="#">联系我们</a></li>
                 <li><a href="../index.html">退出</a></li>
-               <!-- <li>
-                    <form method="post" id="logoutform" action="/Account/Ajax/DoLogOff.ashx">
-                        <a href="javascript:document.getElementById('logoutform').submit()">退出</a>
-                    </form>
-                </li>-->
             </ul>
         </div> <!-- .nav-collapse -->
     </div>
 </div>
-
 
     <div style="height: 100%; width: 100%; padding-top: 100px; padding-bottom: 50px;">
         <div class="case">
@@ -291,18 +260,6 @@
                             <td style="width: 100px;">
                             </td>
                             <td></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="personal_a">
-                    <table border="0" style="width: 100%; border: 0px solid #E1DFDA; text-align: center; font-size: 13px; border-collapse: collapse;">
-                        <tr>
-                            <td style="border-top: 1px solid #E1DFDA; padding-top: 7px;">
-                                <a href="/Finance/MyBalances.aspx" style="color: #006C99;">0</a></td>
-                        </tr>
-                        <tr>
-                            <td style="border-left: 1px solid #E1DFDA; border-bottom: 1px solid #E1DFDA; padding-bottom: 7px;">
-                                <a href="/Finance/MyBalances.aspx" style="color: #999999;">余额</a></td>
                         </tr>
                     </table>
                 </div>
@@ -440,7 +397,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+                <h4 class="modal-title" id="passwordModalLabel">修改密码</h4>
             </div>
             <form id="UpdateForm">
                 <div class="pop_con" style="width: 540px">
@@ -726,7 +683,6 @@
                 }
             });
          },
-        //保存收货人信息
         Update: function () {
             if (page.ValidatePWD()) {
                 $("#btnSava").attr("href", "javascript:;");

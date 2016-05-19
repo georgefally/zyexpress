@@ -35,7 +35,7 @@ public interface UserDAO {
     int deleteByUserName(@Bind("userName") String userName);
 
     @SqlUpdate("update User set password = :password where userName = :userName")
-    int updatePassword(@BindBean User user);
+    int updatePassword(@Bind("userName") String userName, @Bind("password") String password);
 
     @SqlUpdate("insert into User (userName, password, isAdmin, isApproved) values " +
             "(:userName, :password, :isAdmin, :isApproved)")

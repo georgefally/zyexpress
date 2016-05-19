@@ -919,9 +919,26 @@
         });
     });
 
-
-
-
+    // Set up a global AJAX error handler to handle the 401 unauthorized responses.
+    // If a 401 status code comes back, the user is no longer logged-into the system and can not use it properly.
+    $.ajaxSetup({
+        statusCode: {
+            401: function () {
+                // redirec the to the login page.
+                easyDialog.open({
+                    container: {
+                        header: '请重新登录',
+                        content: '您尚未登录或已过期，请重新登录',
+                        yesFn: function () {
+                            window.location = "../index.html"
+                        },
+                        noFn: true
+                    },
+                    autoClose: 5000,
+                });
+            }
+        }
+    });
 </script>
 </body>
 </html>

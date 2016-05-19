@@ -104,9 +104,8 @@ public class UserResource {
             return Response.status(403).entity(response).build();
         }
         try {
-            User user = new User(principal.getName(), newPassword, false, false); // new password
-            userDAO.updatePassword(user);
-            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, user);
+            userDAO.updatePassword(principal.getName(), newPassword);
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, principal.getName());
             return Response.status(200).entity(response).build();
         } catch (Exception ex) {
             RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.getMessage());
