@@ -120,7 +120,7 @@ function search() {
 	$.ajax({
 		type : "GET",
 		contentType : "application/x-www-form-urlencoded",
-		url : "restful/userIdCard/getUserId",
+		url : "../restful/userIdCard/getUserId",
 		dataType : "json",
 		data : data||"",
 		success : function(data) {
@@ -162,7 +162,7 @@ function download(){
     }else if (chkLen > 0){
         var data = $("input[name='memIdGroup']:checked").serialize();
         $("#searchCustomerInfoForm").attr("onsubmit","return true");
-        $("#searchCustomerInfoForm").attr("action","restful/userIdCard/downloadId");
+        $("#searchCustomerInfoForm").attr("action","../restful/userIdCard/downloadId");
         $("#searchCustomerInfo_content").val(data);
         $("#searchCustomerInfoForm").submit();
         $("#searchCustomerInfoForm").attr("onsubmit","return false");
@@ -176,7 +176,7 @@ function exports(){
     }else if (chkLen > 0){
         var data = $("input[name='memIdGroup']:checked").serialize();
         $("#searchCustomerInfoForm").attr("onsubmit","return true");
-        $("#searchCustomerInfoForm").attr("action","restful/userIdCard/exportId");
+        $("#searchCustomerInfoForm").attr("action","../restful/userIdCard/exportId");
         $("#searchCustomerInfo_content").val(data);
         $("#searchCustomerInfoForm").submit();
         $("#searchCustomerInfoForm").attr("onsubmit","return false");

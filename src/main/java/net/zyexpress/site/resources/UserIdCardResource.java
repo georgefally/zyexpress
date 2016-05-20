@@ -89,7 +89,7 @@ public class UserIdCardResource {
                     for (File file : files) {
                         if (file.isDirectory()) continue;
                         try (InputStream inputStream = new FileInputStream(file)) {
-                            zipOutputStream.putNextEntry(new ZipEntry(userIdCard.getIdNumber() + "/" + file.getName()));
+                            zipOutputStream.putNextEntry(new ZipEntry( file.getName()));
                             ByteStreams.copy(inputStream, zipOutputStream);
                         }
                     }
