@@ -578,7 +578,27 @@
                 }
             },
             error : function(jqXHR, textStatus, errorThrown) {
-                alert("Login failed, error: " + jqXHR.responseText);
+                if (jqXHR.responseJSON.code == 401) {
+                    easyDialog.open({
+                        container: {
+                            header: '请重新登录',
+                            content: '您尚未登录或已过期，请重新登录',
+                            yesFn: function () {
+                                window.location = "../index.html"
+                            },
+                            noFn: true
+                        },
+                        autoClose: 5000
+                    });
+                } else {
+                    easyDialog.open({
+                        container: {
+                            header: '错误',
+                            content: "服务器错误： " + jqXHR.responseJSON.payload
+                        },
+                        autoClose: 5000
+                    });
+                }
             }
         });
 
@@ -639,7 +659,27 @@
                     }
             },
             error : function(jqXHR, textStatus, errorThrown) {
-                //alert("Login failed, error: " + jqXHR.responseText);
+                if (jqXHR.responseJSON.code == 401) {
+                    easyDialog.open({
+                        container: {
+                            header: '请重新登录',
+                            content: '您尚未登录或已过期，请重新登录',
+                            yesFn: function () {
+                                window.location = "../index.html"
+                            },
+                            noFn: true
+                        },
+                        autoClose: 5000
+                    });
+                } else {
+                    easyDialog.open({
+                        container: {
+                            header: '错误',
+                            content: "服务器错误： " + jqXHR.responseJSON.payload
+                        },
+                        autoClose: 5000
+                    });
+                }
             }
         });
      });

@@ -2,8 +2,7 @@ package net.zyexpress.site;
 
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
-import io.dropwizard.auth.AuthDynamicFeature;
-import io.dropwizard.auth.AuthValueFactoryProvider;
+import io.dropwizard.auth.*;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.jdbi.DBIFactory;
@@ -16,6 +15,9 @@ import net.zyexpress.site.dao.*;
 import net.zyexpress.site.resources.*;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.skife.jdbi.v2.DBI;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
     public static void main(String[] args) throws Exception {
@@ -59,11 +61,13 @@ public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
 
         TokenBasedAuthorizer authorizer = new TokenBasedAuthorizer();
 
-        environment.jersey().register(new AuthDynamicFeature(
-                new BasicCredentialAuthFilter.Builder<AuthPrincipal>()
-                        .setAuthenticator(authenticator)
-                        .setAuthorizer(authorizer)
-                        .buildAuthFilter()));
+        // remove WWW-Authenticate header from 401 response so browser won't popup a dialog
+        UnauthorizedHandler unauthorizedHandler = (prefix, realm) ->
+                Response.status(Response.Status.UNAUTHORIZED).type(MediaType.TEXT_PLAIN_TYPE).build();
+
+        AuthFilter authFilter = new BasicCredentialAuthFilter.Builder<AuthPrincipal>().setAuthenticator(authenticator)
+                .setAuthorizer(authorizer).setUnauthorizedHandler(unauthorizedHandler).buildAuthFilter();
+        environment.jersey().register(new AuthDynamicFeature(authFilter));
 
         environment.jersey().register(RolesAllowedDynamicFeature.class);
         //If you want to use @Auth to inject a custom Principal type into your resource
