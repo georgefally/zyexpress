@@ -6,13 +6,13 @@ import com.google.common.base.Strings;
 import com.google.common.io.ByteStreams;
 import net.zyexpress.site.api.RestfulResponse;
 import net.zyexpress.site.api.User;
-import net.zyexpress.site.api.UserIdCard;
 import net.zyexpress.site.dao.UserDAO;
-import net.zyexpress.site.dao.UserIdCardDAO;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.skife.jdbi.v2.DBI;
+import org.skife.jdbi.v2.Handle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -23,11 +23,13 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
  * Created by lumengyu on 2016/5/9.
+ * APIs used by admin user.
  */
 @Path("/admin")
 @Produces(MediaType.APPLICATION_JSON)
@@ -36,10 +38,12 @@ public class AdminResource {
     private static final Logger logger = LoggerFactory.getLogger(UserIdCardResource.class);
     private final UserDAO userDAO;
     private final String uploadDir;
+    private final DBI jdbi;
 
-    public  AdminResource(UserDAO userDAO, String uploadDir) {
+    public  AdminResource(UserDAO userDAO, String uploadDir, DBI jdbi) {
         this.userDAO = userDAO;
         this.uploadDir = uploadDir;
+        this.jdbi = jdbi;
     }
 
     //@GET 下载订单上传的模板文件
@@ -97,4 +101,23 @@ public class AdminResource {
         }
     }
 
+    @POST
+    @Timed
+    @Path("execute_sql")
+    @RolesAllowed("ADMIN")
+    public Response executeSQL(@FormParam("sql") String sql) {
+        sql = sql.toLowerCase();
+        Handle handle = jdbi.open();
+
+        RestfulResponse response;
+        if (sql.startsWith("select")) {
+            List<Map<String, Object>> result = handle.select(sql);
+            response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, result);
+        } else {
+            handle.execute(sql);
+            response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, sql);
+        }
+
+        return Response.status(200).entity(response).build();
+    }
 }

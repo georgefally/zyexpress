@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SQL Console</title>
+    <script src="../scripts/jquery/jquery.js"></script>
+    <script src="../scripts/jquery/easydialog.js"></script>
+    <link href="../css/easydialog.css" rel="stylesheet"/>
+</head>
+<body>
+
+<h2>Enter your SQL here</h2>
+<textarea id="sql_area" style="width: 600px; height: 200px" title="SQL Area"></textarea>
+<br/><br/>
+<button id="execute_button" type="button" onclick="execute_sql();" style="height: 40px; width: 80px;">Execute</button>
+<button id="clear_button" type="reset" onclick="clear_sql_area();" style="height: 40px; width: 80px;">Clear</button>
+<br/><br/>
+<textarea id="result_area" style="width: 600px; height: 200px" title="Result Area"></textarea> <br/>
+
+<script>
+    function clear_sql_area() {
+        $("#sql_area").val("");
+    }
+    function execute_sql() {
+        var login_user = sessionStorage.login_user;
+        var login_token = sessionStorage.login_token;
+
+        var sql = $("#sql_area").val();
+        $("#result_area").val("");
+
+        $.ajax({
+            type : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            headers: {
+                "Authorization": "Basic " + btoa(login_user + ":" + login_token)
+            },
+            url : "../restful/admin/execute_sql",
+            dataType : "json",
+            data : {sql: sql},
+            success : function(data) {
+                var result = JSON.stringify(data);
+                $("#result_area").val(result);
+            },
+            error : function(jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status == 401) {
+                    easyDialog.open({
+                        container: {
+                            header: '请重新登录',
+                            content: '您尚未登录或已过期，请重新登录',
+                            yesFn: function () {
+                                window.location = "../index.html"
+                            },
+                            noFn: true
+                        },
+                        autoClose: 5000
+                    });
+                } else {
+                    easyDialog.open({
+                        container: {
+                            header: '错误',
+                            content: "服务器错误： " + jqXHR.responseJSON.payload
+                        },
+                        autoClose: 5000
+                    });
+                }
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

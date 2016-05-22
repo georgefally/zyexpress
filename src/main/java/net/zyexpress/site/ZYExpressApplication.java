@@ -2,7 +2,10 @@ package net.zyexpress.site;
 
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
-import io.dropwizard.auth.*;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthFilter;
+import io.dropwizard.auth.AuthValueFactoryProvider;
+import io.dropwizard.auth.UnauthorizedHandler;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.forms.MultiPartBundle;
 import io.dropwizard.jdbi.DBIFactory;
@@ -89,7 +92,11 @@ public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
     private void addAdminResource(ZYExpressConfiguration configuration, Environment environment, DBI jdbi) {
         final UserDAO userDAO = jdbi.onDemand(UserDAO.class);
         userDAO.createUserTable();
-        final AdminResource adminResource = new AdminResource(userDAO, configuration.getUploadDir());
+        /* for test only
+        userDAO.deleteByUserName("admin");
+        userDAO.insert(new User("admin", "admin", true, true));
+        */
+        final AdminResource adminResource = new AdminResource(userDAO, configuration.getUploadDir(), jdbi);
         environment.jersey().register(adminResource);
     }
 
