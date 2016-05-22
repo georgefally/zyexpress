@@ -9,6 +9,8 @@
     <script src="../bootstrap-3.3.6/js/bootstrap.js"></script>
     <link href="../bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet"/>
     <link href="../css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+    <script src="../scripts/jquery/easydialog.js"></script>
+    <link href="../css/easydialog.css" rel="stylesheet"/>
 </head>
 <body>
 
@@ -100,12 +102,6 @@
 <script>
 
 $(function(){
-
-	$("#search_btn").unbind("click").bind("click", function() {
-	    $("input[name='selectAll']").prop("checked",false);
-		search();
-	});
-
 	 //查询页面--绑定全选控件
     $("input[name='selectAll']").click(function(){
          //alert("selected");
@@ -114,53 +110,8 @@ $(function(){
          }else{
              $("input[name='memIdGroup']").prop("checked",false);
          }
-
     });
-
-})
-
-/**页面分页控件的使用方式;
- * page：int类型的值，默认给1
- */
-function search() {
-	var data = $("#searchCustomerInfoForm").serializeArray();//序列化表单
-	$.ajax({
-		type : "GET",
-		contentType : "application/x-www-form-urlencoded",
-		url : "restful/userIdCard/getUserId",
-		dataType : "json",
-		data : data||"",
-		success : function(data) {
-			if (data.length > 0) {
-				var addHtml = "";
-				//显示层绑定控件
-				$.each(data, function(index, item) {
-					addHtml = addHtml + "<tr>"
-					        +"<td class='fontCenter2'><input type='checkbox' name='memIdGroup' value='"+item.idNumber+"'id='"+item.idNumber+"'></td>"
-							+ "<td class='fontCenter2' style='width:250px'>"
-							+ item.userName + "</td>"
-							+ "<td class='fontCenter2' style='width:200px'>"
-							+ item.idNumber + "</td>"
-							/*+ "<td class='fontCenter2' style='width:200px'>"
-							+ "<a href='/pic/" + item.picF + ".jpg' download>下载</a> </td>"
-							+ "<td class='fontCenter2' style='width:200px'>"
-							+ "<a href='/pic/" + item.picS + ".jpg' download>下载</a> </td>"*/
-						    + "</tr>";
-				});
-				//显示值在页面
-				$("#dataTbody").empty().append(addHtml).trigger("create");
-
-			} else {
-			    $("#dataTbody").empty();
-				alert("没有满足条件的值.....");
-			}
-		},
-		error : function(data) {
-		    $("#dataTbody").empty();
-			alert("绑定事件的失败....");
-		}
-	});
-}
+});
 
  $("#packageExcelFile").fileinput({
         uploadUrl: "../restful/package/upload", // server upload action
@@ -170,20 +121,90 @@ function search() {
         overwriteInitial: false
  });
 
+String.prototype.supplant = function (o) {
+    return this.replace(/{([^{}]*)}/g, function (a, b) {
+        var r = o[b];
+        return typeof r === 'string' || typeof r === 'number' ? r : a;
+    });
+};
+
 $("#package_search_submit").unbind("click").bind("click", function() {
+    var login_user = sessionStorage.login_user;
+    var login_token = sessionStorage.login_token;
+
     var data = $("#searchPackageInfoForm").serializeArray();//序列化表单
     $.ajax({
         type : "POST",
         contentType : "application/x-www-form-urlencoded",
+        headers: {
+            "Authorization": "Basic " + btoa(login_user + ":" + login_token)
+        },
         url : "../restful/package/search",
         dataType : "json",
         data : data || "",
         success : function(data) {
-            var packages = JSON.stringify(data.payload);
-            alert("Packages: " + packages);
+            var packages = data.payload;
+            if (packages.length == 0) {
+                $("#dataTbody").empty();
+                easyDialog.open({
+                    container: {
+                        header: '没有结果',
+                        content: "没有查询结果"
+                    },
+                    autoClose: 5000
+                });
+                return;
+            }
+            var row_template = "<tr class='info'>"
+                    + "<td class='fontCenter2'><input type='checkbox' name='packageIdCheckBox' value='{packageId}' id='{packageId}'</tr>"
+                    + "<td style='width:200px;'>{packageId}</td>"
+                    + "<td style='width:250px;'>{accountName}</td>"
+                    + "<td style='width:250px;'>{weight}</td>"
+                    + "<td style='width:250px;'>{brand}</td>"
+                    + "<td style='width:250px;'>{name}</td>"
+                    + "<td style='width:250px;'>{specification}</td>"
+                    + "<td style='width:250px;'>{quantity}</td>"
+                    + "</tr>";
+            var addHtml = "";
+            for (var i = 0; i < packages.length; i++) {
+                var pkg = packages[i];
+                $.each(pkg.packageItems, function (index, packageItem) {
+                    addHtml = addHtml + row_template.supplant({
+                                packageId: pkg.packageId,
+                                accountName: pkg.accountName,
+                                weight: pkg.weight,
+                                brand: packageItem.brand,
+                                name: packageItem.name,
+                                specification: packageItem.specification,
+                                quantity: packageItem.quantity
+                            });
+                });
+                //显示值在页面
+                $("#dataTbody").empty().append(addHtml).trigger("create");
+            }
         },
         error : function(jqXHR, textStatus, errorThrown) {
-            alert("Package query failed, error: " + jqXHR.responseText);
+            if (jqXHR.status == 401) {
+                easyDialog.open({
+                    container: {
+                        header: '请重新登录',
+                        content: '您尚未登录或已过期，请重新登录',
+                        yesFn: function () {
+                            window.location = "./login.html"
+                        },
+                        noFn: true
+                    },
+                    autoClose: 5000
+                });
+            } else {
+                easyDialog.open({
+                    container: {
+                        header: '错误',
+                        content: "服务器错误： " + jqXHR.responseJSON.payload
+                    },
+                    autoClose: 5000
+                });
+            }
         }
     });
 });

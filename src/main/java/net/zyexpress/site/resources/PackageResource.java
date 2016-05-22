@@ -1,9 +1,12 @@
 package net.zyexpress.site.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import io.dropwizard.auth.Auth;
 import net.zyexpress.site.api.Package;
 import net.zyexpress.site.api.RestfulResponse;
+import net.zyexpress.site.auth.AuthPrincipal;
 import net.zyexpress.site.dao.PackageDAO;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -13,7 +16,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.skife.jdbi.v2.DBI;
-import org.skife.jdbi.v2.Handle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,7 +89,7 @@ public class PackageResource {
             List<Package> savedPackages = Lists.newLinkedList();
             for (Package p : packages) {
                 long packageId = packageDAO.addPackage(p);
-                for (Package.PackageItem packageItem : p.getItems()) {
+                for (Package.PackageItem packageItem : p.getPackageItems()) {
                     packageDAO.addPackageItem(packageId, packageItem);
                 }
                 savedPackages.add(p);
@@ -106,25 +108,36 @@ public class PackageResource {
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response searchPackages(@FormParam("search_user_name") final String searchUserName) {
-    try (Handle handle = jdbi.open()) {
-        List<Integer> packageIds = packageDAO.searchPackages(searchUserName);
-        List<Package> packages = Lists.newLinkedList();
-        for (Integer packageId : packageIds) {
-            Package pkg = packageDAO.searchPackageDetail(packageId);
-            List<Package.PackageItem> items = packageDAO.searchPackageItems(packageId);
-            pkg.addItems(items);
-            packages.add(pkg);
+    public Response searchPackages(@Auth AuthPrincipal principal,
+                                   @FormParam("search_user_name") final String searchUserName) {
+        try {
+            if (principal == null) {
+                RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
+                        "Not authorized - have you logged in?");
+                return Response.status(403).entity(response).build();
+            }
+            if (Strings.isNullOrEmpty(searchUserName)) {
+                RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
+                        "No search user provided.");
+                return Response.status(403).entity(response).build();
+            }
+            List<Integer> packageIds = packageDAO.searchPackages(searchUserName);
+            List<Package> packages = Lists.newLinkedList();
+            for (Integer packageId : packageIds) {
+                Package pkg = packageDAO.searchPackageDetail(packageId);
+                List<Package.PackageItem> items = packageDAO.searchPackageItems(packageId);
+                pkg.addItems(items);
+                packages.add(pkg);
+            }
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, packages);
+            logger.info("In total {} packages found for user {}: {}.", packages.size(), searchUserName,
+                    packages.toString());
+            return Response.status(200).entity(response).build();
+        } catch (Exception ex) {
+            logger.error("Failed to query package for " + searchUserName, ex);
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.toString());
+            return Response.status(500).entity(response).build();
         }
-        RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, packages);
-        logger.info("In total {} packages found for user {}: {}.", packages.size(), searchUserName,
-                packages.toString());
-        return Response.status(200).entity(response).build();
-    } catch (Exception ex) {
-        logger.error("Failed to query package for " + searchUserName, ex);
-        RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.toString());
-        return Response.status(500).entity(response).build();
-    }
 
     }
 }

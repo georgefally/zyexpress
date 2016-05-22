@@ -31,7 +31,7 @@ public interface PackageDAO {
     @Mapper(IntegerMapper.class)
     List<Integer> searchPackages(@Bind("searchUserName") String searchUserName);
 
-    @SqlQuery("select accountName, weight from package where id = :packageId")
+    @SqlQuery("select id, accountName, weight from package where id = :packageId")
     @Mapper(PackageMapper.class)
     Package searchPackageDetail(@Bind("packageId") int packageId);
 

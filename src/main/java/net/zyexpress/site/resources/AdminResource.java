@@ -4,8 +4,10 @@ import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.io.ByteStreams;
+import io.dropwizard.auth.Auth;
 import net.zyexpress.site.api.RestfulResponse;
 import net.zyexpress.site.api.User;
+import net.zyexpress.site.auth.AuthPrincipal;
 import net.zyexpress.site.dao.UserDAO;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
@@ -105,7 +107,7 @@ public class AdminResource {
     @Timed
     @Path("execute_sql")
     @RolesAllowed("ADMIN")
-    public Response executeSQL(@FormParam("sql") String sql) {
+    public Response executeSQL(@Auth AuthPrincipal principal, @FormParam("sql") String sql) {
         sql = sql.toLowerCase();
         Handle handle = jdbi.open();
 

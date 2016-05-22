@@ -41,15 +41,23 @@ public class Package {
         }
     }
 
+    private final int packageId;
+
     private final String accountName;
     private final Double weight;
     private final List<PackageItem> items = Lists.newLinkedList();
 
-    public List<PackageItem> getItems() {
+    public List<PackageItem> getPackageItems() {
         return Collections.unmodifiableList(items);
     }
 
     public Package(String accountName, Double weight) {
+        this.packageId = 0; // unknown yet.
+        this.accountName = accountName;
+        this.weight = weight;
+    }
+    public Package(int packageId, String accountName, Double weight) {
+        this.packageId = packageId;
         this.accountName = accountName;
         this.weight = weight;
     }
@@ -70,8 +78,12 @@ public class Package {
         return accountName;
     }
 
+    public int getPackageId() {
+        return packageId;
+    }
+
     @Override
     public String toString() {
-        return String.format("accountName=%s,weight=%s,items=%s", accountName, weight, items);
+        return String.format("packageId=%s,accountName=%s,weight=%s,items=%s", packageId, accountName, weight, items);
     }
 }
