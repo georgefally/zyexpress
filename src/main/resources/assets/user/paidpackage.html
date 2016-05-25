@@ -327,14 +327,14 @@
         <div id="divright">
             <div class="hdbx-content">
                 <ul id="myTab" class="hdbx-tabs-nav">
-                    <li class="hover">
-                        <a href="#" style="color:#000000;">
+                    <li>
+                        <a href="./mypackage.html" style="color:#000000;">
                             <div style="font-size: 16px;"> 未支付包裹</div>
                         </a>
                         <span class="hdbx-tabs-nav-li-separator"></span>
                     </li>
-                    <li>
-                        <a href="./paidpackage.html" style="color:#000000;">
+                    <li class="hover">
+                        <a href="#" style="color:#000000;">
                             <div style="font-size: 16px;">已支付包裹</div>
                         </a>
                     </li>
@@ -349,16 +349,15 @@
 
             <table class="user-address-table table-condensed table-hover table-bordered">
                 <thead>
-                    <tr>
-                        <th style="text-align:center;"><input type='checkbox' name='selectAll' id='selectAll' value='selectAll'></th>
-                        <th style="text-align:center;">包裹序号</th>
-                        <th style="text-align:center;">账户名</th>
-                        <th style="text-align:center;">重量-磅</th>
-                        <th style="text-align:center;">物品品牌</th>
-                        <th style="text-align:center;">物品名称</th>
-                        <th style="text-align:center;">物品规格</th>
-                        <th style="text-align:center;">物品数量</th>
-                    </tr>
+                <tr>
+                    <th style="text-align:center;">包裹序号</th>
+                    <th style="text-align:center;">账户名</th>
+                    <th style="text-align:center;">重量-磅</th>
+                    <th style="text-align:center;">物品品牌</th>
+                    <th style="text-align:center;">物品名称</th>
+                    <th style="text-align:center;">物品规格</th>
+                    <th style="text-align:center;">物品数量</th>
+                </tr>
                 </thead>
                 <tbody id="dataTbodyPackage">
                 </tbody>
@@ -366,53 +365,6 @@
 
             <hr style="border: none; border-top: 2px dashed #D9F3FF; width: 100%;" />
             <input type="hidden" id="firlink" value="6" />
-
-            <div class="form-group">
-                <label>选择收件人身份证</label>
-            </div>
-
-            <table class="user-address-table table-condensed table-hover table-bordered">
-                <thead>
-                <tr>
-                    <th style="text-align:center;width:5%;"><input type='radio' name='selectAll'></th>
-                    <th style="text-align:center;width:20%;">姓名</th>
-                    <th style="text-align:center;width:50%;">身份证号</th>
-                    <th style="text-align:center;">审核状态</th>
-                </tr>
-                </thead>
-                <tbody id="dataTbodyIdcard">
-                </tbody>
-            </table>
-
-            <hr style="border: none; border-top: 2px dashed #D9F3FF; width: 100%;" />
-            <input type="hidden"  value="6" />
-
-
-            <div class="form-group">
-                <label>选择收件人地址</label>
-            </div>
-
-            <table class="user-address-table table-condensed table-hover table-bordered">
-                <thead>
-                <tr>
-                    <th style="text-align:center;width: 5%;"><input type='radio' name='selectAll'></th>
-                    <th style="text-align:center;width: 20%;">姓名</th>
-                    <th style="text-align:center;width: 20%;">手机</th>
-                    <th style="text-align:center;width: 40%;">详细地址</th>
-                    <th style="text-align:center;width: 15%;">邮编</th>
-                </tr>
-                </thead>
-                <tbody id="dataTbodyAddress">
-                </tbody>
-            </table>
-
-            <!--<form action="/Order/SubmitOrder.aspx" id="submitorderform" method="post" style="display: none;">-->
-            <form action="/Order/SubmitOrder.aspx" id="submitorderform" method="post" >
-                <input type="hidden" name="c_choice" />
-                <input type="hidden" name="c_centercode" value="" />
-                <button id="formsubmitorder" type="submit" class="btn_submit_grey">确认付款</button>
-            </form>
-
         </div>
     </div>
 </div>
@@ -455,18 +407,8 @@
                     });
                     return;
                 }
-                var row_template_withcbox = "<tr class='info'>"
-                        + "<td class='fontCenter2'><input type='checkbox' name='packageIdCheckBox' value='{packageId}' id='{packageId}'></td>"
-                        + "<td style='width:200px;'>{packageId}</td>"
-                        + "<td style='width:250px;'>{accountName}</td>"
-                        + "<td style='width:250px;'>{weight}</td>"
-                        + "<td style='width:250px;'>{brand}</td>"
-                        + "<td style='width:250px;'>{name}</td>"
-                        + "<td style='width:250px;'>{specification}</td>"
-                        + "<td style='width:250px;'>{quantity}</td>"
-                        + "</tr>";
-                var row_template_withoutcbox = "<tr class='info'>"
-                        + "<td class='fontCenter2'></td>"
+
+                var row_template = "<tr class='info'>"
                         + "<td style='width:200px;'>{packageId}</td>"
                         + "<td style='width:250px;'>{accountName}</td>"
                         + "<td style='width:250px;'>{weight}</td>"
@@ -478,31 +420,8 @@
                 var addHtml = "";
                 for (var i = 0; i < packages.length; i++) {
                     var pkg = packages[i];
-                    for(var j=0; j< pkg.packageItems.length; j++){
-                        packageItem = pkg.packageItems[j];
-                        if(j == 0){
-                            addHtml = addHtml + row_template_withcbox.supplant({
-                                    packageId: pkg.packageId,
-                                    accountName: pkg.accountName,
-                                    weight: pkg.weight,
-                                    brand: packageItem.brand,
-                                    name: packageItem.name,
-                                    specification: packageItem.specification,
-                                    quantity: packageItem.quantity
-                                });
-                        }else{
-                            addHtml = addHtml + row_template_withoutcbox.supplant({
-                                    packageId: pkg.packageId,
-                                    accountName: pkg.accountName,
-                                    weight: pkg.weight,
-                                    brand: packageItem.brand,
-                                    name: packageItem.name,
-                                    specification: packageItem.specification,
-                                    quantity: packageItem.quantity
-                                });
-                        }
-                    }
-                    /*$.each(pkg.packageItems, function (index, packageItem) {
+
+                    $.each(pkg.packageItems, function (index, packageItem) {
                         addHtml = addHtml + row_template.supplant({
                                     packageId: pkg.packageId,
                                     accountName: pkg.accountName,
@@ -512,7 +431,7 @@
                                     specification: packageItem.specification,
                                     quantity: packageItem.quantity
                                 });
-                    });*/
+                    });
                     //显示值在页面
                     $("#dataTbodyPackage").empty().append(addHtml).trigger("create");
                 }

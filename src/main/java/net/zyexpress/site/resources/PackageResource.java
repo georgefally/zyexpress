@@ -138,6 +138,42 @@ public class PackageResource {
             RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.toString());
             return Response.status(500).entity(response).build();
         }
+    }
 
+
+    @Path("/mysearch")
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response searchPackagesForClient(@Auth AuthPrincipal principal,
+                                   @QueryParam("login_user") final String searchUserName) {
+        try {
+            if (principal == null) {
+                RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
+                        "Not authorized - have you logged in?");
+                return Response.status(403).entity(response).build();
+            }
+            if (Strings.isNullOrEmpty(searchUserName)) {
+                RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
+                        "没有找到包裹.");
+                return Response.status(403).entity(response).build();
+            }
+            List<Integer> packageIds = packageDAO.searchPackages(searchUserName);
+            List<Package> packages = Lists.newLinkedList();
+            for (Integer packageId : packageIds) {
+                Package pkg = packageDAO.searchPackageDetail(packageId);
+                List<Package.PackageItem> items = packageDAO.searchPackageItems(packageId);
+                pkg.addItems(items);
+                packages.add(pkg);
+            }
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, packages);
+            logger.info("In total {} packages found for user {}: {}.", packages.size(), searchUserName,
+                    packages.toString());
+            return Response.status(200).entity(response).build();
+        } catch (Exception ex) {
+            logger.error("Failed to query package for " + searchUserName, ex);
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.toString());
+            return Response.status(500).entity(response).build();
+        }
     }
 }
