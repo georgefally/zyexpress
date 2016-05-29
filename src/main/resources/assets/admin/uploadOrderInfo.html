@@ -43,7 +43,7 @@
             <div class="row-fluid">
                 <form enctype="multipart/form-data"  id="packageUploadForm">
                     <label class="control-label">上传订单文件</label>
-                    <input id="packageExcelFile" name="packageExcelFile" class="file" type="file" data-show-preview="false"
+                    <input id="packageExcelFile" name="packageExcelFile" class="file file-loading" type="file" data-show-preview="true"
                            data-show-upload="true" data-show-caption="true" data-allowed-file-extensions='["xlsx", "xls"]'>
                     <div id="fileError" class="help-block"></div>
                     <br />
@@ -90,6 +90,8 @@
                     </table>
                 </div>
             </div>
+
+            <div style="min-height: 100px;"></div>
         </div>
     </div>
 </div>

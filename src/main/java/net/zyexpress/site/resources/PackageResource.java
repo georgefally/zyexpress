@@ -75,7 +75,7 @@ public class PackageResource {
                 if (pkg != null) packages.add(pkg);
                 String accountName = row.getCell(1).getStringCellValue();
                 double weight = row.getCell(2).getNumericCellValue();
-                pkg = new Package(accountName, weight);
+                pkg = new Package(accountName, weight,"unpaid");
             }
             String itemBrand = row.getCell(3).getStringCellValue();
             String itemName = row.getCell(4).getStringCellValue();

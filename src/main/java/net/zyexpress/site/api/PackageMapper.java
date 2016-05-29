@@ -8,6 +8,6 @@ import java.sql.SQLException;
 
 public class PackageMapper implements ResultSetMapper<Package> {
     public Package map(int index, ResultSet rs, StatementContext ctx) throws SQLException {
-        return new Package(rs.getInt("id"), rs.getString("accountName"), rs.getDouble("weight"));
+        return new Package(rs.getInt("id"), rs.getString("accountName"), rs.getDouble("weight"),rs.getString("status"),rs.getInt("addressid"),rs.getInt("idcardid"));
     }
 }

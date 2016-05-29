@@ -45,21 +45,30 @@ public class Package {
 
     private final String accountName;
     private final Double weight;
+    private final String status;
+    private int addressId;
+    private int idcardId;
     private final List<PackageItem> items = Lists.newLinkedList();
 
     public List<PackageItem> getPackageItems() {
         return Collections.unmodifiableList(items);
     }
 
-    public Package(String accountName, Double weight) {
+    public Package(String accountName, Double weight,String status) {
         this.packageId = 0; // unknown yet.
         this.accountName = accountName;
         this.weight = weight;
+        this.status = status;
+        this.addressId = 0;
+        this.idcardId = 0;
     }
-    public Package(int packageId, String accountName, Double weight) {
+    public Package(int packageId, String accountName, Double weight,String status,int addressId,int idcardId) {
         this.packageId = packageId;
         this.accountName = accountName;
         this.weight = weight;
+        this.status = status;
+        this.addressId = addressId;
+        this.idcardId = idcardId;
     }
 
     public void addItem(String name, String brand, String specification, Integer quantity) {
@@ -80,6 +89,18 @@ public class Package {
 
     public int getPackageId() {
         return packageId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public int getAddressId() {
+        return addressId;
+    }
+
+    public int getIdcardId() {
+        return idcardId;
     }
 
     @Override
