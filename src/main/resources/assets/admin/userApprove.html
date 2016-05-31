@@ -119,22 +119,22 @@ function search() {
 		dataType : "json",
 		data : data||"",
 		success : function(data) {
-			if (data.length > 0) {
+			if (data.payload.length > 0) {
 				var addHtml = "";
 				//显示层绑定控件
-				$.each(data, function(index, item) {
+				$.each(data.payload, function(index, item) {
 					addHtml = addHtml + "<tr>"
 					        +"<td class='fontCenter2'><input type='checkbox' name='memIdGroup' value='"+item.userName+"'id='"+item.user+"'></td>"
 							+ "<td class='fontCenter2' style='width:250px'>"
-							+ item.userName + "</td>"
+							+ item.username + "</td>"
 							+ "<td class='fontCenter2' style='width:200px'>"
-							+ item.userName + "</td>"
+							+ item.idcardname + "</td>"
 							+ "<td class='fontCenter2' style='width:200px'>"
-							+ item.idNumber + "</td>"
+							+ item.idcardnumber + "</td>"
 							+ "<td class='fontCenter2' style='width:200px'>"
-							+ item.isApproved + "</td>"
+							+ item.isapproved + "</td>"
 							+ "<td class='fontCenter2' style='width:200px'>"
-							+ "<a href='/pic/" + item.picF + ".jpg' download>下载</a> </td>"
+							+ "<a href='/pic/" + item.idcardnumber + ".jpg' download>下载</a> </td>"
 						    + "</tr>";
 				});
 				//显示值在页面

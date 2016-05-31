@@ -76,13 +76,33 @@ public class AdminResource {
     @GET
     @Timed
     @Path("/getUserId")
-    public List<User> getUser(@QueryParam("cname") String userName,@QueryParam("userStatus") String userStatus) {
-        if (Strings.isNullOrEmpty(userName)) {
+    public  Response getUser(@QueryParam("cname") String userName,@QueryParam("userStatus") String userStatus) {
+        /* if (Strings.isNullOrEmpty(userName)) {
             return userDAO.getAdminAll(userStatus);
         }
-        return userDAO.getAdminAll(userStatus);
-       // List<String> userNames = Splitter.on(" ").omitEmptyStrings().splitToList(userName);
-       // return userDAO.findByUserName(userName);
+        return userDAO.getAdminAll(userStatus);*/
+        String sql = "select  username,idcardname,idcardnumber,b.isapproved from user a left join idcarditem b on a.username=b.accountname";
+        if(userStatus!=null){
+            sql = sql + " where b.isapproved = "+userStatus;
+        }
+
+        if(userName!=null){
+            sql = sql + " and username like '%"+userName+"%' ";
+        }
+        sql = sql.toLowerCase();
+        Handle handle = jdbi.open();
+
+        RestfulResponse response;
+        if (sql.startsWith("select")) {
+            List<Map<String, Object>> result = handle.select(sql);
+            response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, result);
+        } else {
+            handle.execute(sql);
+            response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, sql);
+        }
+
+        return Response.status(200).entity(response).build();
+
     }
 
     @POST
