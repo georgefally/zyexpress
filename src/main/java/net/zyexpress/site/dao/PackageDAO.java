@@ -28,9 +28,13 @@ public interface PackageDAO {
             "values(:packageId, :name, :brand, :specification, :quantity)")
     void addPackageItem(@Bind("packageId") long packageId, @BindBean Package.PackageItem packageItem);
 
-    @SqlQuery("select id from package where accountName = :searchUserName")
+    @SqlQuery("select id from package where accountName = :searchUserName and status = :status order by id ")
     @Mapper(IntegerMapper.class)
-    List<Integer> searchPackages(@Bind("searchUserName") String searchUserName);
+    List<Integer> searchPackagesByName(@Bind("searchUserName") String searchUserName,@Bind("status") String status);
+
+    @SqlQuery("select id from package where status = :status order by id ")
+    @Mapper(IntegerMapper.class)
+    List<Integer> searchPackages(@Bind("status") String status);
 
     @SqlQuery("select id, accountName, weight,status, addressid, idcardid from package where id = :packageId")
     @Mapper(PackageMapper.class)
@@ -39,4 +43,8 @@ public interface PackageDAO {
     @SqlQuery("select name, brand, specification, quantity from packageItem where packageId = :packageId")
     @Mapper(PackageItemMapper.class)
     List<Package.PackageItem> searchPackageItems(@Bind("packageId") int packageId);
+
+    @SqlUpdate("update package set addressid=:addressId, idcardid=:idcardId, status='paid' "+
+            "where id=:packageId ")
+    void editPackage(@Bind("packageId") int packageId,@Bind("addressId") int addressId,@Bind("idcardId") int idcardId);
 }

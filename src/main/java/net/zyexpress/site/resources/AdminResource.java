@@ -8,6 +8,7 @@ import io.dropwizard.auth.Auth;
 import net.zyexpress.site.api.RestfulResponse;
 import net.zyexpress.site.api.User;
 import net.zyexpress.site.auth.AuthPrincipal;
+import net.zyexpress.site.dao.IdCardDAO;
 import net.zyexpress.site.dao.UserDAO;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
@@ -39,11 +40,13 @@ public class AdminResource {
 
     private static final Logger logger = LoggerFactory.getLogger(UserIdCardResource.class);
     private final UserDAO userDAO;
+    private final IdCardDAO idCardDAO;
     private final String uploadDir;
     private final DBI jdbi;
 
-    public  AdminResource(UserDAO userDAO, String uploadDir, DBI jdbi) {
+    public  AdminResource(UserDAO userDAO,IdCardDAO idCardDAO, String uploadDir, DBI jdbi) {
         this.userDAO = userDAO;
+        this.idCardDAO = idCardDAO;
         this.uploadDir = uploadDir;
         this.jdbi = jdbi;
     }
@@ -81,7 +84,7 @@ public class AdminResource {
             return userDAO.getAdminAll(userStatus);
         }
         return userDAO.getAdminAll(userStatus);*/
-        String sql = "select  username,idcardname,idcardnumber,b.isapproved from user a left join idcarditem b on a.username=b.accountname";
+        String sql = "select b.id,username,idcardname,idcardnumber,b.isapproved from user a left join idcarditem b on a.username=b.accountname";
         if(userStatus!=null){
             sql = sql + " where b.isapproved = "+userStatus;
         }
@@ -113,7 +116,9 @@ public class AdminResource {
             List<String> memIdList = Splitter.on("&").omitEmptyStrings().splitToList(memIdStr);
             List<String> memIdListNew = new ArrayList<String>();
             for (String item : memIdList) {
-                userDAO.updateStatus(item);
+                idCardDAO.updateStatus(Integer.parseInt(item));
+                String userName = idCardDAO.findByUserId(Integer.parseInt(item));
+                userDAO.updateStatus(userName);
             }
             RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS,"success");
             return Response.status(200).entity(response).build();

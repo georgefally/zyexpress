@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import io.dropwizard.auth.Auth;
+import net.zyexpress.site.api.Address;
 import net.zyexpress.site.api.Package;
 import net.zyexpress.site.api.RestfulResponse;
 import net.zyexpress.site.auth.AuthPrincipal;
@@ -15,6 +16,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 @Path("/package")
@@ -116,12 +119,17 @@ public class PackageResource {
                         "Not authorized - have you logged in?");
                 return Response.status(403).entity(response).build();
             }
+
+            List<Integer> packageIds = new LinkedList<Integer>();
             if (Strings.isNullOrEmpty(searchUserName)) {
-                RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
+             /*   RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
                         "No search user provided.");
-                return Response.status(403).entity(response).build();
+                return Response.status(403).entity(response).build();*/
+                packageIds = packageDAO.searchPackages("unpaid");
+            }else{
+                packageIds = packageDAO.searchPackagesByName(searchUserName,"unpaid");
             }
-            List<Integer> packageIds = packageDAO.searchPackages(searchUserName);
+
             List<Package> packages = Lists.newLinkedList();
             for (Integer packageId : packageIds) {
                 Package pkg = packageDAO.searchPackageDetail(packageId);
@@ -158,7 +166,7 @@ public class PackageResource {
                         "没有找到包裹.");
                 return Response.status(403).entity(response).build();
             }
-            List<Integer> packageIds = packageDAO.searchPackages(searchUserName);
+            List<Integer> packageIds = packageDAO.searchPackagesByName(searchUserName,"unpaid");
             List<Package> packages = Lists.newLinkedList();
             for (Integer packageId : packageIds) {
                 Package pkg = packageDAO.searchPackageDetail(packageId);
@@ -172,6 +180,68 @@ public class PackageResource {
             return Response.status(200).entity(response).build();
         } catch (Exception ex) {
             logger.error("Failed to query package for " + searchUserName, ex);
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.toString());
+            return Response.status(500).entity(response).build();
+        }
+    }
+
+    @Path("/mypaidedpckg")
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response searchPaidedPackagesForClient(@Auth AuthPrincipal principal,
+                                            @QueryParam("login_user") final String searchUserName) {
+        try {
+            if (principal == null) {
+                RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
+                        "Not authorized - have you logged in?");
+                return Response.status(403).entity(response).build();
+            }
+            if (Strings.isNullOrEmpty(searchUserName)) {
+                RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
+                        "没有找到包裹.");
+                return Response.status(403).entity(response).build();
+            }
+            List<Integer> packageIds = packageDAO.searchPackagesByName(searchUserName,"paid");
+            List<Package> packages = Lists.newLinkedList();
+            for (Integer packageId : packageIds) {
+                Package pkg = packageDAO.searchPackageDetail(packageId);
+                List<Package.PackageItem> items = packageDAO.searchPackageItems(packageId);
+                pkg.addItems(items);
+                packages.add(pkg);
+            }
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, packages);
+            logger.info("In total {} packages found for user {}: {}.", packages.size(), searchUserName,
+                    packages.toString());
+            return Response.status(200).entity(response).build();
+        } catch (Exception ex) {
+            logger.error("Failed to query package for " + searchUserName, ex);
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.toString());
+            return Response.status(500).entity(response).build();
+        }
+    }
+
+    // TODO: pass json object array instead of many form fields
+    @Path("/pay")
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response payPackage(@Auth AuthPrincipal principal,
+                               @QueryParam("login_name") String accountName,
+                               @FormParam("pckgid") String pacakgeId,
+                               @FormParam("addressid") String addressId,
+                               @FormParam("idcardid") String idcardId) {
+        try {
+            if (principal == null) {
+                RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
+                        "Not authorized - have you logged in?");
+                return Response.status(403).entity(response).build();
+            }
+
+            packageDAO.editPackage(Integer.parseInt(pacakgeId),Integer.parseInt(addressId),Integer.parseInt(idcardId));
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS,"success");
+            return Response.status(200).entity(response).build();
+        } catch (Exception ex) {
             RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.toString());
             return Response.status(500).entity(response).build();
         }

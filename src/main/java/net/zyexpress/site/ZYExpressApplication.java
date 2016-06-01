@@ -92,11 +92,12 @@ public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
     private void addAdminResource(ZYExpressConfiguration configuration, Environment environment, DBI jdbi) {
         final UserDAO userDAO = jdbi.onDemand(UserDAO.class);
         userDAO.createUserTable();
+        final IdCardDAO idCardDAO = jdbi.onDemand(IdCardDAO.class);
         /* for test only
         userDAO.deleteByUserName("admin");
         userDAO.insert(new User("admin", "admin", true, true));
         */
-        final AdminResource adminResource = new AdminResource(userDAO, configuration.getUploadDir(), jdbi);
+        final AdminResource adminResource = new AdminResource(userDAO,idCardDAO, configuration.getUploadDir(), jdbi);
         environment.jersey().register(adminResource);
     }
 

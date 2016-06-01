@@ -391,7 +391,7 @@
             headers: {
                 "Authorization": "Basic " + btoa(login_user + ":" + login_token)
             },
-            url : "../restful/package/mysearch?login_user="+login_user,
+            url : "../restful/package/mypaidedpckg?login_user="+login_user,
             dataType : "json",
             data : {query_username:login_user},
             success : function(data) {
@@ -409,9 +409,18 @@
                 }
 
                 var row_template = "<tr class='info'>"
-                        + "<td style='width:200px;'>{packageId}</td>"
+                        + "<td style='width:200px;'>ZY{packageId}CNY</td>"
                         + "<td style='width:250px;'>{accountName}</td>"
                         + "<td style='width:250px;'>{weight}</td>"
+                        + "<td style='width:250px;'>{brand}</td>"
+                        + "<td style='width:250px;'>{name}</td>"
+                        + "<td style='width:250px;'>{specification}</td>"
+                        + "<td style='width:250px;'>{quantity}</td>"
+                        + "</tr>";
+                var row_template_detail = "<tr class='info'>"
+                        + "<td style='width:200px;'></td>"
+                        + "<td style='width:250px;'></td>"
+                        + "<td style='width:250px;'></td>"
                         + "<td style='width:250px;'>{brand}</td>"
                         + "<td style='width:250px;'>{name}</td>"
                         + "<td style='width:250px;'>{specification}</td>"
@@ -420,8 +429,31 @@
                 var addHtml = "";
                 for (var i = 0; i < packages.length; i++) {
                     var pkg = packages[i];
-
-                    $.each(pkg.packageItems, function (index, packageItem) {
+                    for(var j=0; j< pkg.packageItems.length; j++){
+                        packageItem = pkg.packageItems[j];
+                        if(j == 0){
+                            addHtml = addHtml + row_template.supplant({
+                                    packageId: pkg.packageId,
+                                    accountName: pkg.accountName,
+                                    weight: pkg.weight,
+                                    brand: packageItem.brand,
+                                    name: packageItem.name,
+                                    specification: packageItem.specification,
+                                    quantity: packageItem.quantity
+                                });
+                        }else{
+                            addHtml = addHtml + row_template_detail.supplant({
+                                    packageId: pkg.packageId,
+                                    accountName: pkg.accountName,
+                                    weight: pkg.weight,
+                                    brand: packageItem.brand,
+                                    name: packageItem.name,
+                                    specification: packageItem.specification,
+                                    quantity: packageItem.quantity
+                                });
+                        }
+                    }
+                    /*$.each(pkg.packageItems, function (index, packageItem) {
                         addHtml = addHtml + row_template.supplant({
                                     packageId: pkg.packageId,
                                     accountName: pkg.accountName,
@@ -431,7 +463,7 @@
                                     specification: packageItem.specification,
                                     quantity: packageItem.quantity
                                 });
-                    });
+                    });*/
                     //显示值在页面
                     $("#dataTbodyPackage").empty().append(addHtml).trigger("create");
                 }

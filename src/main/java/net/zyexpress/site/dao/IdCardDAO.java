@@ -29,6 +29,12 @@ public interface IdCardDAO {
     @Mapper(IdCardMapper.class)
     List<IdCard> findByUserName(@Bind("accountName") String accountName);
 
+    @SqlQuery("select accountName from IdCardItem where id = :id")
+    String findByUserId(@Bind("id") int id);
+
     @SqlUpdate("delete from IdCardItem where id = :id")
     long deleteIdcardById(@Bind("id") int id);
+
+    @SqlUpdate("update IdCardItem set isApproved = 'true' where id = :id")
+    int updateStatus(@Bind("id") int id);
 }

@@ -374,7 +374,7 @@
             <table class="user-address-table table-condensed table-hover table-bordered">
                 <thead>
                 <tr>
-                    <th style="text-align:center;width:5%;"><input type='radio' name='selectAll'></th>
+                    <th style="text-align:center;width:5%;"></th>
                     <th style="text-align:center;width:20%;">姓名</th>
                     <th style="text-align:center;width:50%;">身份证号</th>
                     <th style="text-align:center;">审核状态</th>
@@ -395,7 +395,7 @@
             <table class="user-address-table table-condensed table-hover table-bordered">
                 <thead>
                 <tr>
-                    <th style="text-align:center;width: 5%;"><input type='radio' name='selectAll'></th>
+                    <th style="text-align:center;width: 5%;"></th>
                     <th style="text-align:center;width: 20%;">姓名</th>
                     <th style="text-align:center;width: 20%;">手机</th>
                     <th style="text-align:center;width: 40%;">详细地址</th>
@@ -407,10 +407,10 @@
             </table>
 
             <!--<form action="/Order/SubmitOrder.aspx" id="submitorderform" method="post" style="display: none;">-->
-            <form action="/Order/SubmitOrder.aspx" id="submitorderform" method="post" >
-                <input type="hidden" name="c_choice" />
-                <input type="hidden" name="c_centercode" value="" />
-                <button id="formsubmitorder" type="submit" class="btn_submit_grey">确认付款</button>
+            <form id="submitorderform" method="post" >
+                <!--<input type="hidden" name="c_choice" />
+                <input type="hidden" name="c_centercode" value="" />-->
+                <button id="pckgorder_btn" type="button" class="btn_submit_grey" style="background-color:#3389AD;color:#FFFFFF;background:#3389AD;">确认付款</button>
             </form>
 
         </div>
@@ -662,6 +662,74 @@
                     }
                 }
             });
+
+         $("#pckgorder_btn").unbind("click").bind("click", function() {
+             var pckgCheck=$('input:radio[name="packageIdCheckBox"]:checked').val()||'';
+             var addressCheck=$('input:radio[name="addressBox"]:checked').val()||'';
+             var idcardCheck=$('input:radio[name="idCardBox"]:checked').val()||'';
+             var info = "请至少选择";
+             if(pckgCheck == ""||addressCheck==""||idcardCheck==""){
+                easyDialog.open({
+                    container: {
+                        header : '温馨提示',
+                        content: "请选择一个包裹信息、身份证信息以及地址信息。",
+                        yesFn: true
+                    },
+                    fixed: false,
+                    autoClose: 10000
+                });
+             }else{
+                 $.ajax({
+                    type : "POST",
+                    contentType : "application/x-www-form-urlencoded",
+                    headers: {
+                        "Authorization": "Basic " + btoa(login_user + ":" + login_token)
+                    },
+                    url : "../restful/package/pay?login_username="+login_user,
+                    data : {pckgid:pckgCheck,addressid:addressCheck,idcardid:idcardCheck},
+                    dataType : "json",
+                    success : function(data) {
+                        easyDialog.open({
+                                container: {
+                                    header: '温馨提示',
+                                    content: '支付成功',
+                                    yesFn: function () {
+                                       window.location.reload();
+                                    },
+                                    noFn: true
+                                },
+                                autoClose: 10000
+                        });
+                        //window.location.reload();
+                    },
+                    error : function(jqXHR, textStatus, errorThrown) {
+                        if (jqXHR.status == 401) {
+                            easyDialog.open({
+                                container: {
+                                    header: '请重新登录',
+                                    content: '您尚未登录或已过期，请重新登录',
+                                    yesFn: function () {
+                                        window.location = "../index.html"
+                                    },
+                                    noFn: true
+                                },
+                                autoClose: 5000
+                            });
+                        } else {
+                            easyDialog.open({
+                                container: {
+                                    header: '错误',
+                                    content: "服务器错误： " + jqXHR.responseJSON.payload
+                                },
+                                autoClose: 5000
+                            });
+                        }
+                    }
+                });
+             }
+
+         });
+
      });
 
 </script>
