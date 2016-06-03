@@ -18,6 +18,7 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.skife.jdbi.v2.DBI;
+import org.skife.jdbi.v2.Handle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +30,7 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 @Path("/package")
 @Produces(MediaType.APPLICATION_JSON)
@@ -148,6 +150,49 @@ public class PackageResource {
         }
     }
 
+    @Path("/searchPaidPckg")
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response searchPaidPackages(@Auth AuthPrincipal principal,
+                                   @FormParam("search_user_name") final String searchUserName) {
+        try {
+            if (principal == null) {
+                RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
+                        "Not authorized - have you logged in?");
+                return Response.status(403).entity(response).build();
+            }
+
+            List<Integer> packageIds = new LinkedList<Integer>();
+            String sql = "select  a.id, a.accountname, b.receivername, b.phonenumber, b.address, b.postcode, c.idcardname, "
+                        +" c.idcardnumber from package a left join addressitem b on a.addressid = b.id left join idcarditem c "
+                        +" on a.idcardid = c.id where a.status = 'paid' and c.isapproved = true ";
+
+            if (!Strings.isNullOrEmpty(searchUserName)) {
+                sql = sql + " and a.ccountname like '%"+searchUserName+"%' ";
+            }
+
+            Handle handle = jdbi.open();
+
+            RestfulResponse response;
+            if (sql.startsWith("select")) {
+                List<Map<String, Object>> result = handle.select(sql);
+                response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, result);
+                logger.info("In total {} paid packages found for user {}: {}.", result.size(), searchUserName,
+                        result.toString());
+            }else {
+                handle.execute(sql);
+                response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, sql);
+            }
+
+            return Response.status(200).entity(response).build();
+
+        } catch (Exception ex) {
+            logger.error("Failed to query package for " + searchUserName, ex);
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.toString());
+            return Response.status(500).entity(response).build();
+        }
+    }
 
     @Path("/mysearch")
     @POST

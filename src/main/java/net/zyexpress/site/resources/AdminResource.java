@@ -92,7 +92,7 @@ public class AdminResource {
         if(userName!=null){
             sql = sql + " and username like '%"+userName+"%' ";
         }
-        sql = sql.toLowerCase();
+        //sql = sql.toLowerCase();
         Handle handle = jdbi.open();
 
         RestfulResponse response;
