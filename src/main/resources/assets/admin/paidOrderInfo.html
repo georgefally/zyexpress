@@ -11,6 +11,276 @@
     <link href="../css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
     <script src="../scripts/jquery/easydialog.js"></script>
     <link href="../css/easydialog.css" rel="stylesheet"/>
+
+    <style type="text/css">
+
+        .user-address-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        }
+
+        .user-address-table thead tr {
+        background-color: rgb(208,232,255);
+        }
+
+        .user-address-table tr {
+        height: 46px;
+        }
+
+        .user-address-table .operate-address {
+        padding-top: 5px;
+        }
+
+        .user-address-table .operate-address div {
+        float: left;
+        margin-right: 5px;
+        }
+
+        .user-address-table .operate-address .check-address {
+        background: url(../Resources/Images/Address/defaultAddress.png) no-repeat;
+        width: 75px;
+        }
+
+        .user-address-table .operate-address .set-address {
+        background: url(../Resources/Images/Address/setDefault.png) no-repeat;
+        width: 75px;
+        }
+
+        label {
+        border: 0px;
+        }
+
+        .clear {
+        clear: both;
+        }
+
+        .add-address {
+        background-color: #3389AD;
+        width: 120px;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        margin: 15px 0px 25px 0px;
+        border: 0;
+        border-radius: 3px;
+        }
+
+        .add-address a {
+        width: 119px;
+        height: 35px;
+        display: block;
+        }
+
+        .add-address:hover {
+        background: #006C99;
+        color: #fff;
+        }
+
+
+        .batch {
+        margin-bottom: 15px;
+        height: 22px;
+        }
+
+        .batch div.floatLeft {
+        float: left;
+        height: 22px;
+        line-height: 22px;
+        text-align: center;
+        margin-right: 15px;
+        }
+
+        .batch-delete {
+        background: url(../Resources/Images/Address/defaultAddress.png) no-repeat;
+        width: 75px;
+        }
+
+        .batch-delete a {
+        width: 75px;
+        height: 22px;
+        display: block;
+        }
+
+        .user-address-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+        }
+
+        .user-address-table thead tr {
+        background-color: rgb(208,232,255);
+        }
+
+        .user-address-table tr {
+        height: 46px;
+        }
+
+        .user-address-table .operate-address {
+        padding-top: 5px;
+        }
+
+        .user-address-table .operate-address div {
+        float: left;
+        margin-right: 5px;
+        }
+
+        .user-address-table .operate-address .check-address {
+        background: url(../Resources/Images/Address/defaultAddress.png) no-repeat;
+        width: 75px;
+        }
+
+        .user-address-table .operate-address .set-address {
+        background: url(../Resources/Images/Address/setDefault.png) no-repeat;
+        width: 75px;
+        }
+
+        .modal-footer {
+        text-align: center;
+        margin: 0px auto;
+        }
+
+        .modal-footer div {
+        margin: 0px 28%;
+        }
+
+        .modal-footer div div {
+        float: left;
+        margin: 0px 5px;
+        }
+
+        .modal-footer .modal-footer-sava {
+        background-color: #3389AD;
+        width: 120px;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        border: 0;
+        border-radius: 3px;
+        }
+
+        .modal-footer .modal-footer-sava:hover {
+        background: #006C99;
+        color: #fff;
+        }
+
+        .modal-footer .modal-footer-close {
+        /*background-color:rgb(0,108,153);*/ /*url(../Images/Address/u24.png) no-repeat;*/
+        width: 120px;
+        height: 36px;
+        text-align: center;
+        line-height: 36px;
+        border: 1px rgb(0,108,153) solid;
+        border-radius: 3px;
+        }
+
+        .modal-footer div div a {
+        width: 119px;
+        height: 35px;
+        display: block;
+        }
+
+        .modal-footer div div.modal-footer-close a {
+        color: rgb(0,108,153);
+        }
+
+        /*新增收货地址*/
+        .modal-header h4 {
+        font-family: inherit;
+        font-size: 20px;
+        color: rgb(106, 106, 106);
+        font-weight: 500;
+        }
+
+        .pop_con {
+        margin: 0 auto;
+        padding: 20px 20px 10px;
+        }
+
+        .pop_con .pop_table {
+        width: 540px;
+        }
+
+        .pop_table td {
+        padding: 5px;
+        }
+
+        .pop_table .tetRed {
+        color: red;
+        }
+
+        .pop_table td.align_r {
+        text-align: right;
+        }
+
+
+        .fontcolor77 {
+        color: #777777;
+        }
+
+        .form_control {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        font-size: 14px;
+        height: 32px;
+        line-height: 20px;
+        padding: 0px 10px;
+        width: 88%;
+        }
+
+        .slec_100 {
+        border: 1px solid #ddd;
+        height: 34px;
+        width: 100%;
+        border-radius: 3px;
+        }
+
+        .pop_table td.pd_r5 {
+        padding: 0px;
+        }
+
+        .pop_table td.pd_r5 .add-card {
+        /*background: url(../Images/Address/u24.png) no-repeat;*/
+        width: 109px;
+        height: 31px;
+        text-align: center;
+        line-height: 31px;
+        margin: auto;
+        border: 1px rgb(0,108,153) solid;
+        border-radius: 3px;
+        }
+
+        .pop_table td.pd_r5 .add-card a {
+        width: 108px;
+        height: 30px;
+        display: block;
+        color: rgb(0,108,153);
+        }
+
+        .pop_table td.info {
+        color: rgb(187,187,187);
+        }
+
+        .file {
+        position: relative;
+        top: -36px;
+        left: auto;
+        filter: alpha(opacity: 0);
+        opacity: 0;
+        width: 109px;
+        height: 35px;
+        cursor: pointer;
+        }
+
+        .popover {
+        z-index: 10000;
+        }
+
+        input:checked + label {
+        border-bottom: 0px;
+        }
+    </style>
 </head>
 <body>
 
@@ -38,6 +308,9 @@
                 </li>
                 <li class="active">
                     <a href="#"><i class="icon-chevron-right"></i>已支付订单信息</a>
+                </li>
+                <li>
+                    <a href="searchOrder.html"><i class="icon-chevron-right"></i>包裹详细信息</a>
                 </li>
             </ul>
         </div>
@@ -85,10 +358,38 @@
     </div>
 </div>
 
+<div class="modal fade" id="addorupdateaddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:800px;">
 
-</body>
-</html>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">订单详细信息</h4>
+            </div>
+            <form id="AddressForm">
 
+                <div class="row-fluid">
+                    <div align="left">
+                        <table style="width:790px;margin:0px;margin-left:1px;" class="table table-condensed table-hover table-bordered">
+                            <tr class="info">
+                                <th style="width:200px;">包裹序号</th>
+                                <th style="width:200px;">物品品牌</th>
+                                <th style="width:200px;">物品名称</th>
+                                <th style="width:200px;">物品规格</th>
+                                <th style="width:200px;">物品数量</th>
+                            </tr>
+                            <tbody id="dataTbodyInfo">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div style="min-height: 100px;"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--新增地址结束-->
 
 <script>
 
@@ -135,7 +436,7 @@ $("#package_search_submit").unbind("click").bind("click", function() {
             var addHtml = "";
 
             $.each(packages, function(index, item) {
-                addHtml = addHtml + "<tr class='info'>"
+                addHtml = addHtml + "<tr>"
                         + "<td class='fontCenter2'><input type='checkbox' name='packageIdCheckBox' value='"+item.id+"' id='"+item.id+"'</tr>"
                         + "<td style='width:200px;'>ZY"+item.id+"CNY</td>"
                         + "<td style='width:100px;'>"+item.accountname+"</td>"
@@ -147,7 +448,7 @@ $("#package_search_submit").unbind("click").bind("click", function() {
                         + "<td style='width:200px;'>"+item.idcardnumber+"</td>"
                         + "<td style='width:100px;'>"
                         +"         <div style='margin-top: 1px;'>"
-                        +"             <a class='del' style='cursor: pointer;'>"
+                        +"             <a class='info' style='cursor: pointer;'>"
                         +"                明细</a>"
                         +"         </div></td>"
                         + "</tr>";
@@ -180,6 +481,25 @@ $("#package_search_submit").unbind("click").bind("click", function() {
             }
         }
     });
+
+    //显示包裹详细信息
+    $(document).on("click", ".info",function () {
+        $("#myModalLabel").text("订单详细信息");
+        var e = $(this).parent().parent().parent().parent();
+        $('#userAddressId').val(e.find("[data-name='Id']").html());
+        $('[name="Id"]').val(e.find("[data-name='Id']").html());
+
+        $('#addorupdateaddress').modal({
+            keyboard: false
+        });
+
+        $('.cropper-bg').hide();
+    });
+
+
 });
 
 </script>
+
+</body>
+</html>

@@ -32,9 +32,17 @@ public interface PackageDAO {
     @Mapper(IntegerMapper.class)
     List<Integer> searchPackagesByName(@Bind("searchUserName") String searchUserName,@Bind("status") String status);
 
+    @SqlQuery("select id from package where id = :packageId order by id ")
+    @Mapper(IntegerMapper.class)
+    List<Integer> searchPackagesById(@Bind("packageId") long packageId);
+
     @SqlQuery("select id from package where status = :status order by id ")
     @Mapper(IntegerMapper.class)
     List<Integer> searchPackages(@Bind("status") String status);
+
+    @SqlQuery("select id from package order by id ")
+    @Mapper(IntegerMapper.class)
+    List<Integer> searchPackagesALL();
 
     @SqlQuery("select id, accountName, weight,status, addressid, idcardid from package where id = :packageId")
     @Mapper(PackageMapper.class)

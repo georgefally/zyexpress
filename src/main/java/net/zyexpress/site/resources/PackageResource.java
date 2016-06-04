@@ -150,6 +150,44 @@ public class PackageResource {
         }
     }
 
+    @Path("/searchById")
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Response searchPackagesById(@Auth AuthPrincipal principal,
+                                   @FormParam("package_id") final String searchPackageId) {
+        try {
+            if (principal == null) {
+                RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
+                        "Not authorized - have you logged in?");
+                return Response.status(403).entity(response).build();
+            }
+
+            List<Integer> packageIds = new LinkedList<Integer>();
+            if (Strings.isNullOrEmpty(searchPackageId)) {
+                packageIds = packageDAO.searchPackagesALL();
+            }else{
+                packageIds = packageDAO.searchPackagesById(Integer.valueOf(searchPackageId));
+            }
+
+            List<Package> packages = Lists.newLinkedList();
+            for (Integer packageId : packageIds) {
+                Package pkg = packageDAO.searchPackageDetail(packageId);
+                List<Package.PackageItem> items = packageDAO.searchPackageItems(packageId);
+                pkg.addItems(items);
+                packages.add(pkg);
+            }
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.SUCCESS, packages);
+            logger.info("In total {} packages found for user {}: {}.", packages.size(), searchPackageId,
+                    packages.toString());
+            return Response.status(200).entity(response).build();
+        } catch (Exception ex) {
+            logger.error("Failed to query package for " + searchPackageId, ex);
+            RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED, ex.toString());
+            return Response.status(500).entity(response).build();
+        }
+    }
+
     @Path("/searchPaidPckg")
     @POST
     @Timed
@@ -169,7 +207,7 @@ public class PackageResource {
                         +" on a.idcardid = c.id where a.status = 'paid' and c.isapproved = true ";
 
             if (!Strings.isNullOrEmpty(searchUserName)) {
-                sql = sql + " and a.ccountname like '%"+searchUserName+"%' ";
+                sql = sql + " and a.accountname like '%"+searchUserName+"%' ";
             }
 
             Handle handle = jdbi.open();
