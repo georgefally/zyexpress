@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>中洋国际快递集团</title>
+    <script src="../scripts/jquery/jquery.js"></script>
+    <script src="../scripts/jquery/lightbox.js"></script>
+    <script src="../scripts/jquery/easydialog.js"></script>
+    <script src="../scripts/jquery/jquery.form.js"></script>
+    <script src="../bootstrap-3.3.6/js/bootstrap.js"></script>
+    <link href="../bootstrap-3.3.6/css/bootstrap.css" rel="stylesheet"/>
+    <link href="../css/custom.css" rel="stylesheet"/>
+    <link href="../css/register.css" rel="stylesheet"/>
+    <link href="../css/account.css" rel="stylesheet"/>
+    <link href="../css/loyout.css" rel="stylesheet"/>
+    <link href="../css/lightbox.css" rel="stylesheet"/>
+    <link href="../css/easydialog.css" rel="stylesheet"/>
+</head>
+<body>
+
+<form id="idCardSubmit" onsubmit="return false;" enctype="multipart/form-data">
+    用户名：<input type="text" name="userName" id="userName"/> <br/>
+    身份证号：<input type="text" name="idCardId" id="idCardId"/> <br/>
+    身份证正面：<input type="file" name="idCardFront" id="idCardFront" /><br/>
+    身份证反面：<input type="file" name="idCardBack" id="idCardBack" /> <br/>
+    <input type="submit" name="formSubmit" id="formSubmit" value="提交"/>
+</form>
+
+<script>
+    $("#formSubmit").unbind("click").bind("click", function() {
+        var login_token = sessionStorage.login_token;
+        var login_user = sessionStorage.login_user;
+
+        var formData = new FormData();
+        formData.append('userName', $("#userName").val());
+        formData.append('idCardId', $("#idCardId").val());
+        formData.append('idCardFront', $("#idCardFront")[0].files[0]);
+        formData.append('idCardBack', $("#idCardBack")[0].files[0]);
+
+        $.ajax({
+            url: "../restful/idcard/picture",
+            type: "POST",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            headers: {
+                "Authorization": "Basic " + btoa(login_user + ":" + login_token)
+            },
+            success: function (data) {
+                easyDialog.open({
+                    container: {
+                        header: '成功',
+                        content: "身份证图片上传成功： " + data.payload
+                    },
+                    autoClose: 5000
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status == 401) {
+                    easyDialog.open({
+                        container: {
+                            header: '请重新登录',
+                            content: '您尚未登录或已过期，请重新登录',
+                            yesFn: function () {
+                                window.location = "../index.html"
+                            },
+                            noFn: true
+                        },
+                        autoClose: 5000
+                    });
+                } else {
+                    easyDialog.open({
+                        container: {
+                            header: '错误',
+                            content: "服务器错误： " + jqXHR.responseJSON.payload
+                        },
+                        autoClose: 5000
+                    });
+                }
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>

@@ -128,7 +128,8 @@ public class ZYExpressApplication extends Application<ZYExpressConfiguration> {
     private void addIdCardManageResource(ZYExpressConfiguration configuration, Environment environment, DBI jdbi) {
         final IdCardDAO idCardDAO = jdbi.onDemand(IdCardDAO.class);
         idCardDAO.createIdCardItemTable();
-        final IdCardManageResource idCardManageResource = new IdCardManageResource (idCardDAO);
+        String uploadDir = configuration.getUploadDir();
+        final IdCardManageResource idCardManageResource = new IdCardManageResource (idCardDAO, uploadDir);
         environment.jersey().register(idCardManageResource);
     }
 }

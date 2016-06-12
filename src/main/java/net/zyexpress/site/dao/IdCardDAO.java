@@ -1,7 +1,5 @@
 package net.zyexpress.site.dao;
 
-import net.zyexpress.site.api.Address;
-import net.zyexpress.site.api.AddressMapper;
 import net.zyexpress.site.api.IdCard;
 import net.zyexpress.site.api.IdCardMapper;
 import org.skife.jdbi.v2.sqlobject.Bind;
@@ -37,4 +35,8 @@ public interface IdCardDAO {
 
     @SqlUpdate("update IdCardItem set isApproved = 'true' where id = :id")
     int updateStatus(@Bind("id") int id);
+
+    @SqlQuery("select * from IdCardItem where idCardNumber = :idCardNumber")
+    @Mapper(IdCardMapper.class)
+    IdCard findByCardId(@Bind("idCardNumber") String idCardNumber);
 }
