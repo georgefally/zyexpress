@@ -130,11 +130,11 @@ public class IdCardManageResource {
             java.nio.file.Path frontPath = Paths.get(uploadDir, idCardId, "front_" + contentDispositionFront.getFileName());
             java.nio.file.Path backPath = Paths.get(uploadDir, idCardId, "back_" + contentDispositionBack.getFileName());
 
-            if (Files.exists(dirPath)) {
+           /* if (Files.exists(dirPath)) {
                 RestfulResponse response = new RestfulResponse(RestfulResponse.ResponseStatus.FAILED,
                         "Bad Request, picture already exists.");
                 return Response.status(400).entity(response).build();
-            }
+            }*/
             Files.createDirectories(dirPath);
             Files.copy(idCardFront, frontPath);
             Files.copy(idCardBack, backPath);

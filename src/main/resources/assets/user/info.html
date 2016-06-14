@@ -823,7 +823,62 @@
             if (page.Validate()) {
                 $("#btnUpdate").attr("href", "javascript:;");
                 $('#btnUpdate').html("提交中...");
-                var oUrl = "../restful/idcard/add?login_name="+login_user;
+
+                var formData = new FormData();
+                formData.append('userName', $("#UserName1").val());
+                formData.append('idCardId', $("#Cardnum").val());
+                formData.append('idCardFront', $("#idCardFront")[0].files[0]);
+                formData.append('idCardBack', $("#idCardBack")[0].files[0]);
+
+                $.ajax({
+                    url: "../restful/idcard/picture",
+                    type: "POST",
+                    data: formData,
+                    cache: false,
+                    async: false,
+                    contentType: false,
+                    processData: false,
+                    headers: {
+                        "Authorization": "Basic " + btoa(login_user + ":" + login_token)
+                    },
+                    success: function (data) {
+                        easyDialog.open({
+                            container: {
+                                header: '成功',
+                                content: "身份证图片上传成功： " + data.payload
+                            },
+                            autoClose: 5000
+                        });
+                        window.location.reload();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        if (jqXHR.status == 401) {
+                            easyDialog.open({
+                                container: {
+                                    header: '请重新登录',
+                                    content: '您尚未登录或已过期，请重新登录',
+                                    yesFn: function () {
+                                        window.location = "../index.html"
+                                    },
+                                    noFn: true
+                                },
+                                autoClose: 5000
+                            });
+                        } else {
+                            easyDialog.open({
+                                container: {
+                                    header: '错误',
+                                    content: "服务器错误： " + jqXHR.responseJSON.payload
+                                },
+                                autoClose: 5000
+                            });
+                        }
+                    }
+                });
+
+
+
+                /*var oUrl = "../restful/idcard/add?login_name="+login_user;
                 $("#IdCardForm").ajaxSubmit({
                     url: oUrl,
                     type: "POST",
@@ -851,7 +906,7 @@
                         $("#btnUpdate").attr("href", "javascript:page.Sava();");
                         $('#btnUpdate').html("保存");
                     }
-                });
+                });*/
             }
         }
     };
@@ -957,7 +1012,7 @@
             });
         });
 
-$(function () {
+    $(function () {
 
         $("#navpage li").removeClass("hover_v1");
         $("#navpage li").removeClass("hover_v2");
@@ -1025,30 +1080,6 @@ $(function () {
             });
         });
     });
-
-  function btn_left(pa) {
-        $('#wscroll' + pa).children().first().animate({ marginLeft: '-=216px' }, 'slow', function () {
-            $(this).appendTo($('#wscroll' + pa)).css('marginLeft', '0px');
-        });
-    }
-
-    function btn_right(pa) {
-        $('#wscroll' + pa).children().last().prependTo($('#wscroll' + pa)).css('marginLeft', '-216px');
-        $('#wscroll' + pa).children().first().animate({ marginLeft: '+=216px' }, 'slow');
-    }
-
-    function hxbtn_left(pa) {
-        $('#hxwscroll' + pa).children().first().animate({ marginLeft: '-=216px' }, 'slow', function () {
-            $(this).appendTo($('#hxwscroll' + pa)).css('marginLeft', '0px');
-        });
-    }
-
-    function hxbtn_right(pa) {
-        $('#hxwscroll' + pa).children().last().prependTo($('#hxwscroll' + pa)).css('marginLeft', '-216px');
-        $('#hxwscroll' + pa).children().first().animate({ marginLeft: '+=216px' }, 'slow');
-    }
-
-
 
 </script>
 </body>
