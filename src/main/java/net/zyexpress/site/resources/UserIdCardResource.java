@@ -59,7 +59,10 @@ public class UserIdCardResource {
             return userIdCardDAO.getAll();
         }
         List<String> userNames = Splitter.on(" ").omitEmptyStrings().splitToList(userName);
-        return userIdCardDAO.findByUserName(userNames);
+        logger.debug("getUser for userName: " + userNames.toString());
+        List<UserIdCard> ret = userIdCardDAO.findByUserName(userNames);
+        logger.debug("result: " + ret.toString());
+        return ret;
     }
 
     //@GET
@@ -68,12 +71,13 @@ public class UserIdCardResource {
     @Path("/downloadId")
     @Produces("application/zip")
     public StreamingOutput downloadIdCardFile(@FormParam("memIdGroup") String memIdStr) {
-        //public StreamingOutput downloadIdCardFile(@QueryParam("memIdGroup") List<String> memIdList) {
+        logger.debug("memIdStr: " + memIdStr);
         List<String> memIdList = Splitter.on("&").omitEmptyStrings().splitToList(memIdStr);
         List<String> memIdListNew = new ArrayList<String>();
         for (String item : memIdList) {
             memIdListNew.add(item.substring(11));
         }
+        logger.debug("memIdListNew: " + memIdListNew);
         final List<UserIdCard> userIdCards = userIdCardDAO.findByUserIds(memIdListNew);
         return output -> {
             try (ZipOutputStream zipOutputStream = new ZipOutputStream(output)) {
@@ -88,6 +92,7 @@ public class UserIdCardResource {
                     }
                     for (File file : files) {
                         if (file.isDirectory()) continue;
+                        logger.debug("Add file to output zip stream: " + file.getCanonicalPath());
                         try (InputStream inputStream = new FileInputStream(file)) {
                             zipOutputStream.putNextEntry(new ZipEntry( file.getName()));
                             ByteStreams.copy(inputStream, zipOutputStream);
